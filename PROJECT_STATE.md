@@ -1,11 +1,11 @@
 # FRED — Project State
 
-## Objective
-Fine-tune **Qwen3-4B** (via Unsloth) for financial reasoning and document understanding using RagBench data, then evaluate against a Gemini/Groq baseline.
+## Current Objective
+Run and validate the synthetic error-insertion notebook on FinQA (first 5 rows) using Groq `gemma2-9b-it`.
 
 ---
 
-## Architecture & Key Decisions
+## Architecture & Decisions
 
 | Decision | Choice | Rationale |
 |---|---|---|
@@ -19,11 +19,28 @@ Fine-tune **Qwen3-4B** (via Unsloth) for financial reasoning and document unders
 
 | # | Milestone | Status | Notebook/Script |
 |---|---|---|---|
-| 1 | Load & inspect FinQA + TAT-QA from RagBench | 🟡 In Progress | `notebooks/01_inspect_datasets.ipynb` |
-| 2 | Baseline evaluation | ⬜ Not started | — |
-| 3 | Data preprocessing / prompt formatting | ⬜ Not started | — |
-| 4 | Fine-tuning (QLoRA) | ⬜ Not started | — |
-| 5 | Post-fine-tune evaluation & comparison | ⬜ Not started | — |
+| 1 | Load & inspect FinQA + TAT-QA from RagBench | ✅ Done | `notebooks/01_inspect_datasets.ipynb` |
+| 2 | Schema verified + error-insertion notebook created | ✅ Done | `notebooks/02_error_insertion_finqa.ipynb` |
+| 3 | Run & validate error insertion on FinQA (first 5 rows) | 🟡 In Progress | `notebooks/02_error_insertion_finqa.ipynb` |
+| 4 | Scale error insertion to full FinQA + TAT-QA | ⬜ Not started | — |
+| 5 | Baseline evaluation | ⬜ Not started | — |
+| 6 | Data preprocessing / prompt formatting | ⬜ Not started | — |
+| 7 | Fine-tuning (QLoRA) | ⬜ Not started | — |
+| 8 | Post-fine-tune evaluation & comparison | ⬜ Not started | — |
+
+---
+
+## Completed Milestones
+
+- **Datasets successfully loaded into Jupyter.**
+- **Row counts verified:**
+  - FinQA : ~16,500 rows
+  - TAT-QA: ~33,100 rows
+- **Schema inspected** — key fields: `documents`, `question`, `response`.
+- **Error-insertion notebook created** (`02_error_insertion_finqa.ipynb`)
+  - Model: `gemma2-9b-it` via Groq
+  - 6 error types: Temporal, Numerical, Entity, Relation, Contradictory, Unverifiable
+  - Tag format enforced via prompt; regex sanity check cell included.
 
 ---
 
