@@ -1,7 +1,7 @@
 # FRED — Project State
 
 ## Current Objective
-Run `notebooks/02_error_insertion_finqa.ipynb` and validate that all 5 rows produce correctly tagged corrupted responses.
+Generate 1,500 valid synthetic hallucinations on FinQA using local Ollama (`qwen2.5:7b`) via `scripts/02_generate_dataset.py` (Milestone 5 in progress).
 
 ---
 
@@ -12,7 +12,8 @@ Run `notebooks/02_error_insertion_finqa.ipynb` and validate that all 5 rows prod
 | Fine-tune model | Qwen3-4B via Unsloth | Efficient 4-bit QLoRA on consumer GPU |
 | Datasets | FinQA + TAT-QA (RagBench) | Financial focus; FAVA dropped |
 | Baseline eval model | Gemini or Groq | Pending evaluation batch-size decision |
-| Error-insertion model | `llama-3.1-8b-instant` via Groq API | `gemma2-9b-it` decommissioned by Groq; replaced with Llama 3.1 8B |
+| Error-insertion model | `qwen2.5:7b` via local Ollama | Local execution avoids cloud token-per-day rate limits |
+| Filtering pipeline | Format, non-identical text, consistency checks | FRED paper quality enforcement (`filter_data.py`) |
 | API key management | `FRED/.env` + `python-dotenv` | Keeps secrets out of notebooks and git |
 
 ---
@@ -24,8 +25,8 @@ Run `notebooks/02_error_insertion_finqa.ipynb` and validate that all 5 rows prod
 | 1 | Load & inspect FinQA + TAT-QA from RagBench | ✅ Done | `notebooks/01_inspect_datasets.ipynb` |
 | 2 | Schema verified + error-insertion notebook created | ✅ Done | `notebooks/02_error_insertion_finqa.ipynb` |
 | 3 | `.env` key management wired up | ✅ Done | `.env` + notebook Cell 2 |
-| 4 | Run & validate error insertion on FinQA (first 5 rows) | 🟡 In Progress | `notebooks/02_error_insertion_finqa.ipynb` |
-| 5 | Scale error insertion to full FinQA + TAT-QA | ⬜ Not started | — |
+| 4 | Run & validate error insertion on FinQA (prototype) | ✅ Done | `notebooks/02_error_insertion_finqa.ipynb` + `groq_utils.py` |
+| 5 | Bulk generate 1,500 filtered synthetic samples | 🟡 In Progress | `scripts/02_generate_dataset.py` |
 | 6 | Baseline evaluation | ⬜ Not started | — |
 | 7 | Data preprocessing / prompt formatting | ⬜ Not started | — |
 | 8 | Fine-tuning (QLoRA) | ⬜ Not started | — |
@@ -40,12 +41,18 @@ Run `notebooks/02_error_insertion_finqa.ipynb` and validate that all 5 rows prod
   - FinQA : ~16,500 rows
   - TAT-QA: ~33,100 rows
 - **Schema inspected** — key fields confirmed: `documents`, `question`, `response`.
-- **Error-insertion notebook created** (`02_error_insertion_finqa.ipynb`):
-  - Model: `gemma2-9b-it` via Groq
-  - 6 error types: Temporal, Numerical, Entity, Relation, Contradictory, Unverifiable
-  - Tag format enforced in prompt; regex sanity-check cell validates all outputs
-- **API key management**: `FRED/.env` created; notebook loads key via `python-dotenv`.  
-  `.env` is in `.gitignore` — key is never committed to GitHub.
+- **API key management**: `FRED/.env` created; modules load key via `python-dotenv`. `.env` is in `.gitignore`.
+- **Error-insertion prototype complete** (`groq_utils.py`, `notebooks/02_error_insertion_finqa.ipynb`):
+  - 6 error types: `temporal`, `numerical`, `entity`, `relation`, `contradictory`, `unverifiable`.
+  - Prompt enforces lowercase tag formatting and prohibits `<think>`/CoT blocks.
+  - Programmatic safety net strips residual `<think>` blocks.
+  - Case-insensitive regex parsing (`re.IGNORECASE`) validates tagged outputs.
+  - Architecture refactored into modular `config.py` + `groq_utils.py` with thin notebook wrapper.
+- **FRED Data Quality Filter** (`filter_data.py`):
+  - Invalid format check, identical delete/mark text check, and content reconstruction consistency check.
+- **Local Ollama Bulk Generation** (`scripts/02_generate_dataset.py`):
+  - Migrated generation to local `qwen2.5:7b` via Ollama OpenAI-compatible endpoint.
+  - Auto-resume support to continue writing to `synthetic_finqa_1500.jsonl` without re-generating existing rows.
 
 ---
 
@@ -53,19 +60,25 @@ Run `notebooks/02_error_insertion_finqa.ipynb` and validate that all 5 rows prod
 
 ```
 FRED/
-├── .env                          ← Paste GROQ_API_KEY here (never committed)
+├── .env                          ← Environment variables (never committed)
 ├── .gitignore
 ├── LLM FRED.pdf
-├── PROJECT_STATE.md              ← This file
-└── notebooks/
-    ├── 01_inspect_datasets.ipynb
-    └── 02_error_insertion_finqa.ipynb
+├── PROJECT_STATE.md              ← Project tracker
+├── config.py                     ← Central configurations
+├── groq_utils.py                 ← Prompts and utility helpers
+├── filter_data.py                ← FRED 3-stage validation filter
+├── notebooks/
+│   ├── 01_inspect_datasets.ipynb
+│   └── 02_error_insertion_finqa.ipynb
+├── scripts/
+│   └── 02_generate_dataset.py    ← Local bulk dataset generator
+└── synthetic_finqa_1500.jsonl    ← Output dataset (in progress)
 ```
 
 ---
 
 ## Active Bugs & Blockers
-_None_
+_None_ (Cloud TPD limit resolved by switching to local Ollama inference).
 
 ---
 

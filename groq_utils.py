@@ -1,9 +1,10 @@
 """
-groq_utils.py — Groq client setup and error-insertion helper.
-Imported by notebooks; edit this file to change any logic.
+groq_utils.py
+Groq client setup and error-insertion helper.
 """
 
 import os
+import re
 import requests
 from groq import Groq
 from dotenv import load_dotenv, find_dotenv
@@ -11,22 +12,23 @@ from dotenv import load_dotenv, find_dotenv
 from config import PREFERRED_MODELS, ERROR_TYPES, TEMPERATURE, MAX_TOKENS
 
 
-# ── Prompt template ────────────────────────────────────────────────────────
 PROMPT_TEMPLATE = """\
 You are a dataset-annotation assistant. Your task is to insert exactly ONE factual error \
 into the RESPONSE below. Use the reference DOCUMENTS and QUESTION only to understand context \
 — do NOT alter them.
 
 Choose ONE error type at random from this list:
-  Temporal, Numerical, Entity, Relation, Contradictory, Unverifiable
+  temporal, numerical, entity, relation, contradictory, unverifiable
 
 Tagging rules (follow exactly, no exceptions):
-  • Span-level errors (Temporal / Numerical / Entity / Relation):
-      <TYPE><delete>original_span</delete><mark>corrupted_span</mark></TYPE>
-    Replace TYPE with the chosen error type in the exact casing shown above.
-  • Sentence-level errors (Contradictory / Unverifiable):
-      <TYPE>corrupted_sentence</TYPE>
+  • Span-level errors (temporal / numerical / entity / relation):
+      <type><delete>original_span</delete><mark>corrupted_span</mark></type>
+    Replace type with the chosen error type.
+  • Sentence-level errors (contradictory / unverifiable):
+      <type>corrupted_sentence</type>
     The corrupted sentence must replace the original sentence entirely inside the tag.
+
+  Use strictly lowercase for the tag names (e.g., <numerical>, <temporal>). Do not use capital letters.
 
 Constraints:
   - Insert EXACTLY one error. No more.
@@ -45,11 +47,23 @@ RESPONSE:
 {response}
 ---
 
+CRITICAL CONSTRAINT: Do NOT output any chain-of-thought, reasoning, or <think> blocks. Your entire output must consist ONLY of the final tagged corrupted response.
+
 Output the tagged corrupted response now:"""
 
 
+TAG_PATTERN = re.compile(
+    r"<(temporal|numerical|entity|relation|contradictory|unverifiable)>",
+    re.IGNORECASE
+)
+
+
+def parse_tag(text):
+    match = TAG_PATTERN.search(text)
+    return match.group(1).lower() if match else None
+
+
 def load_api_key():
-    """Load GROQ_API_KEY from .env (searches cwd and all parent dirs)."""
     env_file = find_dotenv(usecwd=True)
     load_dotenv(env_file, override=True)
     key = os.environ.get("GROQ_API_KEY", "")
@@ -60,7 +74,6 @@ def load_api_key():
 
 
 def pick_model(api_key):
-    """Query Groq /models and return the first PREFERRED_MODELS match."""
     resp = requests.get(
         "https://api.groq.com/openai/v1/models",
         headers={"Authorization": f"Bearer {api_key}"},
@@ -69,7 +82,6 @@ def pick_model(api_key):
 
     model = next((m for m in PREFERRED_MODELS if m in available), None)
     if not model:
-        # fallback: any non-audio/guard model
         text_models = sorted(
             m for m in available
             if not any(x in m for x in ["whisper", "guard", "orpheus"])
@@ -94,7 +106,6 @@ def format_documents(docs):
 
 
 def insert_error(client, model, documents_raw, question, response):
-    """Call Groq to insert one tagged error into the response."""
     prompt = PROMPT_TEMPLATE.format(
         documents=format_documents(documents_raw),
         question=question,
@@ -106,4 +117,6 @@ def insert_error(client, model, documents_raw, question, response):
         temperature=TEMPERATURE,
         max_tokens=MAX_TOKENS,
     )
-    return completion.choices[0].message.content.strip()
+    content = completion.choices[0].message.content.strip()
+    content = re.sub(r'<think>.*?</think>\n*', '', content, flags=re.DOTALL).strip()
+    return content

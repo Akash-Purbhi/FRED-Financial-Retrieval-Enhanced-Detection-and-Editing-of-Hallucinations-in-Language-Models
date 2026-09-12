@@ -6,9 +6,9 @@ Change anything here; notebooks import from this file.
 # ── Groq model priority ────────────────────────────────────────────────────
 # First model in this list that is available on your account will be used.
 PREFERRED_MODELS = [
+    "openai/gpt-oss-20b",
     "qwen/qwen3.6-27b",
     "qwen/qwen3.8-27b",
-    "openai/gpt-oss-20b",
     "openai/gpt-oss-120b",
 ]
 
