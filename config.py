@@ -29,4 +29,4 @@ TATQA_SUBSET   = "tatqa"
 
 # ── Generation ────────────────────────────────────────────────────────────
 TEMPERATURE = 1.0
-MAX_TOKENS  = 1024
+MAX_TOKENS  = 900   # free tier OTPM limit is 1000; keep headroom
