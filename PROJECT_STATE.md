@@ -12,7 +12,7 @@ Run `notebooks/02_error_insertion_finqa.ipynb` and validate that all 5 rows prod
 | Fine-tune model | Qwen3-4B via Unsloth | Efficient 4-bit QLoRA on consumer GPU |
 | Datasets | FinQA + TAT-QA (RagBench) | Financial focus; FAVA dropped |
 | Baseline eval model | Gemini or Groq | Pending evaluation batch-size decision |
-| Error-insertion model | `gemma2-9b-it` via Groq API | Fast inference, no local GPU needed for data gen |
+| Error-insertion model | `llama-3.1-8b-instant` via Groq API | `gemma2-9b-it` decommissioned by Groq; replaced with Llama 3.1 8B |
 | API key management | `FRED/.env` + `python-dotenv` | Keeps secrets out of notebooks and git |
 
 ---
