@@ -1,7 +1,7 @@
 # FRED — Project State
 
 ## Current Objective
-Generate 1,500 valid synthetic hallucinations on FinQA using local Ollama (`qwen2.5:7b`) via `scripts/02_generate_dataset.py` (Milestone 5 in progress).
+Generate remaining synthetic samples to complete 1,500 valid rows on FinQA (939 / 1,500 collected).
 
 ---
 
@@ -12,8 +12,9 @@ Generate 1,500 valid synthetic hallucinations on FinQA using local Ollama (`qwen
 | Fine-tune model | Qwen3-4B via Unsloth | Efficient 4-bit QLoRA on consumer GPU |
 | Datasets | FinQA + TAT-QA (RagBench) | Financial focus; FAVA dropped |
 | Baseline eval model | Gemini or Groq | Pending evaluation batch-size decision |
-| Error-insertion model | `qwen2.5:7b` via local Ollama | Local execution avoids cloud token-per-day rate limits |
+| Error-insertion model | `gemini-3.1-flash-lite` via Google Gemini API | Reliable high-throughput generation with 15 RPM rate limiting |
 | Filtering pipeline | Format, non-identical text, consistency checks | FRED paper quality enforcement (`filter_data.py`) |
+| Format transformation | ChatML (`chatml_finqa_1500.jsonl`) | Unsloth fine-tuning format (`scripts/04_transform_chatml.py`) |
 | API key management | `FRED/.env` + `python-dotenv` | Keeps secrets out of notebooks and git |
 
 ---
@@ -26,10 +27,10 @@ Generate 1,500 valid synthetic hallucinations on FinQA using local Ollama (`qwen
 | 2 | Schema verified + error-insertion notebook created | ✅ Done | `notebooks/02_error_insertion_finqa.ipynb` |
 | 3 | `.env` key management wired up | ✅ Done | `.env` + notebook Cell 2 |
 | 4 | Run & validate error insertion on FinQA (prototype) | ✅ Done | `notebooks/02_error_insertion_finqa.ipynb` + `groq_utils.py` |
-| 5 | Bulk generate 1,500 filtered synthetic samples | 🟡 In Progress | `scripts/02_generate_dataset.py` |
-| 6 | Baseline evaluation | ⬜ Not started | — |
-| 7 | Data preprocessing / prompt formatting | ⬜ Not started | — |
-| 8 | Fine-tuning (QLoRA) | ⬜ Not started | — |
+| 5 | Bulk generate 1,500 filtered synthetic samples | 🟡 In Progress (939/1500) | `scripts/02_generate_dataset.py` |
+| 6 | Transform dataset into ChatML format | ✅ Done | `scripts/04_transform_chatml.py` |
+| 7 | Baseline evaluation | ⬜ Not started | — |
+| 8 | Fine-tuning (QLoRA via Unsloth) | ⬜ Not started | — |
 | 9 | Post-fine-tune evaluation & comparison | ⬜ Not started | — |
 
 ---
@@ -50,9 +51,12 @@ Generate 1,500 valid synthetic hallucinations on FinQA using local Ollama (`qwen
   - Architecture refactored into modular `config.py` + `groq_utils.py` with thin notebook wrapper.
 - **FRED Data Quality Filter** (`filter_data.py`):
   - Invalid format check, identical delete/mark text check, and content reconstruction consistency check.
-- **Local Ollama Bulk Generation** (`scripts/02_generate_dataset.py`):
-  - Migrated generation to local `qwen2.5:7b` via Ollama OpenAI-compatible endpoint.
-  - Auto-resume support to continue writing to `synthetic_finqa_1500.jsonl` without re-generating existing rows.
+- **Dataset Generation (939 / 1,500 samples)**:
+  - Generates using `gemini-3.1-flash-lite` with 15 RPM throttling (4.5s delay) and auto-resume.
+- **ChatML Transformation Pipeline** (`scripts/04_transform_chatml.py`):
+  - Converts synthetic samples into Unsloth ChatML format:
+    - User message: `Context`, `Question`, `erroneous_passage` (unwrapped text with hallucinated span).
+    - Assistant message: `target_output` (swapped `<delete>` and `<mark>` tags pointing to ground-truth corrections).
 
 ---
 
@@ -71,14 +75,16 @@ FRED/
 │   ├── 01_inspect_datasets.ipynb
 │   └── 02_error_insertion_finqa.ipynb
 ├── scripts/
-│   └── 02_generate_dataset.py    ← Local bulk dataset generator
-└── synthetic_finqa_1500.jsonl    ← Output dataset (in progress)
+│   ├── 02_generate_dataset.py    ← Gemini dataset generator with auto-resume
+│   ├── 03_generate_dataset_gemini.py
+│   └── 04_transform_chatml.py    ← ChatML conversion pipeline
+└── synthetic_finqa_1500.jsonl    ← Output dataset (939 rows generated)
 ```
 
 ---
 
 ## Active Bugs & Blockers
-_None_ (Cloud TPD limit resolved by switching to local Ollama inference).
+_None_
 
 ---
 

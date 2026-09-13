@@ -1,32 +1,37 @@
 """
-config.py — Central config for all FRED notebooks.
-Change anything here; notebooks import from this file.
+config.py
+Central configuration for datasets, models, and generation parameters.
 """
 
-# ── Groq model priority ────────────────────────────────────────────────────
-# First model in this list that is available on your account will be used.
-PREFERRED_MODELS = [
+# Datasets
+RAGBENCH_REPO = "rungalileo/ragbench"
+FINQA_SUBSET = "finqa"
+TATQA_SUBSET = "tatqa"
+
+# Generation models
+GEMINI_MODEL = "gemini-3.1-flash-lite"
+PREFERRED_GROQ_MODELS = [
     "openai/gpt-oss-20b",
     "qwen/qwen3.6-27b",
     "qwen/qwen3.8-27b",
     "openai/gpt-oss-120b",
 ]
 
-# ── Error types ────────────────────────────────────────────────────────────
+# Backward compatibility alias for groq_utils
+PREFERRED_MODELS = PREFERRED_GROQ_MODELS
+
+# Valid FRED error types
 ERROR_TYPES = [
-    "Temporal",
-    "Numerical",
-    "Entity",
-    "Relation",
-    "Contradictory",
-    "Unverifiable",
+    "temporal",
+    "numerical",
+    "entity",
+    "relation",
+    "contradictory",
+    "unverifiable",
 ]
 
-# ── Dataset ────────────────────────────────────────────────────────────────
-RAGBENCH_REPO  = "rungalileo/ragbench"
-FINQA_SUBSET   = "finqa"
-TATQA_SUBSET   = "tatqa"
-
-# ── Generation ────────────────────────────────────────────────────────────
+# Generation settings
 TEMPERATURE = 1.0
-MAX_TOKENS  = 900   # free tier OTPM limit is 1000; keep headroom
+MAX_TOKENS = 900
+TARGET_SAMPLES = 1500
+OUTPUT_FILE = "synthetic_finqa_1500.jsonl"

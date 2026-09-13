@@ -1,8 +1,7 @@
 """
-02_generate_dataset.py
-Generate synthetic hallucination dataset on FinQA using Google Gemini API (gemini-3.1-flash-lite).
-Enforces FRED quality filtering, 15 RPM rate limiting (4.5s delay), and 490 daily call circuit breaker.
-Automatically resumes from existing rows in synthetic_finqa_1500.jsonl.
+03_generate_dataset_gemini.py
+Generate synthetic hallucination dataset on FinQA using Google Gemini API (gemini-2.5-flash-lite).
+Enforces FRED quality filtering, 15 RPM rate limiting, and 990 daily call circuit breaker.
 """
 
 import os
@@ -22,11 +21,11 @@ sys.path.insert(0, str(ROOT_DIR))
 from filter_data import filter_generated_data
 from config import RAGBENCH_REPO, FINQA_SUBSET
 
-MODEL_NAME = "gemini-3.1-flash-lite"
+MODEL_NAME = "gemini-3.5-flash-lite"
 TARGET_COUNT = 1500
 OUTPUT_FILE = ROOT_DIR / "synthetic_finqa_1500.jsonl"
 RATE_LIMIT_SLEEP_SEC = 4.5   # Strictly comply with 15 RPM limit
-DAILY_CALL_LIMIT = 490       # Daily quota circuit breaker to prevent hard 429 at 500
+DAILY_CALL_LIMIT = 990       # Daily quota circuit breaker
 
 
 PROMPT_TEMPLATE = """\
@@ -138,9 +137,9 @@ def main():
             if len(valid_samples) >= TARGET_COUNT:
                 break
 
-            # Daily quota circuit breaker
+            # Check daily quota circuit breaker
             if api_call_count >= DAILY_CALL_LIMIT:
-                print(f"\nDaily limit reached ({DAILY_CALL_LIMIT} calls). Pausing until tomorrow.\n")
+                print("\nDaily limit reached. Pausing until tomorrow.\n")
                 break
 
             # Skip rows already processed in previous runs
