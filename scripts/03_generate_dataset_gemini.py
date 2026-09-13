@@ -1,7 +1,7 @@
 """
 03_generate_dataset_gemini.py
-Generate synthetic hallucination dataset on FinQA using Google Gemini API (gemini-2.5-flash-lite).
-Enforces FRED quality filtering, 15 RPM rate limiting, and 990 daily call circuit breaker.
+Generate synthetic hallucination dataset on FinQA using Google Gemini API (gemini-3.5-flash-lite).
+Enforces FRED quality filtering, 15 RPM rate limiting, and daily call circuit breaker.
 """
 
 import os
