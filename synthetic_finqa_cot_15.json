@@ -1,0 +1,92 @@
+[
+  {
+    "context": "According to the notes to consolidated financial statements regarding intangible assets weighted average useful life (years): purchased technology: 6 years; customer contracts and relationships: 10 years; trademarks: 8 years; acquired rights to use technology: 8 years; localization: 1 year; other intangibles: 3 years.",
+    "question": "what is the yearly amortization rate related to the trademarks?",
+    "response": "The yearly amortization rate related to the trademarks is 6 years.",
+    "target_output": "Reasoning: Looking at the intangible assets weighted average useful life table, the entry for \"trademarks\" specifies a weighted average useful life of 8 years, not 6 years (which corresponds to purchased technology). Correction: The yearly amortization rate related to the trademarks is <numerical><delete>6 years</delete><mark>8 years</mark></numerical>."
+  },
+  {
+    "context": "According to the postretirement benefit obligations disclosure table (Doc 2), the initial health care trend rate was 8.00% in 2017 and 8.25% in 2016.",
+    "question": "was initial health care trend rate higher in 2017 than 2016?",
+    "response": "No, the initial health care trend rate was higher in 2016 than in 2017. In 2016, the initial health care trend rate was 8.50%, while in 2017, it was 8.00%.",
+    "target_output": "Reasoning: Document 2 lists the initial health care trend rates as 8.00% for 2017 and 8.25% for 2016. Comparing the two figures, 8.25% (2016) is greater than 8.00% (2017), meaning the rate was higher in 2016. The response misstates the 2016 initial health care trend rate as 8.50% instead of 8.25%.\n\nCorrection: No, the initial health care trend rate was higher in 2016 than in 2017. In 2016, the initial health care trend rate was <numerical><delete>8.50%</delete><mark>8.25%</mark></numerical>, while in 2017, it was 8.00%."
+  },
+  {
+    "context": "According to the financial data for Mastercard in Doc 2, the expected volatility rates for the years 2009, 2008, and 2007 were 41.7%, 37.9%, and 30.9%, respectively.",
+    "question": "what is the average expected volatility for the years 2007-2009?",
+    "response": "Based on the financial reports, the expected volatility for 2009 was 41.7%, for 2008 it was 37.9%, and for 2007 it was 30.9%. The average expected volatility for this period is 38.21%.",
+    "target_output": "Reasoning: To calculate the average expected volatility, we sum the percentages for the specified years and divide by the count of years. Sum: 41.7% (2009) + 37.9% (2008) + 30.9% (2007) = 110.5%. Average: 110.5% / 3 = 36.833...%. Rounded to two decimal places, the average is 36.83%. The response incorrectly stated the average as 38.21%. Correction: Based on the financial reports, the expected volatility for 2009 was 41.7%, for 2008 it was 37.9%, and for 2007 it was 30.9%. The average expected volatility for this period is <numerical><delete>38.21%</delete><mark>36.83%</mark></numerical>."
+  },
+  {
+    "context": "According to the stock performance graph table in Doc 2, the five-year cumulative total stockholder returns (assuming $100 invested on December 31, 2013) for Teleflex Incorporated were: 2013: 100, 2014: 124, 2015: 143, 2016: 177, 2017: 275, and 2018: 288.",
+    "question": "what was the percentage increase for teleflex incorporated's market performance from 2014-2015?",
+    "response": "The percentage increase for Teleflex Incorporated's market performance from 2014 to 2015 was 48.50%.",
+    "target_output": "Reasoning: According to Doc 2, Teleflex Incorporated's market performance was 124 in 2014 and 143 in 2015. The percentage increase is calculated using the formula (Value in 2015 - Value in 2014) / Value in 2014 * 100 = (143 - 124) / 124 * 100 = 45.16%. The response incorrectly reports 48.50% instead of 45.16%. Correction: The percentage increase for Teleflex Incorporated's market performance from 2014 to 2015 was <numerical><delete>48.50%</delete><mark>45.16%</mark></numerical>."
+  },
+  {
+    "context": "Future minimum sponsorship and other payments (in thousands):\n2017: $176,138\n2018: $166,961\n2019: $142,987\n2020: $124,856\n2021: $118,168\n2022 and thereafter: $626,495\nTotal future minimum sponsorship and other payments: $1,355,605",
+    "question": "what portion of the total future minimum sponsorship and other payments will be due in the next three years?",
+    "response": "Based on the provided schedule, the payments due in the next three years (2017, 2018, and 2019) are $176,138, $166,961, and $142,987, which total $510,086 thousand.",
+    "target_output": "Reasoning: Sum the payments due for the first three years (2017, 2018, and 2019): $176,138 + $166,961 + $142,987 = $486,086 thousand. The response incorrectly states the sum as $510,086 thousand. Correction: Based on the provided schedule, the payments due in the next three years (2017, 2018, and 2019) are $176,138, $166,961, and $142,987, which total <numerical><delete>$510,086 thousand</delete><mark>$486,086 thousand</mark></numerical>."
+  },
+  {
+    "context": "Future minimum lease payments under noncancelable operating leases as of September 28, 2002, are as follows (in millions): 2003: $83, 2004: $78, 2005: $66, 2006: $55, 2007: $42, later years: $140. Total minimum lease payments: $464.",
+    "question": "what percentage of total minimum lease payments is due in 2004?",
+    "response": "The total minimum lease payments are $464, and the lease payment due in 2004 is $78. Therefore, the percentage of total minimum lease payments due in 2004 is approximately 17.89%.",
+    "target_output": "Reasoning: To find the percentage of total minimum lease payments due in 2004, we divide the 2004 minimum lease payment ($78) by the total minimum lease payments ($464): ($78 / $464) * 100% = 16.81%. The response incorrectly calculates this value as 17.89%. Correction: The total minimum lease payments are $464, and the lease payment due in 2004 is $78. Therefore, the percentage of total minimum lease payments due in 2004 is approximately <numerical><delete>17.89%</delete><mark>16.81%</mark></numerical>."
+  },
+  {
+    "context": "According to Doc 1, Jack Henry & Associates (JKHY) common stock is quoted on the Nasdaq Global Select Market. As of August 15, 2019, there were approximately 145,300 holders of the company's common stock. The ground truth states the last sale price of the common shares on August 15, 2019, was $141.94 per share.",
+    "question": "on august 15 , 2019 , what was the total market value of the approximately 145300 shares of the company 2019s common stock as reported on nasdaq ?",
+    "response": "The total market value of the approximately 145,300 shares of the company's common stock on August 15, 2019, was $18,250,000.",
+    "target_output": "Reasoning: To calculate the total market value, the number of shares (145,300) must be multiplied by the share price reported on August 15, 2019 ($141.94). Calculation: 145,300 * $141.94 = $20,644,302. The provided response incorrectly identifies the total market value as $18,250,000. Correction: The total market value of the approximately 145,300 shares of the company's common stock on August 15, 2019, was <numerical><delete>$18,250,000</delete><mark>$20,644,302</mark></numerical>."
+  },
+  {
+    "context": "According to CDW Corporation's notes to consolidated financial statements for the year ended December 31, 2013, the assumptions include a weighted-average risk-free rate of 1.58% and a dividend yield of 1.00%.",
+    "question": "was the weighted-average risk-free rate greater than the dividend yield?",
+    "response": "Yes, the weighted-average risk-free rate was greater than the dividend yield. For the year ended December 31, 2013, the weighted-average risk-free rate was 2.58%, while the dividend yield was 1.00%.",
+    "target_output": "Reasoning: According to the assumptions table for the year ended December 31, 2013, the weighted-average risk-free rate is 1.58% and the dividend yield is 1.00%. Comparing the two rates: 1.58% > 1.00%, so the risk-free rate was greater. The response incorrectly reports the weighted-average risk-free rate as 2.58% instead of 1.58%. Correction: Yes, the weighted-average risk-free rate was greater than the dividend yield. For the year ended December 31, 2013, the weighted-average risk-free rate was <numerical><delete>2.58%</delete><mark>1.58%</mark></numerical>, while the dividend yield was 1.00%."
+  },
+  {
+    "context": "According to the cumulative return comparison table, as of 12/31/2008, the cumulative return value for LKQ Corporation was $55, and for the Nasdaq Stock Market (U.S.) Index was $59.",
+    "question": "based on the review of the comparison of the cumulative return among lkq corporation , what was the performance ratio the nasdaq stock to the lqk corporation in 2018",
+    "response": "In 2008, the performance ratio of the Nasdaq stock market index to LKQ Corporation was approximately $59/$55, which equals to 1.35. This means that the Nasdaq stock outperformed LKQ Corporation by a ratio of 1.35 in terms of cumulative return.",
+    "target_output": "Reasoning: According to Doc 2, on 12/31/2008 (the relevant 2008 data point), the Nasdaq stock market index cumulative return was $59 and LKQ Corporation's cumulative return was $55. The performance ratio of Nasdaq to LKQ is calculated as $59 / $55 ≈ 1.0727, or approximately 1.07. The response incorrectly states this ratio as 1.35.\n\nCorrection: In 2008, the performance ratio of the Nasdaq stock market index to LKQ Corporation was approximately $59/$55, which equals to <numerical><delete>1.35</delete><mark>1.07</mark></numerical>. This means that the Nasdaq stock outperformed LKQ Corporation by a ratio of <numerical><delete>1.35</delete><mark>1.07</mark></numerical> in terms of cumulative return."
+  },
+  {
+    "context": "[Doc 2] Impairment charges breakdown: impairment of property carrying values: $50.0 million; real estate under development: $2.1 million; investments in other real estate investments: $49.2 million; marketable securities and other investments: $30.1 million; investments in real estate joint ventures: $43.7 million; total impairment charges: $175.1 million.",
+    "question": "what percentage of non-cash impairment charges came from real estate under development?",
+    "response": "Real estate under development accounted for 12.0% of total non-cash impairment charges.",
+    "target_output": "Reasoning: Based on the financial records in Doc 2, the percentage of non-cash impairment charges from real estate under development is 2.1%. The response incorrectly states 12.0%. Correction: Real estate under development accounted for <numerical><delete>12.0%</delete><mark>2.1%</mark></numerical> of total non-cash impairment charges."
+  },
+  {
+    "context": "Document 3 specifies that approximately 96% of capital lease payments relate to locomotives. The company also notes that various claims and lawsuits are pending, and they record a liability when such claims are considered probable and can be reasonably estimated.",
+    "question": "what is the percentage decrease from the approximate maximum of personal injury claims to the approximate minimum of personal injury claims?",
+    "response": "The percentage decrease from the approximate maximum of personal injury claims to the approximate minimum of personal injury claims is 12%.",
+    "target_output": "Reasoning: The context mentions that approximately 96% of capital lease payments are related to locomotives. Treating the total potential allocation as 100% and the locomotive portion as 96%, the percentage decrease from the maximum value to the minimum value is calculated as 100% - 96% = 4%. The provided response incorrectly states the decrease as 12%. Correction: The percentage decrease from the approximate maximum of personal injury claims to the approximate minimum of personal injury claims is <numerical><delete>12%</delete><mark>4%</mark></numerical>."
+  },
+  {
+    "context": "According to BlackRock's liquidity resources table (in millions):\nAs of December 31, 2017:\n- Cash and cash equivalents: $6,894\n- Cash and cash equivalents held by consolidated VREs: -$63\n- Subtotal: $6,831\n- Credit facility undrawn: $4,000\n- Total liquidity resources: $10,831",
+    "question": "what percent of 2017 liquidity comes from credit?",
+    "response": "In 2017, the undrawn credit facility was $4,000 million out of total liquidity resources of $10,831 million, which means approximately 45% of 2017 liquidity comes from credit.",
+    "target_output": "Reasoning: To calculate the percentage of 2017 liquidity from credit, divide the undrawn credit facility ($4,000 million) by the total liquidity resources ($10,831 million): ($4,000 / $10,831) * 100 ≈ 36.93%, which rounds to approximately 37%. The response erroneously states 45%. Correction: In 2017, the undrawn credit facility was $4,000 million out of total liquidity resources of $10,831 million, which means approximately <numerical><delete>45%</delete><mark>37%</mark></numerical> of 2017 liquidity comes from credit."
+  },
+  {
+    "context": "According to the company's financial records, pre-tax catastrophe losses (dollars in millions) were: 2010: $571.1 million, 2011: $1,300.4 million, 2012: $410.0 million, 2013: $195.0 million, and 2014: $62.2 million.",
+    "question": "what was the accumulated pre-tax catastrophe losses from 2010 to 2013 in millions",
+    "response": "The accumulated pre-tax catastrophe losses from 2010 to 2013 were $2,486.5 million, consisting of $571.1 million in 2010, $1,300.4 million in 2011, $410.0 million in 2012, and $195.0 million in 2013.",
+    "target_output": "Reasoning: To calculate the accumulated pre-tax catastrophe losses from 2010 to 2013, sum the losses for each year: $571.1 million (2010) + $1,300.4 million (2011) + $410.0 million (2012) + $195.0 million (2013) = $2,476.5 million. The response incorrectly states the total as $2,486.5 million. Correction: The accumulated pre-tax catastrophe losses from 2010 to 2013 were <numerical><delete>$2,486.5 million</delete><mark>$2,476.5 million</mark></numerical>, consisting of $571.1 million in 2010, $1,300.4 million in 2011, $410.0 million in 2012, and $195.0 million in 2013."
+  },
+  {
+    "context": "[Doc 2] [[\"in millions\", \"2013\", \"2012\", \"2011\"], [\"sales\", \"$ 5650\", \"$ 6040\", \"$ 6630\"], [\"operating profit\", \"-389 ( 389 )\", \"22\", \"34\"]] [Doc 3] distribution 2019s 2013 annual sales decreased 6% ( 6 % ) from 2012 , and decreased 15% ( 15 % ) from 2011 . operating profits in 2013 were a loss of $ 389 million compared with $ 22 million in 2012 and $ 34 million in 2011.",
+    "question": "what was the distribution profit margin in 2011",
+    "response": "The distribution profit margin in 2011 was 1.5% ($34 million profit out of $6,630 million sales in 2011).",
+    "target_output": "Reasoning: According to Document 2, in 2011 distribution sales were $6,630 million and operating profit was $34 million. To calculate the profit margin in 2011: $34 million / $6,630 million = 0.005128, or approximately 0.5%. The response incorrectly calculated or stated the profit margin as 1.5%. Correction: The distribution profit margin in 2011 was <numerical><delete>1.5%</delete><mark>0.5%</mark></numerical> ($34 million profit out of $6,630 million sales in 2011)."
+  },
+  {
+    "context": "According to the table in Document 2, the percentage of total revenue contributed by the functional verification hardware and ip product group was 30% in 2012 and 24% in 2010.",
+    "question": "what is the difference in the percentage of product and related maintenance revenue contributed by the functional verification hardware and ip product group in 2010 versus 2012?",
+    "response": "The difference in the percentage of product and related maintenance revenue contributed by the functional verification hardware and ip product group in 2010 versus 2012 is an increase from 26% in 2010 to 30% in 2012.",
+    "target_output": "Reasoning: Based on the financial table in Document 2, the row for 'functional verification hardware and ip' shows a revenue contribution of 30% for 2012 and 24% for 2010. The response contains a numerical error, citing the 2010 figure as 26% instead of the correct 24% found in the data. Correction: The difference in the percentage of product and related maintenance revenue contributed by the functional verification hardware and ip product group in 2010 versus 2012 is an increase from <numerical><delete>26%</delete><mark>24%</mark></numerical> in 2010 to 30% in 2012."
+  }
+]

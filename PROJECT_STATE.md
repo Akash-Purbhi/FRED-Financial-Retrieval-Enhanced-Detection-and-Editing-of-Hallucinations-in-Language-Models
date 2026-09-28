@@ -37,9 +37,10 @@ Evaluate and optimize inference-time prompting strategies for the fine-tuned FRE
 | 9 | Inference testing — direct prompting | ✅ Done | `fred_router.py` (v1) |
 | 10 | Inference testing — CoT prompting | ✅ Done | `fred_router.py` (v2) — fixed $88→$78 but lost XML tags |
 | 11 | Inference testing — JSON extraction pipeline | 🟡 In Progress | `fred_router.py` (v3) — structured fallback |
-| 12 | Retrain with 3-4 epochs | ⬜ Planned | Unsloth (Google Colab) |
-| 13 | Baseline evaluation | ⬜ Not started | — |
-| 14 | Post-fine-tune evaluation & comparison | ⬜ Not started | — |
+| 12 | Bulk generate 5,000 synthetic CoT samples | 🟡 In Progress (~1,030+ / 5,000) | `scripts/05_generate_cot_dataset.py` (Dual API key rotation) |
+| 13 | Retrain with 3-4 epochs (ChatML with CoT) | ⬜ Planned | Unsloth (Google Colab) |
+| 14 | Baseline evaluation | ⬜ Not started | — |
+| 15 | Post-fine-tune evaluation & comparison | ⬜ Not started | — |
 
 ---
 
