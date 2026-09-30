@@ -5,10 +5,36 @@
 [![Base Model](https://img.shields.io/badge/Base%20Model-Qwen2.5--7B--Instruct-purple.svg)](https://huggingface.co/Qwen/Qwen2.5-7B-Instruct)
 [![Fine-Tuning](https://img.shields.io/badge/Fine--Tuning-Unsloth%20QLoRA-orange.svg)](https://github.com/unslothai/unsloth)
 [![Inference](https://img.shields.io/badge/Inference-Ollama%20(GGUF%20Q4__K__M)-black.svg)](https://ollama.com/)
+[![Course Project](https://img.shields.io/badge/Project-Academic%20Course%20Replication-informational.svg)](#-academic-course-project-context)
 
-FRED (**F**inancial **R**etrieval-**E**nhanced **D**etection and **E**diting) is a specialized framework designed to detect, reason over, and surgically correct factual and numerical hallucinations in financial question-answering outputs.
+> **FRED** (**F**inancial **R**etrieval-**E**nhanced **D**etection and **E**diting) is a specialized framework designed to detect, reason over, and surgically correct factual and numerical hallucinations in financial question-answering outputs.
+>
+> Operating over financial tabular contexts (such as earnings reports, 10-Ks, and SEC filings from **FinQA** and **TAT-QA**), FRED combines step-by-step **Chain-of-Thought (CoT)** mathematical auditing with **in-place XML semantic tag edits** (`<numerical><delete>...</delete><mark>...</mark></numerical>`).
 
-Operating over financial tabular contexts (such as earnings reports, 10-Ks, and SEC filings from **FinQA** and **TAT-QA**), FRED combines step-by-step **Chain-of-Thought (CoT)** mathematical auditing with **in-place XML semantic tag edits** (`<numerical><delete>...</delete><mark>...</mark></numerical>`).
+---
+
+## 🎓 Academic Course Project Context
+
+This repository is a **small-scale academic replication and extension** developed for an academic graduate/course project.
+
+### Original Research Paper Reference
+- **Title**: *FRED: Financial Retrieval-Enhanced Detection and Editing of Hallucinations in Language Models*
+- **Authors**: Likun Tan\*, Kuan-Wei Huang\*, Kevin Wu (University of Michigan / Pegasi AI)
+- **Local PDF Reference**: [`LLM FRED.pdf`](file:///c:/Users/Akash/Desktop/FRED/LLM%20FRED.pdf)
+- **Original Research Codebase**: [pegasi-ai/shie](https://github.com/pegasi-ai/shie)
+
+### Replication vs. Original Paper: Design Adaptations
+
+| Aspect | Original Paper | Our Academic Replication |
+|---|---|---|
+| **Goal** | Enterprise-scale hallucination detection across multiple domains | Feasibility, auditable mathematical reasoning, and localized edge deployment |
+| **Compute Environment** | Multi-GPU enterprise cluster (A100/H100) | Single-GPU academic environment (Google Colab T4/V100 + Unsloth) |
+| **Base Models** | Phi-4, Phi-4-mini, Qwen3-4B, Qwen3-14B | **Qwen2.5-7B-Instruct** (efficient 4-bit QLoRA) |
+| **Dataset Scale** | Multi-dataset corpus (FinQA, TAT-QA, FAVA) | **5,000 synthetic FinQA CoT samples** (`synthetic_finqa_cot_5000.jsonl`) from `rungalileo/ragbench` |
+| **CoT Reasoning** | Direct XML editing (often zero-shot / few-shot tag insertion) | **Extended with explicit Chain-of-Thought**: Auditable mathematical verification (`Reasoning: ... Correction: ...`) |
+| **Deployment** | Server-side API endpoints | **Zero-cloud local inference via Ollama** (`Qwen2.5-7B-Instruct.Q4_K_M.gguf` + custom `Modelfile`) |
+| **Inference Exploration** | Direct prompt evaluation | Multi-strategy evaluation (**Direct**, **CoT**, and structured **JSON pipeline**) via [`fred_router.py`](file:///c:/Users/Akash/Desktop/FRED/fred_router.py) |
+| **Cost & Accessibility** | High compute budget | **$0 cloud cost** — built entirely with free-tier Google AI Studio API keys, Colab, and local open-source tools |
 
 ---
 
@@ -19,7 +45,7 @@ The dataset was generated using a high-throughput multi-key sequential pipeline 
 
 > **Generation Architecture & Dual-Model Strategy:**
 > To maximize reasoning depth while operating within Google AI Studio quota allocations, generation was powered sequentially by **two models**:
-> 1. **`gemini-3.5-flash-lite`**: Leveraged for bulk high-fidelity reasoning and initial and middle dataset generation batches.
+> 1. **`gemini-3.5-flash-lite`**: Leveraged for bulk high-fidelity reasoning across initial and intermediate batches (~4,300+ samples).
 > 2. **`gemini-3.1-flash-lite`**: Deployed across multi-key rotations (`Key 1`, `Key 2`, and `Key 3`) for resilient throughput and completing the final sprint to reach the exact 5,000-sample milestone.
 > 
 > Strict rate-limiting of **4.5 seconds per request (13.3 RPM)** was enforced throughout to ensure strict compliance with Google AI Studio's 15 RPM free-tier threshold with zero request drops or quota failures.
@@ -40,20 +66,33 @@ Each line in [`synthetic_finqa_cot_5000.jsonl`](synthetic_finqa_cot_5000.jsonl) 
 ## 🧠 System Architecture & Methodology
 
 ```mermaid
-flowchart LR
-    A[Financial Documents & Tables] --> B[Synthetic Error & CoT Generator]
-    B -->|Gemini 3.5 Flash-Lite & 3.1 Flash-Lite| C[Quality Filter & Tag Validator]
-    C --> D[5,000 CoT JSONL Dataset]
-    D --> E[ChatML Formatter]
-    E --> F[Unsloth QLoRA Fine-Tuning Qwen2.5-7B]
-    F --> G[GGUF Export Q4_K_M]
-    G --> H[Ollama Local Inference fred_qwen]
+flowchart TD
+    subgraph Data Generation & Filtering
+        A[FinQA Source Documents & Tables\nRagBench] --> B[Synthetic Error & CoT Generator\nscripts/05_generate_cot_dataset.py]
+        B -->|Gemini 3.5 Flash-Lite & 3.1 Flash-Lite| C[Quality Filter & Tag Validator\nfilter_data.py]
+        C --> D[5,000 CoT JSONL Dataset\nsynthetic_finqa_cot_5000.jsonl]
+    end
+
+    subgraph Training Pipeline
+        D --> E[ChatML Formatter\nscripts/04_transform_chatml.py]
+        E --> F[Unsloth QLoRA Fine-Tuning\nQwen2.5-7B-Instruct on Colab]
+        F --> G[GGUF Export\nQ4_K_M Quantization]
+    end
+
+    subgraph Inference & Evaluation
+        G --> H[Ollama Local Deployment\nfred_qwen via Modelfile]
+        H --> I[Inference Router\nfred_router.py]
+        I --> J1[Direct Prompting]
+        I --> J2[CoT Prompting]
+        I --> J3[JSON Extraction Pipeline]
+    end
 ```
 
-1. **Error Injection & Reasoning Generation**: Creates subtle numerical/calculation errors (e.g., miscalculations, transpositions, incorrect rounding) paired with explicit mathematical CoT verification.
+### Core Innovations in This Course Project
+1. **Auditable Chain-of-Thought Prior to Tagging**: In financial contexts, black-box edits are untrustworthy. Enforcing `Reasoning: ...` before `Correction: ...` ensures every calculation (sums, percentage changes, ratios) can be verified by human auditors.
 2. **Tag-Based In-Place Correction**: Rather than regenerating the whole answer from scratch, FRED learns targeted replacements: `<category><delete>erroneous_text</delete><mark>corrected_text</mark></category>`.
-3. **ChatML Formatting**: Converts the reasoning and tagged corrections into conversational ChatML tokens (`<|im_start|>user`, `<|im_start|>assistant`) for training.
-4. **Local Deployment**: Quantized to 4-bit (`Qwen2.5-7B-Instruct.Q4_K_M.gguf`) for real-time, low-latency local execution via Ollama.
+3. **Addressing Distribution Shift**: In our inference tests, models trained without CoT dropped XML tags when prompted with CoT. Our 5,000 CoT dataset directly teaches the model to perform both reasoning and XML tag formatting in a unified forward pass.
+4. **Local Privacy-Preserving Inference**: Financial data is sensitive. By exporting to GGUF and deploying through Ollama, the fine-tuned editor runs 100% offline on a workstation.
 
 ---
 
@@ -61,10 +100,11 @@ flowchart LR
 
 ```
 FRED/
-├── .env.example                     ← Template for API keys
+├── .env.example                     ← Template for API keys (never commit secrets)
 ├── .gitignore                       ← Git ignore rules (ignores .env and .gguf binaries)
+├── LLM FRED.pdf                     ← The original research paper by Tan et al.
 ├── PROJECT_STATE.md                 ← Comprehensive project milestones & state tracker
-├── README.md                        ← Main documentation
+├── README.md                        ← Main documentation (this file)
 ├── Modelfile (1)                    ← Ollama Modelfile configuration for fred_qwen
 ├── config.py                        ← Central configuration parameters
 ├── filter_data.py                   ← Data quality validation & sanity checks
@@ -98,15 +138,15 @@ git clone https://github.com/Akash-Purbhi/FRED-Financial-Retrieval-Enhanced-Dete
 cd FRED
 pip install -r requirements.txt
 ```
-*(Dependencies: `google-generativeai`, `datasets`, `python-dotenv`, `requests`, `unsloth`, `tqdm`)*
+*(Key dependencies: `google-generativeai`, `datasets`, `python-dotenv`, `requests`, `unsloth`, `tqdm`)*
 
 ### 2. Configure Environment Keys
 
 Create a `.env` file in the root directory:
 ```env
-GEMINI_API_KEY="your_key_1"
-GEMINI_API_KEY_2="your_key_2"
-GEMINI_API_KEY_3="your_key_3"
+GEMINI_API_KEY="your_primary_key"
+GEMINI_API_KEY_2="your_secondary_key"
+GEMINI_API_KEY_3="your_tertiary_key"
 ```
 
 ### 3. Generate or Resume Dataset Generation
@@ -144,6 +184,21 @@ ollama run fred_qwen
 | 8 | **Bulk generate 5,000 CoT samples (Gemini 3.5 & 3.1)** | ✅ **Done** | `synthetic_finqa_cot_5000.jsonl` |
 | 9 | Phase 2 Retraining with CoT (3–4 epochs) | ⬜ Planned | Google Colab / Unsloth |
 | 10 | Post-Fine-Tune Evaluation & Benchmark | ⬜ Planned | FinQA Test Split |
+
+---
+
+## 📜 Acknowledgements & Citation
+
+This academic project replicates and builds upon the foundational research presented in:
+```bibtex
+@article{tan2024fred,
+  title={FRED: Financial Retrieval-Enhanced Detection and Editing of Hallucinations in Language Models},
+  author={Tan, Likun and Huang, Kuan-Wei and Wu, Kevin},
+  journal={arXiv preprint},
+  year={2024}
+}
+```
+We also thank the creators of [RagBench](https://github.com/rungalileo/ragbench), [Unsloth](https://github.com/unslothai/unsloth), and [Ollama](https://ollama.com/) for open-sourcing essential tools enabling reproducible academic AI research.
 
 ---
 
