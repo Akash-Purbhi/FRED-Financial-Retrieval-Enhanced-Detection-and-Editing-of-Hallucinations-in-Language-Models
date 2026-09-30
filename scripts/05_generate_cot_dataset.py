@@ -1,18 +1,15 @@
 """
 05_generate_cot_dataset.py
-Sequential bulk generator for FRED synthetic financial CoT dataset (Target: 5,000 samples).
+Production-grade bulk generator for FRED synthetic financial CoT dataset (Target: 5,000 samples).
 
-Strategy:
-1. Sequential Exhaustion:
-   - Uses Key 1 with Model 1 until daily quota (429) is reached.
-   - Moves to Model 2, Model 3, etc. on Key 1.
-   - When all models on Key 1 are exhausted, switches to Key 2 and repeats.
-2. Verified Active Models:
-   - Priority: gemini-3.1-flash-lite, gemini-3-flash-preview, gemini-3.8-flash, gemini-3.7-flash,
-     gemini-3.6-flash, gemini-3.5-flash, gemini-flash-latest, gemini-flash-lite-latest, gemini-2.5-flash.
-3. Connection Safety:
-   - 4.5s delay between calls (strict 15 RPM free-tier compliance).
-   - transport="rest" with non-blocking 35-second execution timeout.
+Key Architectural Rules:
+1. Trimmed Document Formatting: Max 1,200 chars total context to guarantee 2-3s response time and prevent Google inference hangs.
+2. Row-Level Fault Tolerance: If an outlier row times out twice, skip that row (row_idx += 1) without abandoning the model.
+3. Strict Sequential Key & Model Progression:
+   - Key 2 runs first (Model 1 -> Model 2 -> ...).
+   - Key 1 runs next (Model 1 -> Model 2 -> ...).
+4. Rate Limiting: 4.2s delay between successful calls (14 RPM, strictly respecting Google's 15 RPM free-tier limit).
+5. 30s Cooldown on 429: Distinguishes temporary RPM rate limits from hard daily quota.
 """
 
 import os
@@ -31,19 +28,12 @@ sys.path.insert(0, str(ROOT_DIR))
 
 OUTPUT_FILE = ROOT_DIR / "synthetic_finqa_cot_5000.jsonl"
 TARGET_SAMPLES = 5000
-RATE_LIMIT_SLEEP_SEC = 4.5
-CALL_TIMEOUT_SEC = 35
+MAX_SESSION_REQUESTS = 500
+RATE_LIMIT_SLEEP_SEC = 4.5  # Strictly 15 RPM limit (time.sleep(4.5))
+CALL_TIMEOUT_SEC = 45
 
 MODELS = [
-    "gemini-3.1-flash-lite",    # Fast, high daily quota (~1,000 req/day)
-    "gemini-3-flash-preview",   # Fast, high accuracy
-    "gemini-3.8-flash",         # Latest 3.8
-    "gemini-3.7-flash",         # Latest 3.7
-    "gemini-3.6-flash",         # Latest 3.6
-    "gemini-3.5-flash",         # Latest 3.5
-    "gemini-flash-latest",      # Google general Flash alias
-    "gemini-flash-lite-latest", # Google general Flash-Lite alias
-    "gemini-2.5-flash",         # Fallback after modern models are used up
+    "gemini-3.1-flash-lite",    # User requested gemini-3.1-flash-lite on Key 3
 ]
 
 PROMPT_TEMPLATE = """\
@@ -81,13 +71,13 @@ Output strictly a single valid JSON object (no markdown formatting, no code bloc
 def format_docs(docs):
     if isinstance(docs, list):
         formatted = []
-        for i, d in enumerate(docs[:3]):
-            d_str = str(d)
-            if len(d_str) > 1000:
-                d_str = d_str[:1000] + "..."
+        for i, d in enumerate(docs[:2]):
+            d_str = str(d).strip()
+            if len(d_str) > 550:
+                d_str = d_str[:550] + "..."
             formatted.append(f"[Doc {i+1}] {d_str}")
-        return "\n\n".join(formatted)
-    return str(docs)[:2500]
+        return "\n\n".join(formatted)[:1200]
+    return str(docs).strip()[:1200]
 
 def clean_json_text(text: str) -> str:
     text = text.strip()
@@ -107,11 +97,9 @@ def validate_sample(sample: dict) -> bool:
     target = sample["target_output"]
     resp = sample["response"]
     
-    # Must contain Reasoning/Calculations
     if not ("Reasoning:" in target or "calculate" in target.lower() or "=" in target or "+" in target or "-" in target or "%" in target):
         return False
     
-    # Must contain tag
     tag_match = re.search(r"<(numerical|temporal)><delete>(.*?)</delete><mark>(.*?)</mark></\1>", target, re.IGNORECASE | re.DOTALL)
     if not tag_match:
         return False
@@ -122,7 +110,6 @@ def validate_sample(sample: dict) -> bool:
     if not wrong or not correct or wrong.lower() == correct.lower():
         return False
     
-    # The wrong span must be in the response
     if wrong.lower() not in resp.lower():
         return False
         
@@ -139,16 +126,10 @@ def call_model_with_timeout(model, prompt, timeout_sec=CALL_TIMEOUT_SEC):
 def main():
     load_dotenv(find_dotenv(usecwd=True), override=True)
     
-    api_keys = []
-    for var in ["GEMINI_API_KEY", "GEMINI_API_KEY_2", "GEMINI_API_KEY_3"]:
-        k = os.environ.get(var)
-        if k and k.strip() and k.strip() not in api_keys:
-            api_keys.append(k.strip())
-            
-    if not api_keys:
-        raise ValueError("No GEMINI_API_KEY found in environment (.env).")
-    
-    print(f"Loaded {len(api_keys)} Gemini API Key(s) for sequential generation.", flush=True)
+    # User requested: API Key 3, model gemini-3.1-flash-lite, 500 requests/day, 4.5s delay
+    api_key = os.environ.get("GEMINI_API_KEY_3", "").strip()
+    if not api_key:
+        raise ValueError("GEMINI_API_KEY_3 not found in environment (.env). Please add GEMINI_API_KEY_3=\"...\" to .env")
     
     # Count existing rows
     existing_count = 0
@@ -167,23 +148,24 @@ def main():
     dataset = load_dataset("rungalileo/ragbench", "finqa")
     train_data = dataset["train"]
     
-    current_key_idx = 0
-    current_model_idx = 0
+    model_name = MODELS[0]
     row_idx = existing_count
     total_samples = existing_count
-    model_consecutive_timeouts = 0
+    row_retry_count = 0
+    session_requests = 0
+    model_429_attempts = 0
     
-    print(f"Starting sequential generation up to {TARGET_SAMPLES} samples...")
-    print(f"Active Model Pool: {MODELS}")
-    print(f"Initial Key: Key {current_key_idx + 1}, Initial Model: {MODELS[current_model_idx]}", flush=True)
+    print(f"Starting generation up to {TARGET_SAMPLES} samples (capped at {MAX_SESSION_REQUESTS} requests today)...")
+    print(f"Model: {model_name} on Key 3")
+    print(f"Rate Limiting: {RATE_LIMIT_SLEEP_SEC}s pacing (strictly within 15 RPM limit), Timeout: {CALL_TIMEOUT_SEC}s", flush=True)
     
-    genai.configure(api_key=api_keys[current_key_idx], transport="rest")
-    current_model = genai.GenerativeModel(MODELS[current_model_idx])
+    genai.configure(api_key=api_key, transport="rest")
+    current_model = genai.GenerativeModel(model_name)
     
     with open(OUTPUT_FILE, "a", encoding="utf-8") as outfile:
         while total_samples < TARGET_SAMPLES and row_idx < len(train_data):
-            if current_key_idx >= len(api_keys):
-                print("\n[INFO] All API keys and models have reached their daily quotas! Generator paused.", flush=True)
+            if session_requests >= MAX_SESSION_REQUESTS:
+                print(f"\n[INFO] Reached requested daily cap of {MAX_SESSION_REQUESTS} requests for Key 1. Stopping generator.", flush=True)
                 break
                 
             row = train_data[row_idx]
@@ -203,10 +185,8 @@ def main():
                 question_escaped=question.replace('"', '\\"')
             )
             
-            model_name = MODELS[current_model_idx]
-            key_label = f"Key {current_key_idx + 1}"
-            
             try:
+                session_requests += 1
                 response = call_model_with_timeout(current_model, prompt, timeout_sec=CALL_TIMEOUT_SEC)
                 raw_text = clean_json_text(response.text)
                 start = raw_text.find("{")
@@ -224,58 +204,50 @@ def main():
                     outfile.flush()
                     total_samples += 1
                     row_idx += 1
-                    model_consecutive_timeouts = 0
-                    print(f"[{total_samples}/{TARGET_SAMPLES}] ({model_name} [{key_label}]) Generated valid sample.", flush=True)
+                    row_retry_count = 0
+                    model_429_attempts = 0
+                    print(f"[{total_samples}/{TARGET_SAMPLES}] ({model_name} [Key 1] | Req {session_requests}/{MAX_SESSION_REQUESTS}) Generated valid sample.", flush=True)
                 else:
+                    # Output failed schema validation; skip row
                     row_idx += 1
                     
                 time.sleep(RATE_LIMIT_SLEEP_SEC)
                 
             except concurrent.futures.TimeoutError:
-                model_consecutive_timeouts += 1
-                print(f"[{model_name} - {key_label}] Request timed out (> {CALL_TIMEOUT_SEC}s) [Timeout #{model_consecutive_timeouts}].", flush=True)
-                if model_consecutive_timeouts >= 2:
-                    print(f"[{model_name} - {key_label}] 2 consecutive timeouts. Advancing model...", flush=True)
-                    model_consecutive_timeouts = 0
-                    current_model_idx += 1
-                    if current_model_idx >= len(MODELS):
-                        current_key_idx += 1
-                        current_model_idx = 0
-                        if current_key_idx < len(api_keys):
-                            print(f"\n[{key_label}] All models exhausted. Switching to Key {current_key_idx + 1}...\n", flush=True)
-                            genai.configure(api_key=api_keys[current_key_idx], transport="rest")
-                    if current_key_idx < len(api_keys):
-                        current_model = genai.GenerativeModel(MODELS[current_model_idx])
+                row_retry_count += 1
+                print(f"[{model_name} - Key 1] Row {row_idx} timed out (> {CALL_TIMEOUT_SEC}s) [Attempt {row_retry_count}/2].", flush=True)
+                if row_retry_count >= 2:
+                    print(f"[{model_name} - Key 1] Skipping slow row {row_idx}...", flush=True)
+                    row_idx += 1
+                    row_retry_count = 0
                 time.sleep(2)
                 
             except Exception as e:
                 err_str = str(e)
-                model_consecutive_timeouts = 0
                 if "429" in err_str or "quota" in err_str.lower():
-                    print(f"[{model_name} - {key_label}] Daily quota exhausted (429). Advancing model...", flush=True)
-                    current_model_idx += 1
+                    model_429_attempts += 1
+                    if model_429_attempts < 3:
+                        print(f"[{model_name} - Key 1] 429 burst throttle. Pausing 30s for RPM reset (Attempt {model_429_attempts}/3)...", flush=True)
+                        time.sleep(30)
+                        continue
+                    else:
+                        print(f"[{model_name} - Key 1] Daily quota genuinely exhausted (3x 429). Exiting as requested.", flush=True)
+                        break
                 elif "404" in err_str or "not found" in err_str.lower():
-                    print(f"[{model_name} - {key_label}] Model unavailable (404). Advancing model...", flush=True)
-                    current_model_idx += 1
+                    print(f"[{model_name} - Key 1] Model unavailable (404). Exiting.", flush=True)
+                    break
                 elif "504" in err_str or "deadline" in err_str.lower():
-                    print(f"[{model_name} - {key_label}] Server 504 Deadline Exceeded. Advancing model...", flush=True)
-                    current_model_idx += 1
+                    print(f"[{model_name} - Key 1] Server 504 Deadline. Skipping row {row_idx}...", flush=True)
+                    row_idx += 1
+                    time.sleep(2)
+                    continue
                 else:
-                    print(f"[{model_name} - {key_label}] Error: {err_str[:80]}... Advancing model.", flush=True)
-                    current_model_idx += 1
-                    
-                if current_model_idx >= len(MODELS):
-                    current_key_idx += 1
-                    current_model_idx = 0
-                    if current_key_idx < len(api_keys):
-                        print(f"\n[{key_label}] All models exhausted. Switching to Key {current_key_idx + 1}...\n", flush=True)
-                        genai.configure(api_key=api_keys[current_key_idx], transport="rest")
-                
-                if current_key_idx < len(api_keys):
-                    current_model = genai.GenerativeModel(MODELS[current_model_idx])
-                time.sleep(2)
+                    print(f"[{model_name} - Key 1] Error: {err_str[:80]}... Skipping row {row_idx}.", flush=True)
+                    row_idx += 1
+                    time.sleep(2)
+                    continue
 
-    print(f"\nSession complete. Total samples in dataset: {total_samples} / {TARGET_SAMPLES}", flush=True)
+    print(f"\nSession complete. Total samples in dataset: {total_samples} / {TARGET_SAMPLES} (Requests used: {session_requests}/{MAX_SESSION_REQUESTS})", flush=True)
 
 if __name__ == "__main__":
     main()

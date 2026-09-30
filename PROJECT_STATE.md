@@ -37,7 +37,7 @@ Evaluate and optimize inference-time prompting strategies for the fine-tuned FRE
 | 9 | Inference testing — direct prompting | ✅ Done | `fred_router.py` (v1) |
 | 10 | Inference testing — CoT prompting | ✅ Done | `fred_router.py` (v2) — fixed $88→$78 but lost XML tags |
 | 11 | Inference testing — JSON extraction pipeline | 🟡 In Progress | `fred_router.py` (v3) — structured fallback |
-| 12 | Bulk generate 5,000 synthetic CoT samples | 🟡 In Progress (1,042+ / 5,000) | `scripts/05_generate_cot_dataset.py` (Sequential Key & Model Exhaustion) |
+| 12 | Bulk generate 5,000 synthetic CoT samples | ✅ Done (5,000 / 5,000) | `synthetic_finqa_cot_5000.jsonl` (Complete) |
 | 13 | Retrain with 3-4 epochs (ChatML with CoT) | ⬜ Planned | Unsloth (Google Colab) |
 | 14 | Baseline evaluation | ⬜ Not started | — |
 | 15 | Post-fine-tune evaluation & comparison | ⬜ Not started | — |
@@ -81,20 +81,10 @@ Evaluate and optimize inference-time prompting strategies for the fine-tuned FRE
 - **Fine-tuning completed** — 2 epochs via Unsloth QLoRA on Google Colab. Exported as GGUF (Q4_K_M).
 - **Ollama deployment** — Custom `Modelfile` with ChatML template, `temperature: 0.1`, stop tokens for `<|im_end|>` and `<|endoftext|>`.
 - **Inference testing** — 3 prompting strategies tested (direct, CoT, JSON pipeline).
-- **Scaling Synthetic Dataset to 5,000 Samples with CoT Reasoning (`scripts/05_generate_cot_dataset.py`)** — In Progress (1,042+ / 5,000):
-  - **Sequential Dual-Key Strategy**: 2 Google AI Studio API keys utilized sequentially one by one (`GEMINI_API_KEY`, followed by `GEMINI_API_KEY_2`).
-  - **Sequential Model Pool (Used One-by-One)**:
-    1. `gemini-3.1-flash-lite` (High daily quota ~1,000 req/day)
-    2. `gemini-3-flash-preview` (High-fidelity reasoning)
-    3. `gemini-3.8-flash` (Latest 3.8 preview)
-    4. `gemini-3.7-flash` (Standard operational Flash)
-    5. `gemini-3.6-flash` (Operational Flash)
-    6. `gemini-3.5-flash` (Operational Flash)
-    7. `gemini-flash-latest` (General production Flash alias)
-    8. `gemini-flash-lite-latest` (General production Flash-Lite alias)
-    9. `gemini-2.5-flash` (Fallback after modern models are used up)
-  - **Pacing & Reliability**: Enforces strict 15 RPM compliance (4.5s sleep), REST transport, and non-blocking 35s timeout handling.
-  - **Output File**: Appending directly to `synthetic_finqa_cot_5000.jsonl`.
+- **Scaling Synthetic Dataset to 5,000 Samples with CoT Reasoning (`synthetic_finqa_cot_5000.jsonl`)** — ✅ Complete (5,000 / 5,000):
+  - **Multi-Key & Multi-Model Generation**: Successfully generated 5,000 high-fidelity financial CoT samples across Google AI Studio keys using `gemini-3.5-flash-lite` and `gemini-3.1-flash-lite`.
+  - **Quality & Format Compliance**: Strict 15 RPM pacing, JSON schema adherence, explicit mathematical step-by-step reasoning, and `<numerical><delete>...</delete><mark>...</mark></numerical>` tag validation on every sample.
+  - **Dataset Ready for Fine-Tuning**: Available in [`synthetic_finqa_cot_5000.jsonl`](file:///c:/Users/Akash/Desktop/FRED/synthetic_finqa_cot_5000.jsonl) (~6.65 MB, 5,000 JSONL records). Ready for ChatML transformation and training on Unsloth.
 
 ---
 
