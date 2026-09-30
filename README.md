@@ -75,7 +75,7 @@ flowchart TD
 
     subgraph Training Pipeline
         D --> E[ChatML Formatter\nscripts/04_transform_chatml.py]
-        E --> F[Unsloth QLoRA Fine-Tuning\nQwen2.5-7B-Instruct on Colab]
+        E --> F[Unsloth QLoRA Fine-Tuning\nQwen2.5-7B-Instruct on Colab/Kaggle]
         F --> G[GGUF Export\nQ4_K_M Quantization]
     end
 
@@ -100,7 +100,7 @@ flowchart TD
 
 ```
 FRED/
-├── .env.example                     ← Template for API keys (never commit secrets)
+├── .env.example                     ← Template for API keys 
 ├── .gitignore                       ← Git ignore rules (ignores .env and .gguf binaries)
 ├── LLM FRED.pdf                     ← The original research paper by Tan et al.
 ├── PROJECT_STATE.md                 ← Comprehensive project milestones & state tracker
