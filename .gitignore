@@ -26,6 +26,12 @@ env/
 ~/.cache/
 .cache/
 
+# Raw external benchmark cache (>50MB)
+data/official_finqa/
+
+# Scratch model folders
+first model/
+
 # Model weights & checkpoints (large binaries)
 *.safetensors
 *.bin

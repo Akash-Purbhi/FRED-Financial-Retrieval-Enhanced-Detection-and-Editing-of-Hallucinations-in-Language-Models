@@ -1,0 +1,483 @@
+{
+  "fred": {
+    "binary": {
+      "precision": 85.0,
+      "recall": 98.3,
+      "f1": 91.2,
+      "tp": 640,
+      "fp": 113,
+      "fn": 11,
+      "tn": 77
+    },
+    "numerical": {
+      "precision": 79.5,
+      "recall": 90.1,
+      "f1": 84.5,
+      "tp": 508,
+      "fp": 131,
+      "fn": 56
+    },
+    "temporal": {
+      "precision": 57.0,
+      "recall": 74.7,
+      "f1": 64.7,
+      "tp": 65,
+      "fp": 49,
+      "fn": 22
+    },
+    "overall": {
+      "precision": 76.1,
+      "recall": 88.0,
+      "f1": 81.6,
+      "tp": 573,
+      "fp": 180,
+      "fn": 78
+    },
+    "editing": {
+      "xml_valid_rate": 97.0,
+      "xml_valid_count": 621,
+      "xml_total_with_tags": 640,
+      "delete_accuracy": 49.7,
+      "mark_accuracy": 48.3,
+      "complete_edit_success": 46.9,
+      "edit_attempts": 640,
+      "delete_correct": 318,
+      "mark_correct": 309,
+      "ces_count": 300
+    },
+    "clean": {
+      "total": 190,
+      "preserved": 77,
+      "rate": 40.5
+    },
+    "sample_failures": [
+      {
+        "source_id": "finqa_6257",
+        "gt_type": "numerical",
+        "pd_type": "numerical",
+        "gt_delete": "9",
+        "pd_delete": "9",
+        "gt_mark": "10",
+        "pd_mark": "1",
+        "xml_valid": true
+      },
+      {
+        "source_id": "finqa_6728",
+        "gt_type": "numerical",
+        "pd_type": "numerical",
+        "gt_delete": "25",
+        "pd_delete": "$25",
+        "gt_mark": "45",
+        "pd_mark": "$45",
+        "xml_valid": true
+      },
+      {
+        "source_id": "finqa_7229",
+        "gt_type": "numerical",
+        "pd_type": "numerical",
+        "gt_delete": "8",
+        "pd_delete": "$253,908",
+        "gt_mark": "7",
+        "pd_mark": "$253,907",
+        "xml_valid": true
+      },
+      {
+        "source_id": "finqa_6982",
+        "gt_type": "numerical",
+        "pd_type": "numerical",
+        "gt_delete": "14.98%",
+        "pd_delete": null,
+        "gt_mark": "17.32%",
+        "pd_mark": null,
+        "xml_valid": false
+      },
+      {
+        "source_id": "finqa_6798",
+        "gt_type": "numerical",
+        "pd_type": "numerical",
+        "gt_delete": "12.7%",
+        "pd_delete": "12",
+        "gt_mark": "14.7%",
+        "pd_mark": "14",
+        "xml_valid": true
+      },
+      {
+        "source_id": "finqa_6516",
+        "gt_type": "numerical",
+        "pd_type": "numerical",
+        "gt_delete": "2",
+        "pd_delete": "163,2",
+        "gt_mark": "0",
+        "pd_mark": "163,0",
+        "xml_valid": true
+      },
+      {
+        "source_id": "finqa_6604",
+        "gt_type": "numerical",
+        "pd_type": "numerical",
+        "gt_delete": "198.0",
+        "pd_delete": "0.4",
+        "gt_mark": "172.2",
+        "pd_mark": "1.5",
+        "xml_valid": false
+      },
+      {
+        "source_id": "finqa_6633",
+        "gt_type": "numerical",
+        "pd_type": "numerical",
+        "gt_delete": "74.1%",
+        "pd_delete": "74",
+        "gt_mark": "44.1%",
+        "pd_mark": "44",
+        "xml_valid": true
+      },
+      {
+        "source_id": "finqa_6958",
+        "gt_type": "numerical",
+        "pd_type": "temporal",
+        "gt_delete": "3",
+        "pd_delete": "2013",
+        "gt_mark": "4",
+        "pd_mark": "2014",
+        "xml_valid": true
+      },
+      {
+        "source_id": "finqa_7116",
+        "gt_type": "numerical",
+        "pd_type": "numerical",
+        "gt_delete": "2",
+        "pd_delete": "$94",
+        "gt_mark": "3",
+        "pd_mark": "$94",
+        "xml_valid": true
+      },
+      {
+        "source_id": "finqa_7292",
+        "gt_type": "numerical",
+        "pd_type": "numerical",
+        "gt_delete": "77",
+        "pd_delete": "-77",
+        "gt_mark": "78",
+        "pd_mark": "-78",
+        "xml_valid": true
+      },
+      {
+        "source_id": "finqa_7360",
+        "gt_type": "numerical",
+        "pd_type": "numerical",
+        "gt_delete": "2820",
+        "pd_delete": "$2820",
+        "gt_mark": "282",
+        "pd_mark": "$282",
+        "xml_valid": true
+      },
+      {
+        "source_id": "finqa_6378",
+        "gt_type": "numerical",
+        "pd_type": "numerical",
+        "gt_delete": "24.7",
+        "pd_delete": "$24.7",
+        "gt_mark": "26.8",
+        "pd_mark": "$26.8",
+        "xml_valid": true
+      },
+      {
+        "source_id": "finqa_6644",
+        "gt_type": "numerical",
+        "pd_type": "numerical",
+        "gt_delete": "-286",
+        "pd_delete": "-286",
+        "gt_mark": "-305",
+        "pd_mark": "-437",
+        "xml_valid": true
+      },
+      {
+        "source_id": "finqa_7312",
+        "gt_type": "temporal",
+        "pd_type": "numerical",
+        "gt_delete": "1981",
+        "pd_delete": "-25%",
+        "gt_mark": "2008",
+        "pd_mark": "-23.9%",
+        "xml_valid": true
+      },
+      {
+        "source_id": "finqa_6352",
+        "gt_type": "numerical",
+        "pd_type": "temporal",
+        "gt_delete": "3",
+        "pd_delete": "23",
+        "gt_mark": "0",
+        "pd_mark": "20",
+        "xml_valid": true
+      },
+      {
+        "source_id": "finqa_6600",
+        "gt_type": "numerical",
+        "pd_type": "numerical",
+        "gt_delete": "17",
+        "pd_delete": "17.0%",
+        "gt_mark": "18",
+        "pd_mark": "18.2%",
+        "xml_valid": true
+      },
+      {
+        "source_id": "finqa_6787",
+        "gt_type": "numerical",
+        "pd_type": "numerical",
+        "gt_delete": "5.0",
+        "pd_delete": "$5.0",
+        "gt_mark": "5.8",
+        "pd_mark": "$5.8",
+        "xml_valid": true
+      },
+      {
+        "source_id": "finqa_6875",
+        "gt_type": "numerical",
+        "pd_type": "numerical",
+        "gt_delete": "9",
+        "pd_delete": "9",
+        "gt_mark": "10",
+        "pd_mark": "1",
+        "xml_valid": true
+      },
+      {
+        "source_id": "finqa_6453",
+        "gt_type": "numerical",
+        "pd_type": "numerical",
+        "gt_delete": "3.0",
+        "pd_delete": "$3.0",
+        "gt_mark": "1.7",
+        "pd_mark": "$1.7",
+        "xml_valid": true
+      }
+    ],
+    "sample_successes": [
+      {
+        "source_id": "finqa_7161",
+        "error_type": "numerical",
+        "is_clean": false,
+        "target_output": "Correction: Based on the information provided in the context, the growth rate in the net income of the Bermuda subsidiaries from 2007 to 2008 was:\n\n2007 Bermuda Subsidiaries Net Income: $1,535 million\n2008 Bermuda Subsidiaries Net Income: $684 million\n\nThe growth rate can be calculated as:\n(2008 Net Income - 2007 Net Income) / 2007 Net Income\n\nPlugging in the values:\n(684 - 1,535) / 1,535 = <numerical><delete>-63.0%</delete><mark>-55.4%</mark></numerical>\n\nSo the growth rate in the net income of the Bermuda subsidiaries from 2007 to 2008 was a decrease of 55.4%.",
+        "response": "Based on the information provided in the context, the growth rate in the net income of the Bermuda subsidiaries from 2007 to 2008 was:\n\n2007 Bermuda Subsidiaries Net Income: $1,535 million\n2008 Bermuda Subsidiaries Net Income: $684 million\n\nThe growth rate can be calculated as:\n(2008 Net Income - 2007 Net Income) / 2007 Net Income\n\nPlugging in the values:\n(684 - 1,535) / 1,535 = -63.0%\n\nSo the growth rate in the net income of the Bermuda subsidiaries from 2007 to 2008 was a decrease of 55.4%.",
+        "source_response": "Based on the information provided in the context, the growth rate in the net income of the Bermuda subsidiaries from 2007 to 2008 was:\n\n2007 Bermuda Subsidiaries Net Income: $1,535 million\n2008 Bermuda Subsidiaries Net Income: $684 million\n\nThe growth rate can be calculated as:\n(2008 Net Income - 2007 Net Income) / 2007 Net Income\n\nPlugging in the values:\n(684 - 1,535) / 1,535 = -55.4%\n\nSo the growth rate in the net income of the Bermuda subsidiaries from 2007 to 2008 was a decrease of 55.4%.",
+        "prediction": "Correction: Based on the information provided in the context, the growth rate in the net income of the Bermuda subsidiaries from 2007 to 2008 was:\n\n2007 Bermuda Subsidiaries Net Income: $1,535 million\n2008 Bermuda Subsidiaries Net Income: $684 million\n\nThe growth rate can be calculated as:\n(2008 Net Income - 2007 Net Income) / 2007 Net Income\n\nPlugging in the values:\n(684 - 1,535) / 1,535 = <numerical><delete>-63.0%</delete><mark>-55.4%</mark></numerical>\n\nSo the growth rate in the net income of the Bermuda subsidiaries from 2007 to 2008 was a decrease of 55.4%.",
+        "elapsed_s": 6.73
+      },
+      {
+        "source_id": "finqa_7030",
+        "error_type": "temporal",
+        "is_clean": false,
+        "target_output": "Correction: To calculate the decrease in gross wholesale revenue as a percentage of 2003 net revenue, we need to:\n\n1. Find the decrease in gross wholesale revenue from 2002 to <temporal><delete>2004</delete><mark>2003</mark></temporal>.\n2. Divide the decrease by the 2003 net revenue.\n\nFrom the context provided:\n- Gross operating revenues increased, but this increase was \"partially offset by a decrease of $ 35.9 million in gross wholesale revenue.\"\n- The 2003 net revenue is given as $426.6 million.\n\nSo the calculation is:\nDecrease in gross wholesale revenue = $35.9 million\n2003 net revenue = $426.6 million\n\nPercentage decrease = $35.9 million / $426.6 million = 0.0842 or 8.42%\n\nTherefore, the decrease in gross wholesale revenue as a percentage of 2003 net revenue is 8.42%.",
+        "response": "To calculate the decrease in gross wholesale revenue as a percentage of 2003 net revenue, we need to:\n\n1. Find the decrease in gross wholesale revenue from 2002 to 2004.\n2. Divide the decrease by the 2003 net revenue.\n\nFrom the context provided:\n- Gross operating revenues increased, but this increase was \"partially offset by a decrease of $ 35.9 million in gross wholesale revenue.\"\n- The 2003 net revenue is given as $426.6 million.\n\nSo the calculation is:\nDecrease in gross wholesale revenue = $35.9 million\n2003 net revenue = $426.6 million\n\nPercentage decrease = $35.9 million / $426.6 million = 0.0842 or 8.42%\n\nTherefore, the decrease in gross wholesale revenue as a percentage of 2003 net revenue is 8.42%.",
+        "source_response": "To calculate the decrease in gross wholesale revenue as a percentage of 2003 net revenue, we need to:\n\n1. Find the decrease in gross wholesale revenue from 2002 to 2003.\n2. Divide the decrease by the 2003 net revenue.\n\nFrom the context provided:\n- Gross operating revenues increased, but this increase was \"partially offset by a decrease of $ 35.9 million in gross wholesale revenue.\"\n- The 2003 net revenue is given as $426.6 million.\n\nSo the calculation is:\nDecrease in gross wholesale revenue = $35.9 million\n2003 net revenue = $426.6 million\n\nPercentage decrease = $35.9 million / $426.6 million = 0.0842 or 8.42%\n\nTherefore, the decrease in gross wholesale revenue as a percentage of 2003 net revenue is 8.42%.",
+        "prediction": "Correction: To calculate the decrease in gross wholesale revenue as a percentage of 2003 net revenue, we need to:\n\n1. Find the decrease in gross wholesale revenue from 2002 to <temporal><delete>2004</delete><mark>2003</mark></temporal>.\n2. Divide the decrease by the 2003 net revenue.\n\nFrom the context provided:\n- Gross operating revenues increased, but this increase was \"partially offset by a decrease of $ 35.9 million in gross wholesale revenue.\"\n- The 2003 net revenue is given as $426.6 million.\n\nSo the calculation is:\nDecrease in gross wholesale revenue = $35.9 million\n2003 net revenue = $426.6 million\n\nPercentage decrease = $35.9 million / $426.6 million = 0.0842 or 8.42%\n\nTherefore, the decrease in gross wholesale revenue as a percentage of 2003 net revenue is 8.42%.",
+        "elapsed_s": 7.85
+      },
+      {
+        "source_id": "finqa_6771",
+        "error_type": "numerical",
+        "is_clean": false,
+        "target_output": "Correction: To answer this question, we need to find the values for the restricted cash and restricted marketable securities as well as the allowance for doubtful accounts as of December 31, 2010.\n\nFrom the provided context:\n- As of December 31, 2010, we had $172.8 million of restricted cash and restricted marketable securities.\n- The allowance for doubtful accounts as of December 31, 2010 was $50.9 million.\n\nTo calculate the ratio, we divide the restricted cash and restricted marketable securities by the allowance for doubtful accounts:\n\nRatio = $172.8 million / $50.9 million = <numerical><delete>3.73</delete><mark>3.39</mark></numerical>\n\nSo the ratio of the restricted cash and restricted marketable securities to the allowance for doubtful accounts as of December 31, 2010 was 3.39.",
+        "response": "To answer this question, we need to find the values for the restricted cash and restricted marketable securities as well as the allowance for doubtful accounts as of December 31, 2010.\n\nFrom the provided context:\n- As of December 31, 2010, we had $172.8 million of restricted cash and restricted marketable securities.\n- The allowance for doubtful accounts as of December 31, 2010 was $50.9 million.\n\nTo calculate the ratio, we divide the restricted cash and restricted marketable securities by the allowance for doubtful accounts:\n\nRatio = $172.8 million / $50.9 million = 3.73\n\nSo the ratio of the restricted cash and restricted marketable securities to the allowance for doubtful accounts as of December 31, 2010 was 3.39.",
+        "source_response": "To answer this question, we need to find the values for the restricted cash and restricted marketable securities as well as the allowance for doubtful accounts as of December 31, 2010.\n\nFrom the provided context:\n- As of December 31, 2010, we had $172.8 million of restricted cash and restricted marketable securities.\n- The allowance for doubtful accounts as of December 31, 2010 was $50.9 million.\n\nTo calculate the ratio, we divide the restricted cash and restricted marketable securities by the allowance for doubtful accounts:\n\nRatio = $172.8 million / $50.9 million = 3.39\n\nSo the ratio of the restricted cash and restricted marketable securities to the allowance for doubtful accounts as of December 31, 2010 was 3.39.",
+        "prediction": "Correction: To answer this question, we need to find the values for the restricted cash and restricted marketable securities as well as the allowance for doubtful accounts as of December 31, 2010.\n\nFrom the provided context:\n- As of December 31, 2010, we had $172.8 million of restricted cash and restricted marketable securities.\n- The allowance for doubtful accounts as of December 31, 2010 was $50.9 million.\n\nTo calculate the ratio, we divide the restricted cash and restricted marketable securities by the allowance for doubtful accounts:\n\nRatio = $172.8 million / $50.9 million = <numerical><delete>3.73</delete><mark>3.39</mark></numerical>\n\nSo the ratio of the restricted cash and restricted marketable securities to the allowance for doubtful accounts as of December 31, 2010 was 3.39.",
+        "elapsed_s": 7.18
+      },
+      {
+        "source_id": "finqa_7167",
+        "error_type": "numerical",
+        "is_clean": false,
+        "target_output": "Correction: Based on the context provided:\n\n- As of December 31, 2004, the company had 110,000,000 authorized shares of common stock and 10,000,000 authorized shares of non-voting common stock.\n- The non-voting common stock is convertible on a one-for-one basis into shares of common stock, subject to a limitation that conversion cannot result in a stockholder owning more than 9.99% of the outstanding shares of common stock.\n\nTo calculate the percentage of common stock outstanding that were non-voting shares as of December 31, 2004:\n\nTotal authorized shares = 110,000,000 + 10,000,000 = 120,000,000\n\nNon-voting common stock = 10,000,000 shares\n\nPercentage of non-voting shares = 10,000,000 / 120,000,000 = <numerical><delete>0.3</delete><mark>8.3</mark></numerical>3%\n\nTherefore, as of December 31, 2004, 8.33% of the common stock outstanding were non-voting shares.",
+        "response": "Based on the context provided:\n\n- As of December 31, 2004, the company had 110,000,000 authorized shares of common stock and 10,000,000 authorized shares of non-voting common stock.\n- The non-voting common stock is convertible on a one-for-one basis into shares of common stock, subject to a limitation that conversion cannot result in a stockholder owning more than 9.99% of the outstanding shares of common stock.\n\nTo calculate the percentage of common stock outstanding that were non-voting shares as of December 31, 2004:\n\nTotal authorized shares = 110,000,000 + 10,000,000 = 120,000,000\n\nNon-voting common stock = 10,000,000 shares\n\nPercentage of non-voting shares = 10,000,000 / 120,000,000 = 0.33%\n\nTherefore, as of December 31, 2004, 8.33% of the common stock outstanding were non-voting shares.",
+        "source_response": "Based on the context provided:\n\n- As of December 31, 2004, the company had 110,000,000 authorized shares of common stock and 10,000,000 authorized shares of non-voting common stock.\n- The non-voting common stock is convertible on a one-for-one basis into shares of common stock, subject to a limitation that conversion cannot result in a stockholder owning more than 9.99% of the outstanding shares of common stock.\n\nTo calculate the percentage of common stock outstanding that were non-voting shares as of December 31, 2004:\n\nTotal authorized shares = 110,000,000 + 10,000,000 = 120,000,000\n\nNon-voting common stock = 10,000,000 shares\n\nPercentage of non-voting shares = 10,000,000 / 120,000,000 = 8.33%\n\nTherefore, as of December 31, 2004, 8.33% of the common stock outstanding were non-voting shares.",
+        "prediction": "Correction: Based on the context provided:\n\n- As of December 31, 2004, the company had 110,000,000 authorized shares of common stock and 10,000,000 authorized shares of non-voting common stock.\n- The non-voting common stock is convertible on a one-for-one basis into shares of common stock, subject to a limitation that conversion cannot result in a stockholder owning more than 9.99% of the outstanding shares of common stock.\n\nTo calculate the percentage of common stock outstanding that were non-voting shares as of December 31, 2004:\n\nTotal authorized shares = 110,000,000 + 10,000,000 = 120,000,000\n\nNon-voting common stock = 10,000,000 shares\n\nPercentage of non-voting shares = 10,000,000 / 120,000,000 = <numerical><delete>0.3</delete><mark>8.3</mark></numerical>3%\n\nTherefore, as of December 31, 2004, 8.33% of the common stock outstanding were non-voting shares.",
+        "elapsed_s": 9.61
+      },
+      {
+        "source_id": "finqa_6488",
+        "error_type": "numerical",
+        "is_clean": false,
+        "target_output": "Correction: According to the table provided in the context, in 2005 the capital spending from continuing operations for the consumer packaging segment was $126 million.\n\nThe total capital spending from continuing operations in 2005 was $992 million.\n\nTo calculate the percentage of capital spending due to consumer packaging in 2005:\n\n$126 million (consumer packaging) / $992 million (total) = 0.1271 or <numerical><delete>127.0</delete><mark>12.7</mark></numerical>1%\n\nSo in 2005, 12.71% of capital spending from continuing operations was due to the consumer packaging segment.",
+        "response": "According to the table provided in the context, in 2005 the capital spending from continuing operations for the consumer packaging segment was $126 million.\n\nThe total capital spending from continuing operations in 2005 was $992 million.\n\nTo calculate the percentage of capital spending due to consumer packaging in 2005:\n\n$126 million (consumer packaging) / $992 million (total) = 0.1271 or 127.01%\n\nSo in 2005, 12.71% of capital spending from continuing operations was due to the consumer packaging segment.",
+        "source_response": "According to the table provided in the context, in 2005 the capital spending from continuing operations for the consumer packaging segment was $126 million.\n\nThe total capital spending from continuing operations in 2005 was $992 million.\n\nTo calculate the percentage of capital spending due to consumer packaging in 2005:\n\n$126 million (consumer packaging) / $992 million (total) = 0.1271 or 12.71%\n\nSo in 2005, 12.71% of capital spending from continuing operations was due to the consumer packaging segment.",
+        "prediction": "Correction: According to the table provided in the context, in 2005 the capital spending from continuing operations for the consumer packaging segment was $126 million.\n\nThe total capital spending from continuing operations in 2005 was $992 million.\n\nTo calculate the percentage of capital spending due to consumer packaging in 2005:\n\n$126 million (consumer packaging) / $992 million (total) = 0.1271 or <numerical><delete>127.0</delete><mark>12.7</mark></numerical>1%\n\nSo in 2005, 12.71% of capital spending from continuing operations was due to the consumer packaging segment.",
+        "elapsed_s": 5.73
+      }
+    ]
+  },
+  "base": {
+    "binary": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 651,
+      "tn": 190
+    },
+    "numerical": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 564
+    },
+    "temporal": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 87
+    },
+    "overall": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 651
+    },
+    "editing": {
+      "xml_valid_rate": 0.0,
+      "xml_valid_count": 0,
+      "xml_total_with_tags": 0,
+      "delete_accuracy": 0.0,
+      "mark_accuracy": 0.0,
+      "complete_edit_success": 0.0,
+      "edit_attempts": 0,
+      "delete_correct": 0,
+      "mark_correct": 0,
+      "ces_count": 0
+    },
+    "clean": {
+      "total": 190,
+      "preserved": 190,
+      "rate": 100.0
+    },
+    "sample_failures": [
+      {
+        "source_id": "finqa_6257",
+        "gt_type": "numerical",
+        "pd_type": null,
+        "reason": "missed_error"
+      },
+      {
+        "source_id": "finqa_7161",
+        "gt_type": "numerical",
+        "pd_type": null,
+        "reason": "missed_error"
+      },
+      {
+        "source_id": "finqa_6728",
+        "gt_type": "numerical",
+        "pd_type": null,
+        "reason": "missed_error"
+      },
+      {
+        "source_id": "finqa_7229",
+        "gt_type": "numerical",
+        "pd_type": null,
+        "reason": "missed_error"
+      },
+      {
+        "source_id": "finqa_7030",
+        "gt_type": "temporal",
+        "pd_type": null,
+        "reason": "missed_error"
+      },
+      {
+        "source_id": "finqa_6771",
+        "gt_type": "numerical",
+        "pd_type": null,
+        "reason": "missed_error"
+      },
+      {
+        "source_id": "finqa_7167",
+        "gt_type": "numerical",
+        "pd_type": null,
+        "reason": "missed_error"
+      },
+      {
+        "source_id": "finqa_6982",
+        "gt_type": "numerical",
+        "pd_type": null,
+        "reason": "missed_error"
+      },
+      {
+        "source_id": "finqa_6488",
+        "gt_type": "numerical",
+        "pd_type": null,
+        "reason": "missed_error"
+      },
+      {
+        "source_id": "finqa_6798",
+        "gt_type": "numerical",
+        "pd_type": null,
+        "reason": "missed_error"
+      },
+      {
+        "source_id": "finqa_6281",
+        "gt_type": "numerical",
+        "pd_type": null,
+        "reason": "missed_error"
+      },
+      {
+        "source_id": "finqa_6521",
+        "gt_type": "numerical",
+        "pd_type": null,
+        "reason": "missed_error"
+      },
+      {
+        "source_id": "finqa_6516",
+        "gt_type": "numerical",
+        "pd_type": null,
+        "reason": "missed_error"
+      },
+      {
+        "source_id": "finqa_6768",
+        "gt_type": "numerical",
+        "pd_type": null,
+        "reason": "missed_error"
+      },
+      {
+        "source_id": "finqa_6578",
+        "gt_type": "numerical",
+        "pd_type": null,
+        "reason": "missed_error"
+      },
+      {
+        "source_id": "finqa_6604",
+        "gt_type": "numerical",
+        "pd_type": null,
+        "reason": "missed_error"
+      },
+      {
+        "source_id": "finqa_6633",
+        "gt_type": "numerical",
+        "pd_type": null,
+        "reason": "missed_error"
+      },
+      {
+        "source_id": "finqa_6353",
+        "gt_type": "numerical",
+        "pd_type": null,
+        "reason": "missed_error"
+      },
+      {
+        "source_id": "finqa_7104",
+        "gt_type": "numerical",
+        "pd_type": null,
+        "reason": "missed_error"
+      },
+      {
+        "source_id": "finqa_6958",
+        "gt_type": "numerical",
+        "pd_type": null,
+        "reason": "missed_error"
+      }
+    ],
+    "sample_successes": []
+  }
+}

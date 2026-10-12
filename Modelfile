@@ -1,4 +1,4 @@
-FROM C:/Users/Akash/Desktop/FRED/Qwen2.5-7B-Instruct.Q4_K_M.gguf
+FROM C:/Users/Akash/Desktop/FRED/Qwen2.5-7B-Instruct.Q4_K_M-001.gguf
 
 PARAMETER temperature 0.1
 PARAMETER top_p 0.9
@@ -57,3 +57,4 @@ For each function call, return a json object with function name and arguments wi
 {{ .Prompt }}<|im_end|>
 {{ end }}<|im_start|>assistant
 {{ end }}{{ .Response }}{{ if .Response }}<|im_end|>{{ end }}"""
+
