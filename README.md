@@ -27,7 +27,7 @@ This repository is a **small-scale academic replication and extension** develope
 
 | Aspect | Original Paper | Our Academic Replication |
 |---|---|---|
-| **Goal** | Enterprise-scale hallucination detection across multiple domains | Feasibility, auditable mathematical reasoning, and localized edge deployment |
+| **Goal & Scope** | Enterprise-scale hallucination detection and editing across 6 broad taxonomy domains | Targeted hallucination detection and editing focused on quantitative financial reasoning, feasibility, and local edge deployment |
 | **Compute Environment** | Multi-GPU enterprise cluster (A100/H100) | Single-GPU academic environment (Kaggle/Colab T4/V100 + Unsloth) |
 | **Base Models** | Phi-4, Phi-4-mini, Qwen3-4B, Qwen3-14B | **Qwen2.5-7B-Instruct** (efficient 4-bit QLoRA) |
 | **Dataset Scale** | Multi-dataset corpus (FinQA, TAT-QA, FAVA) | **5,997 hybrid samples** (4,747 corrupted + 1,250 clean) |
