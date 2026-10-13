@@ -307,61 +307,65 @@
   },
   "base": {
     "binary": {
-      "precision": 0.0,
-      "recall": 0.0,
-      "f1": 0.0,
-      "tp": 0,
-      "fp": 0,
-      "fn": 651,
-      "tn": 190
+      "precision": 81.9,
+      "recall": 82.6,
+      "f1": 82.2,
+      "tp": 280,
+      "fp": 62,
+      "fn": 59,
+      "tn": 34
     },
     "numerical": {
-      "precision": 0.0,
-      "recall": 0.0,
-      "f1": 0.0,
-      "tp": 0,
-      "fp": 0,
-      "fn": 564
+      "precision": 73.4,
+      "recall": 80.3,
+      "f1": 76.7,
+      "tp": 237,
+      "fp": 86,
+      "fn": 58
     },
     "temporal": {
-      "precision": 0.0,
-      "recall": 0.0,
-      "f1": 0.0,
-      "tp": 0,
-      "fp": 0,
-      "fn": 87
+      "precision": 26.3,
+      "recall": 11.4,
+      "f1": 15.9,
+      "tp": 5,
+      "fp": 14,
+      "fn": 39
     },
     "overall": {
-      "precision": 0.0,
-      "recall": 0.0,
-      "f1": 0.0,
-      "tp": 0,
-      "fp": 0,
-      "fn": 651
+      "precision": 70.8,
+      "recall": 71.4,
+      "f1": 71.1,
+      "tp": 242,
+      "fp": 100,
+      "fn": 97
     },
     "editing": {
-      "xml_valid_rate": 0.0,
-      "xml_valid_count": 0,
-      "xml_total_with_tags": 0,
-      "delete_accuracy": 0.0,
-      "mark_accuracy": 0.0,
-      "complete_edit_success": 0.0,
-      "edit_attempts": 0,
-      "delete_correct": 0,
-      "mark_correct": 0,
-      "ces_count": 0
+      "xml_valid_rate": 55.0,
+      "xml_valid_count": 154,
+      "xml_total_with_tags": 280,
+      "delete_accuracy": 12.5,
+      "mark_accuracy": 11.1,
+      "complete_edit_success": 7.9,
+      "edit_attempts": 280,
+      "delete_correct": 35,
+      "mark_correct": 31,
+      "ces_count": 22
     },
     "clean": {
-      "total": 190,
-      "preserved": 190,
-      "rate": 100.0
+      "total": 96,
+      "preserved": 34,
+      "rate": 35.4
     },
     "sample_failures": [
       {
         "source_id": "finqa_6257",
         "gt_type": "numerical",
-        "pd_type": null,
-        "reason": "missed_error"
+        "pd_type": "temporal",
+        "gt_delete": "9",
+        "pd_delete": "2011",
+        "gt_mark": "10",
+        "pd_mark": "2010",
+        "xml_valid": true
       },
       {
         "source_id": "finqa_7161",
@@ -372,26 +376,42 @@
       {
         "source_id": "finqa_6728",
         "gt_type": "numerical",
-        "pd_type": null,
-        "reason": "missed_error"
+        "pd_type": "numerical",
+        "gt_delete": "25",
+        "pd_delete": "$45",
+        "gt_mark": "45",
+        "pd_mark": "$45",
+        "xml_valid": true
       },
       {
         "source_id": "finqa_7229",
         "gt_type": "numerical",
-        "pd_type": null,
-        "reason": "missed_error"
+        "pd_type": "numerical",
+        "gt_delete": "8",
+        "pd_delete": "253,908,000",
+        "gt_mark": "7",
+        "pd_mark": "354,301,600",
+        "xml_valid": true
       },
       {
         "source_id": "finqa_7030",
         "gt_type": "temporal",
-        "pd_type": null,
-        "reason": "missed_error"
+        "pd_type": "numerical",
+        "gt_delete": "2004",
+        "pd_delete": "35.9",
+        "gt_mark": "2003",
+        "pd_mark": "71.8",
+        "xml_valid": false
       },
       {
         "source_id": "finqa_6771",
         "gt_type": "numerical",
-        "pd_type": null,
-        "reason": "missed_error"
+        "pd_type": "numerical",
+        "gt_delete": "3.73",
+        "pd_delete": "3.39",
+        "gt_mark": "3.39",
+        "pd_mark": "3.4",
+        "xml_valid": true
       },
       {
         "source_id": "finqa_7167",
@@ -400,34 +420,34 @@
         "reason": "missed_error"
       },
       {
-        "source_id": "finqa_6982",
-        "gt_type": "numerical",
-        "pd_type": null,
-        "reason": "missed_error"
-      },
-      {
         "source_id": "finqa_6488",
         "gt_type": "numerical",
-        "pd_type": null,
-        "reason": "missed_error"
+        "pd_type": "numerical",
+        "gt_delete": "127.0",
+        "pd_delete": "$992",
+        "gt_mark": "12.7",
+        "pd_mark": "$973",
+        "xml_valid": false
       },
       {
         "source_id": "finqa_6798",
         "gt_type": "numerical",
-        "pd_type": null,
-        "reason": "missed_error"
-      },
-      {
-        "source_id": "finqa_6281",
-        "gt_type": "numerical",
-        "pd_type": null,
-        "reason": "missed_error"
+        "pd_type": "numerical",
+        "gt_delete": "12.7%",
+        "pd_delete": "14.7%",
+        "gt_mark": "14.7%",
+        "pd_mark": "12.7%",
+        "xml_valid": false
       },
       {
         "source_id": "finqa_6521",
         "gt_type": "numerical",
-        "pd_type": null,
-        "reason": "missed_error"
+        "pd_type": "numerical",
+        "gt_delete": "4",
+        "pd_delete": "$66",
+        "gt_mark": "1",
+        "pd_mark": "$41",
+        "xml_valid": false
       },
       {
         "source_id": "finqa_6516",
@@ -442,28 +462,34 @@
         "reason": "missed_error"
       },
       {
-        "source_id": "finqa_6578",
-        "gt_type": "numerical",
-        "pd_type": null,
-        "reason": "missed_error"
-      },
-      {
         "source_id": "finqa_6604",
         "gt_type": "numerical",
-        "pd_type": null,
-        "reason": "missed_error"
+        "pd_type": "numerical",
+        "gt_delete": "198.0",
+        "pd_delete": null,
+        "gt_mark": "172.2",
+        "pd_mark": null,
+        "xml_valid": false
       },
       {
         "source_id": "finqa_6633",
         "gt_type": "numerical",
-        "pd_type": null,
-        "reason": "missed_error"
+        "pd_type": "numerical",
+        "gt_delete": "74.1%",
+        "pd_delete": "44.1%",
+        "gt_mark": "44.1%",
+        "pd_mark": "74.1%",
+        "xml_valid": true
       },
       {
         "source_id": "finqa_6353",
         "gt_type": "numerical",
-        "pd_type": null,
-        "reason": "missed_error"
+        "pd_type": "numerical",
+        "gt_delete": "18",
+        "pd_delete": null,
+        "gt_mark": "19",
+        "pd_mark": null,
+        "xml_valid": false
       },
       {
         "source_id": "finqa_7104",
@@ -474,10 +500,95 @@
       {
         "source_id": "finqa_6958",
         "gt_type": "numerical",
-        "pd_type": null,
-        "reason": "missed_error"
+        "pd_type": "temporal",
+        "gt_delete": "3",
+        "pd_delete": null,
+        "gt_mark": "4",
+        "pd_mark": null,
+        "xml_valid": false
+      },
+      {
+        "source_id": "finqa_7116",
+        "gt_type": "numerical",
+        "pd_type": "numerical",
+        "gt_delete": "2",
+        "pd_delete": "$94",
+        "gt_mark": "3",
+        "pd_mark": "$949",
+        "xml_valid": false
+      },
+      {
+        "source_id": "finqa_7374",
+        "gt_type": "numerical",
+        "pd_type": "numerical",
+        "gt_delete": "33.8%",
+        "pd_delete": "34.4%",
+        "gt_mark": "34.4%",
+        "pd_mark": "33.8%",
+        "xml_valid": true
+      },
+      {
+        "source_id": "finqa_7292",
+        "gt_type": "numerical",
+        "pd_type": "numerical",
+        "gt_delete": "77",
+        "pd_delete": "78.08%",
+        "gt_mark": "78",
+        "pd_mark": "77.08%",
+        "xml_valid": true
       }
     ],
-    "sample_successes": []
+    "sample_successes": [
+      {
+        "source_id": "finqa_6982",
+        "error_type": "numerical",
+        "is_clean": false,
+        "target_output": "Correction: To calculate the percent change in the weighted average cost per share from 2015 to 2016, I'll use the following formula:\n\nPercent change = (2016 value - 2015 value) / 2015 value * 100\n\nFrom the data provided:\n2015 weighted average cost per share = $41.39\n2016 weighted average cost per share = $48.56\n\nPlugging these values into the formula:\n\nPercent change = ($48.56 - $41.39) / $41.39 * 100\n            = $7.17 / $41.39 * 100\n            = 0.1732 * 100\n            = <numerical><delete>14.98%</delete><mark>17.32%</mark></numerical>\n\nSo the percent change in the weighted average cost per share from 2015 to 2016 was an increase of 17.32%.",
+        "response": "To calculate the percent change in the weighted average cost per share from 2015 to 2016, I'll use the following formula:\n\nPercent change = (2016 value - 2015 value) / 2015 value * 100\n\nFrom the data provided:\n2015 weighted average cost per share = $41.39\n2016 weighted average cost per share = $48.56\n\nPlugging these values into the formula:\n\nPercent change = ($48.56 - $41.39) / $41.39 * 100\n            = $7.17 / $41.39 * 100\n            = 0.1732 * 100\n            = 14.98%\n\nSo the percent change in the weighted average cost per share from 2015 to 2016 was an increase of 17.32%.",
+        "source_response": "To calculate the percent change in the weighted average cost per share from 2015 to 2016, I'll use the following formula:\n\nPercent change = (2016 value - 2015 value) / 2015 value * 100\n\nFrom the data provided:\n2015 weighted average cost per share = $41.39\n2016 weighted average cost per share = $48.56\n\nPlugging these values into the formula:\n\nPercent change = ($48.56 - $41.39) / $41.39 * 100\n            = $7.17 / $41.39 * 100\n            = 0.1732 * 100\n            = 17.32%\n\nSo the percent change in the weighted average cost per share from 2015 to 2016 was an increase of 17.32%.",
+        "prediction": "{\n  \"Edited\": \"To calculate the percent change in the weighted average cost per share from 2015 to 2016, I'll use the following formula:\n\nPercent change = (2016 value - 2015 value) / 2015 value * 100\n\nFrom the data provided:\n2015 weighted average cost per share = $41.39\n2016 weighted average cost per share = $48.56\n\nPlugging these values into the formula:\n\nPercent change = ($48.56 - $41.39) / $41.39 * 100\n            = $7.17 / $41.39 * 100\n            = 0.1732 * 100\n            = 17.32%\n\nSo the percent change in the weighted average cost per share from 2015 to 2016 was an increase of <numerical><delete>14.98%</delete><mark>17.32%</mark></numerical>.\"\n}",
+        "elapsed_s": 10.17
+      },
+      {
+        "source_id": "finqa_6281",
+        "error_type": "numerical",
+        "is_clean": false,
+        "target_output": "Correction: Based on the information provided in the table, in 2015 the freight revenue from agricultural products was $3,581 million, and the total operating revenues was $21,813 million.\n\nTo calculate the percent of total operating revenues associated with agricultural products, we can use the following calculation:\n\nPercent of total operating revenues from agricultural products = (Agricultural products freight revenue / Total operating revenues) x 100\n= ($3,581 million / $21,813 million) x 100\n= <numerical><delete>164.0%</delete><mark>16.4%</mark></numerical>\n\nSo in 2015, 16.4% of the total operating revenues was associated with agricultural products.",
+        "response": "Based on the information provided in the table, in 2015 the freight revenue from agricultural products was $3,581 million, and the total operating revenues was $21,813 million.\n\nTo calculate the percent of total operating revenues associated with agricultural products, we can use the following calculation:\n\nPercent of total operating revenues from agricultural products = (Agricultural products freight revenue / Total operating revenues) x 100\n= ($3,581 million / $21,813 million) x 100\n= 164.0%\n\nSo in 2015, 16.4% of the total operating revenues was associated with agricultural products.",
+        "source_response": "Based on the information provided in the table, in 2015 the freight revenue from agricultural products was $3,581 million, and the total operating revenues was $21,813 million.\n\nTo calculate the percent of total operating revenues associated with agricultural products, we can use the following calculation:\n\nPercent of total operating revenues from agricultural products = (Agricultural products freight revenue / Total operating revenues) x 100\n= ($3,581 million / $21,813 million) x 100\n= 16.4%\n\nSo in 2015, 16.4% of the total operating revenues was associated with agricultural products.",
+        "prediction": "{\n  \"Edited\": \"Based on the information provided in the table, in 2015 the freight revenue from agricultural products was $3,581 million, and the total operating revenues was $21,813 million.\n\nTo calculate the percent of total operating revenues associated with agricultural products, we can use the following calculation:\n\nPercent of total operating revenues from agricultural products = (Agricultural products freight revenue / Total operating revenues) x 100\n= ($3,581 million / $21,813 million) x 100\n= <numerical><delete>164.0%</delete><mark>16.4%</mark></numerical>\n\nSo in 2015, 16.4% of the total operating revenues was associated with agricultural products.\"\n}",
+        "elapsed_s": 8.15
+      },
+      {
+        "source_id": "finqa_6578",
+        "error_type": "numerical",
+        "is_clean": false,
+        "target_output": "Correction: From the data provided, we can see that in 2015:\n\nThe value of Masco's common stock was $200.79.\nThe value of the S&P 500 index was $151.94.\n\nTo calculate the ratio, we divide the value of Masco's common stock by the value of the S&P 500 index:\n\n$200.79 / $151.94 = <numerical><delete>2.00</delete><mark>1.32</mark></numerical>\n\nSo the ratio of the value of Masco's common stock to the S&P 500 index in 2015 was 1.32.",
+        "response": "From the data provided, we can see that in 2015:\n\nThe value of Masco's common stock was $200.79.\nThe value of the S&P 500 index was $151.94.\n\nTo calculate the ratio, we divide the value of Masco's common stock by the value of the S&P 500 index:\n\n$200.79 / $151.94 = 2.00\n\nSo the ratio of the value of Masco's common stock to the S&P 500 index in 2015 was 1.32.",
+        "source_response": "From the data provided, we can see that in 2015:\n\nThe value of Masco's common stock was $200.79.\nThe value of the S&P 500 index was $151.94.\n\nTo calculate the ratio, we divide the value of Masco's common stock by the value of the S&P 500 index:\n\n$200.79 / $151.94 = 1.32\n\nSo the ratio of the value of Masco's common stock to the S&P 500 index in 2015 was 1.32.",
+        "prediction": "{\n  \"Edited\": \"From the data provided, we can see that in 2015:\n\nThe value of Masco's common stock was $200.79.\nThe value of the S&P 500 index was $151.94.\n\nTo calculate the ratio, we divide the value of Masco's common stock by the value of the S&P 500 index:\n\n$200.79 / $151.94 = <numerical><delete>2.00</delete><mark>1.32</mark></numerical>\n\nSo the ratio of the value of Masco's common stock to the S&P 500 index in 2015 was 1.32.\"\n}",
+        "elapsed_s": 7.72
+      },
+      {
+        "source_id": "finqa_6412",
+        "error_type": "temporal",
+        "is_clean": false,
+        "target_output": "Correction: Based on the given context, the change in impairment charges included in SG&A expense from 2006 to 2007 was:\n\nIn 2006, the company recorded impairment charges of approximately $9.4 million.\nIn the 2007 predecessor period, the company recorded impairment charges of approximately $0.2 million.\n\nTherefore, the change in impairment charges from <temporal><delete>2019</delete><mark>2006</mark></temporal> to 2007 was a decrease of $9.2 million (from $9.4 million in 2006 to $0.2 million in 2007).",
+        "response": "Based on the given context, the change in impairment charges included in SG&A expense from 2006 to 2007 was:\n\nIn 2006, the company recorded impairment charges of approximately $9.4 million.\nIn the 2007 predecessor period, the company recorded impairment charges of approximately $0.2 million.\n\nTherefore, the change in impairment charges from 2019 to 2007 was a decrease of $9.2 million (from $9.4 million in 2006 to $0.2 million in 2007).",
+        "source_response": "Based on the given context, the change in impairment charges included in SG&A expense from 2006 to 2007 was:\n\nIn 2006, the company recorded impairment charges of approximately $9.4 million.\nIn the 2007 predecessor period, the company recorded impairment charges of approximately $0.2 million.\n\nTherefore, the change in impairment charges from 2006 to 2007 was a decrease of $9.2 million (from $9.4 million in 2006 to $0.2 million in 2007).",
+        "prediction": "{\n  \"Edited\": \"Based on the given context, the change in impairment charges included in SG&A expense from 2006 to 2007 was:\n\nIn 2006, the company recorded impairment charges of approximately $9.4 million.\nIn the 2007 predecessor period, the company recorded impairment charges of approximately $0.2 million.\n\nTherefore, the change in impairment charges from <temporal><delete>2019</delete><mark>2006</mark></temporal> to 2007 was a decrease of $9.2 million (from $9.4 million in 2006 to $0.2 million in 2007).\"\n}",
+        "elapsed_s": 7.23
+      },
+      {
+        "source_id": "finqa_7041",
+        "error_type": "temporal",
+        "is_clean": false,
+        "target_output": "Correction: Based on the information provided in the context, the percent change in the balance of restricted stock at the end of the year 2011 compared to 2010 can be calculated as follows:\n\nBalance at end of year 2011: 2912456\nBalance at end of year 2010: 2728290\n\nPercent change = (2011 balance - 2010 balance) / 2010 balance x 100\n= (2912456 - 2728290) / 2728290 x 100\n= 6.8%\n\nSo the percent change in the balance of restricted stock at the end of <temporal><delete>2006</delete><mark>2011</mark></temporal> compared to 2010 was an increase of 6.8%.",
+        "response": "Based on the information provided in the context, the percent change in the balance of restricted stock at the end of the year 2011 compared to 2010 can be calculated as follows:\n\nBalance at end of year 2011: 2912456\nBalance at end of year 2010: 2728290\n\nPercent change = (2011 balance - 2010 balance) / 2010 balance x 100\n= (2912456 - 2728290) / 2728290 x 100\n= 6.8%\n\nSo the percent change in the balance of restricted stock at the end of 2006 compared to 2010 was an increase of 6.8%.",
+        "source_response": "Based on the information provided in the context, the percent change in the balance of restricted stock at the end of the year 2011 compared to 2010 can be calculated as follows:\n\nBalance at end of year 2011: 2912456\nBalance at end of year 2010: 2728290\n\nPercent change = (2011 balance - 2010 balance) / 2010 balance x 100\n= (2912456 - 2728290) / 2728290 x 100\n= 6.8%\n\nSo the percent change in the balance of restricted stock at the end of 2011 compared to 2010 was an increase of 6.8%.",
+        "prediction": "{\n  \"Edited\": \"Based on the information provided in the context, the percent change in the balance of restricted stock at the end of the year 2011 compared to 2010 can be calculated as follows:\n\nBalance at end of year 2011: 2912456\nBalance at end of year 2010: 2728290\n\nPercent change = (2011 balance - 2010 balance) / 2010 balance x 100\n= (2912456 - 2728290) / 2728290 x 100\n= 6.8%\n\nSo the percent change in the balance of restricted stock at the end of <temporal><delete>2006</delete><mark>2011</mark></temporal> compared to 2010 was an increase of 6.8%.\"\n}",
+        "elapsed_s": 9.38
+      }
+    ]
   }
 }

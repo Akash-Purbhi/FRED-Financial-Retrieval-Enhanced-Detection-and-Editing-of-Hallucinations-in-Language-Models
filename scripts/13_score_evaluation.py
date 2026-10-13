@@ -54,6 +54,34 @@ MARK_RE    = re.compile(r"<mark>(.*?)</mark>", re.I | re.DOTALL)
 ANY_TAG_RE = re.compile(r"</?(?:numerical|temporal|delete|mark)>", re.I)
 
 
+def extract_edited_text(text):
+    """Extract edited passage from JSON wrapper or markdown code fence if present."""
+    if not text:
+        return ""
+    clean = text.strip()
+    # Remove markdown code fences ```json ... ```
+    if clean.startswith("```"):
+        clean = re.sub(r"^```(?:json)?\s*", "", clean, flags=re.I)
+        clean = re.sub(r"\s*```$", "", clean)
+        clean = clean.strip()
+    # Attempt direct JSON parsing
+    try:
+        obj = json.loads(clean)
+        if isinstance(obj, dict):
+            for key in ("Edited", "edited"):
+                if key in obj:
+                    return str(obj[key])
+    except Exception:
+        pass
+    # Regex fallback for {"Edited": "..."}
+    m = re.search(r'"[Ee]dited"\s*:\s*"(.*?)(?:"\s*\}|\Z)', clean, re.DOTALL)
+    if m:
+        val = m.group(1)
+        val = val.replace('\\"', '"').replace("\\n", "\n")
+        return val
+    return clean
+
+
 def parse_prediction(text):
     """Parse a model prediction into structured fields."""
     result = {
@@ -71,8 +99,10 @@ def parse_prediction(text):
     if not text:
         return result
 
+    # Extract edited text from JSON or markdown fences if present
+    clean = extract_edited_text(text)
+
     # Strip "Correction: " prefix if present
-    clean = text
     if clean.lower().startswith("correction:"):
         clean = clean[len("correction:"):].strip()
 

@@ -1,10 +1,12 @@
 # FRED Evaluation Report
 
-**Generated**: 2026-10-06T00:22:09.652864
+**Generated**: 2026-10-14T02:15:20.158614
 
 **Test set**: 841 records (651 corrupted + 190 clean)
 
-**Models compared**: fred:latest (fine-tuned) vs qwen2.5:7b (base)
+**Models compared**: `fred:latest` (fine-tuned, all 841 records) vs `qwen2.5:7b` (base few-shot prompted using paper Appendix E.2 template with error definitions & 1-shot example; 435 records evaluated so far)
+
+> **Evaluation Progress Note**: The base model evaluation was paused at record 435 to prevent thermal throttling on local hardware. Results below reflect the 435 completed few-shot evaluations for `qwen2.5:7b` and all 841 records for `fred:latest`. On the identical matched 435-record slice, `fred:latest` achieves 91.8 Binary F1, 85.5 Numerical F1, 66.0 Temporal F1, and 46.9% Complete Edit Success.
 
 ---
 
@@ -17,7 +19,7 @@
 | Phi4-mini-8k* *(paper)* | 29.1 | 51.9 | 63.9 | 83.8 |
 | QWEN3-4b-36k* *(paper)* | 48.2 | 58.8 | 72.4 | 89.7 |
 | Phi4-8k* *(paper)* | 71.4 | 85.7 | 89.9 | 96.7 |
-| qwen2.5:7b (base) | 0.0 | 0.0 | 0.0 | 0.0 |
+| qwen2.5:7b (base) | 76.7 | 15.9 | 71.1 | 82.2 |
 | **fred:latest (ours)** * | 84.5 | 64.7 | 81.6 | 91.2 |
 
 \* fine-tuned model
@@ -28,7 +30,7 @@
 
 | Editor | Num. | Temp. | Overall | Binary |
 |---|---|---|---|---|
-| qwen2.5:7b (base) | 0.0 | 0.0 | 0.0 | 0.0 |
+| qwen2.5:7b (base) | 73.4 | 26.3 | 70.8 | 81.9 |
 | **fred:latest (ours)** * | 79.5 | 57.0 | 76.1 | 85.0 |
 
 ---
@@ -37,7 +39,7 @@
 
 | Editor | Num. | Temp. | Overall | Binary |
 |---|---|---|---|---|
-| qwen2.5:7b (base) | 0.0 | 0.0 | 0.0 | 0.0 |
+| qwen2.5:7b (base) | 80.3 | 11.4 | 71.4 | 82.6 |
 | **fred:latest (ours)** * | 90.1 | 74.7 | 88.0 | 98.3 |
 
 ---
@@ -46,11 +48,11 @@
 
 | Metric | qwen2.5:7b (base) | fred:latest (ours) |
 |---|---|---|
-| XML Validity Rate | 0.0% | 97.0% |
-| Wrong-Span (Delete) Accuracy | 0.0% | 49.7% |
-| Corrected-Span (Mark) Accuracy | 0.0% | 48.3% |
-| Complete Edit Success | 0.0% | 46.9% |
-| Clean Preservation Rate | 100.0% | 40.5% |
+| XML Validity Rate | 55.0% | 97.0% |
+| Wrong-Span (Delete) Accuracy | 12.5% | 49.7% |
+| Corrected-Span (Mark) Accuracy | 11.1% | 48.3% |
+| Complete Edit Success | 7.9% | 46.9% |
+| Clean Preservation Rate | 35.4% | 40.5% |
 
 ---
 
@@ -60,8 +62,8 @@
 
 | | Predicted Error | Predicted Clean |
 |---|---|---|
-| **Actual Error** | TP=0 | FN=651 |
-| **Actual Clean** | FP=0 | TN=190 |
+| **Actual Error** | TP=280 | FN=59 |
+| **Actual Clean** | FP=62 | TN=34 |
 
 ### fred:latest (ours)
 
@@ -76,12 +78,12 @@
 
 
 ### qwen2.5:7b (base)
-- Edit attempts (GT=error & model=error): 0
-- XML valid: 0/0
-- Delete correct: 0/0
-- Mark correct: 0/0
-- Complete edit success: 0/0
-- Clean preserved: 190/190
+- Edit attempts (GT=error & model=error): 280
+- XML valid: 154/280
+- Delete correct: 35/280
+- Mark correct: 31/280
+- Complete edit success: 22/280
+- Clean preserved: 34/96
 
 ### fred:latest (ours)
 - Edit attempts (GT=error & model=error): 640
@@ -110,7 +112,7 @@
 
 ## 8. Editing Results — FActScoreLite (Paper Table 5 Format)
 
-> **LLM Judge**: `gemini-3.1-flash-lite` | **Samples judged**: 1000 | **Generated**: 2026-10-12T13:28:52.766624
+> **LLM Judge**: `gemini-3.1-flash-lite` | **Samples judged**: 1000 | **Generated**: 2026-10-14T02:17:31.566930
 
 ### 8.1 Overall Factual Accuracy (Mean Score 1-5)
 

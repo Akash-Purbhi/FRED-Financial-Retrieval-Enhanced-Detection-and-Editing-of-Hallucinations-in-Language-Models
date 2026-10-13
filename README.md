@@ -220,16 +220,19 @@ python scripts/15_score_llm_judge.py
 
 ## 📈 Evaluation Results
 
-The evaluation tested **841 records** from the held-out test set (651 corrupted with numerical/temporal errors, 190 clean).
+The evaluation tested records from the held-out test set (651 corrupted with numerical/temporal errors, 190 clean). Below is the head-to-head comparison between **Base Qwen2.5-7B** (few-shot prompted using the paper's Appendix E.2 template with error definitions & 1-shot demonstration) and our **FRED-Qwen2.5-7B** (fine-tuned):
 
-| Metric | Base Model (Qwen2.5-7B) | FRED Model (Fine-Tuned) |
-|---|---|---|
-| **Binary Detection F1** | 0.0 | **91.2** |
-| **Numerical F1** | 0.0 | **84.5** |
-| **Temporal F1** | 0.0 | **64.7** |
-| **Overall F1** | 0.0 | **81.6** |
-| **CES** (Correction Exact Match) | 0.0% | **46.9%** |
-| **Clean Preservation** | **100.0%** | 40.5% |
+| Metric | Base Model (Qwen2.5-7B Few-Shot)* | FRED Model (Fine-Tuned Ours) | Δ Advantage |
+|---|:---:|:---:|:---:|
+| **Binary Detection F1** | 82.2 | **91.2** | <font color="#10b981">+9.0</font> |
+| **Numerical F1** | 76.7 | **84.5** | <font color="#10b981">+7.8</font> |
+| **Temporal F1** | 15.9 | **64.7** | <font color="#10b981">**+48.8 (4.1× higher)**</font> |
+| **Overall F1** | 71.1 | **81.6** | <font color="#10b981">+10.5</font> |
+| **XML Validity Rate** | 55.0% | **97.0%** | <font color="#10b981">+42.0%</font> |
+| **CES** (Correction Exact Match) | 7.9% | **46.9%** | <font color="#10b981">**+39.0% (5.9× higher)**</font> |
+| **Clean Preservation** | 35.4% | **40.5%** | +5.1% |
+
+*\* Base model evaluated on 435 test records using the exact Appendix E.2 few-shot prompt from the paper. On the identical matched 435-record slice, FRED scores: 91.8 Binary F1, 85.5 Numerical F1, 66.0 Temporal F1, 82.7 Overall F1, and 46.9% CES.*
 
 ### 🤖 LLM-as-a-Judge Results (Paper Table 5 Replicated)
 
@@ -244,10 +247,10 @@ Using **Gemini 3.1 Flash** as an independent fact-checking judge across **1,000 
 | **Temporal Error Slice** | 2.92 / 5.0 | **3.69 / 5.0** | <font color="#10b981">**+0.77 (+26.4%)**</font> |
 
 **Key Takeaways**:
-- **Successful Hallucination Detection**: The model achieved a **91.2 Binary Detection F1**, proving it is highly capable of accurately identifying when a factual or numerical hallucination is present in a financial response.
-- **Successful Paper Replication**: The base model completely failed to output the required `<category><delete>...</delete><mark>...</mark></category>` XML format (0.0 F1). In contrast, our fine-tuned FRED model learned the complex syntax perfectly, identifying the category, the text to delete, and calculating the correct replacement (achieving **81.6 Overall F1** and **46.9% CES**). This successfully replicates and validates the core hypothesis of the original research paper on a local, consumer-grade GPU.
+- **Why In-Context Prompting Fails at Exact Editing**: When prompted with the paper's exact Appendix E.2 few-shot template with definitions and demonstrations, the base Qwen2.5-7B model can detect errors broadly (82.2 Binary F1), but its token-level in-place editing performance collapses: **Complete Edit Success (CES) is only 7.9%**, XML tag validity is only 55.0%, and it almost completely misses temporal dates/periods (15.9 Temporal F1).
+- **The Value of Fine-Tuning (FRED Replication)**: Our fine-tuned FRED model achieves **46.9% CES (nearly 6× higher)**, **97.0% XML format validity**, and **84.5 Numerical / 64.7 Temporal F1**. This decisively validates the core hypothesis of the paper: fine-tuning is required for precise, evidence-grounded span-level editing in domain-specific financial texts.
 - **Factual Improvement Proven by Independent LLM Judge**: Gemini 3.1 Flash validated that FRED's edits meaningfully increase factual accuracy, lifting the average score on corrupted financial text from **2.71 to 3.82** and tripling the proportion of fully correct answers (**23.4% ➔ 63.6%**).
-- **Future Work (Over-editing)**: The Clean Preservation rate of 40.5% indicates that FRED tends to be over-eager, occasionally hallucinating edits on passages that are already perfectly clean. A future iteration should balance the training dataset with a higher ratio of clean examples to improve precision and reduce false positives.
+- **Future Work (Over-editing)**: The Clean Preservation rate of 40.5% indicates that FRED tends to be over-eager, occasionally hallucinating edits on passages that are already perfectly clean. A future iteration should balance the training dataset with a higher ratio of clean examples or DPO to improve precision and reduce false positives.
 
 ## 🔬 Benchmark Comparison: Original Paper vs. Our Replicated Results
 
@@ -276,14 +279,14 @@ Evaluated on the held-out test set of financial question-answering pairs:
 |---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | **GPT-4 (Few-Shot Prompted)** *(Paper)* | ~1.8T | 0 (Few-Shot) | 44.2 | 48.6 | 46.1 | 68.3 | 18.2% |
 | **LLaMA-3-8B (Zero-Shot Base)** *(Paper)* | 8B | 0 (Base) | 0.0 | 0.0 | 0.0 | 0.0 | 0.0% |
-| **Qwen2.5-7B (Zero-Shot Base)** *(Ours)* | 7B | 0 (Base) | 0.0 | 0.0 | 0.0 | 0.0 | 0.0% |
+| **Qwen2.5-7B (Few-Shot Base)** *(Ours, App. E.2)* | 7B | 0 (Few-Shot) | 76.7 | 15.9 | 71.1 | 82.2 | 7.9% |
 | **LLaMA-3-8B-36k\*** *(Paper)* | 8B | 36,000 | 78.4 | 72.1 | 75.8 | 88.4 | 41.5% |
 | **QWEN3-14B-36k\*** *(Paper)* | 14B | 36,000 | 80.2 | 74.3 | 77.6 | 91.1 | 44.8% |
 | **Phi-4-14B-36k\*** *(Paper)* | 14B | 36,000 | 82.5 | **76.9** | 80.1 | **97.5** | **48.2%** |
 | **FRED-Qwen2.5-7B (Ours)** | **7B** | **5,997 (6k)** | <font color="#10b981">**84.5**</font> | 64.7 | <font color="#10b981">**81.6**</font> | <font color="#10b981">**91.2**</font> | <font color="#10b981">**46.9%**</font> |
 
 > **Key Empirical Insights**:
-> - **Superhuman Format Adaptation**: Both base LLaMA-3-8B and base Qwen2.5-7B score **0.0 across all metrics** because prompt-based LLMs cannot natively emit consistent in-place XML markup. Fine-tuning is strictly required.
+> - **In-Context Learning vs Fine-Tuning**: When prompted with paper Appendix E.2 definitions and 1-shot examples, base Qwen2.5-7B detects errors broadly (82.2 Binary F1) but fails at precise span deletion and replacement (7.9% CES, 55.0% XML validity). Fine-tuning is strictly required to achieve reliable, token-level in-place editing (46.9% CES, 97.0% XML validity).
 > - **Efficiency at 7B Scale**: Despite using only **1/6th of the training data (6,000 vs 36,000)** and a **smaller 7B parameter footprint**, our model achieved **84.5 Numerical F1** (exceeding paper's 14B models) and **81.6 Overall F1**, validating that high-density synthetic FinQA curation yields exceptional data efficiency.
 
 ---
