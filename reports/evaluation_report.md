@@ -10,7 +10,7 @@
 
 ---
 
-## 1. Detection Performance (F1-score) — Paper Table 3 Format
+## 1. Detection Performance (F1-score) — Paper Table 3 
 
 | Editor | Num. | Temp. | Overall | Binary |
 |---|---|---|---|---|
@@ -26,7 +26,7 @@
 
 ---
 
-## 2. Detection Performance (Precision) — Paper Table 11 Format
+## 2. Detection Performance (Precision) — Paper Table 11
 
 | Editor | Num. | Temp. | Overall | Binary |
 |---|---|---|---|---|
@@ -35,7 +35,7 @@
 
 ---
 
-## 3. Detection Performance (Recall) — Paper Table 12 Format
+## 3. Detection Performance (Recall) — Paper Table 12 
 
 | Editor | Num. | Temp. | Overall | Binary |
 |---|---|---|---|---|
@@ -44,7 +44,7 @@
 
 ---
 
-## 4. Editing Accuracy (Deterministic)
+## 4. Editing Accuracy
 
 | Metric | qwen2.5:7b (base) | fred:latest (ours) |
 |---|---|---|
