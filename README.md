@@ -30,7 +30,7 @@ This repository is a **small-scale academic replication and extension** develope
 | **Goal & Scope** | Enterprise-scale hallucination detection and editing across 6 broad taxonomy domains | Targeted hallucination detection and editing focused on quantitative financial reasoning, feasibility, and local edge deployment |
 | **Compute Environment** | Multi-GPU enterprise cluster (A100/H100) | Single-GPU academic environment (Kaggle/Colab T4/V100 + Unsloth) |
 | **Base Models** | Phi-4, Phi-4-mini, Qwen3-4B, Qwen3-14B | **Qwen2.5-7B-Instruct** (efficient 4-bit QLoRA) |
-| **Dataset Scale** | Multi-dataset corpus (FinQA, TAT-QA, FAVA) | **5,997 hybrid samples** (4,747 corrupted + 1,250 clean) |
+| **Dataset Scale** | Multi-dataset corpus (FinQA, TAT-QA) | **5,997 hybrid samples** (4,747 corrupted + 1,250 clean) |
 | **Prompting Strategy** | Direct XML editing (often zero-shot / few-shot tag insertion) | **Direct Context-Based XML Extraction**: Predicts edits directly without a CoT scratchpad to avoid distribution shifts. |
 | **Deployment** | Server-side API endpoints | **Zero-cloud local inference via Ollama** (`Qwen2.5-7B-Instruct.Q4_K_M-001.gguf` + custom `Modelfile`) |
 | **Inference Exploration** | Direct prompt evaluation | **Automated evaluation pipeline** (`scripts/12_run_evaluation.py` + `scripts/13_score_evaluation.py`) |
