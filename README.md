@@ -278,7 +278,6 @@ Evaluated on the held-out test set of financial question-answering pairs:
 | Model Architecture | Parameter Scale | Training Corpus | Numerical F1 | Temporal F1 | Overall F1 | Binary F1 | CES (Exact Match) |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | **GPT-4 (Few-Shot Prompted)** *(Paper)* | ~1.8T | 0 (Few-Shot) | 44.2 | 48.6 | 46.1 | 68.3 | 18.2% |
-| **LLaMA-3-8B (Zero-Shot Base)** *(Paper)* | 8B | 0 (Base) | 0.0 | 0.0 | 0.0 | 0.0 | 0.0% |
 | **Qwen2.5-7B (Few-Shot Base)** *(Ours, App. E.2)* | 7B | 0 (Few-Shot) | 76.7 | 15.9 | 71.1 | 82.2 | 7.9% |
 | **LLaMA-3-8B-36k\*** *(Paper)* | 8B | 36,000 | 78.4 | 72.1 | 75.8 | 88.4 | 41.5% |
 | **QWEN3-14B-36k\*** *(Paper)* | 14B | 36,000 | 80.2 | 74.3 | 77.6 | 91.1 | 44.8% |
