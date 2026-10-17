@@ -21,7 +21,7 @@ This repository is a **small-scale academic replication and extension** develope
 - **Title**: *FRED: Financial Retrieval-Enhanced Detection and Editing of Hallucinations in Language Models*
 - **Authors**: Likun Tan\*, Kuan-Wei Huang\*, Kevin Wu (University of Michigan / Pegasi AI)
 - **Local PDF Reference**: [`LLM FRED.pdf`](file:///c:/Users/Akash/Desktop/FRED/LLM%20FRED.pdf)
-- **Original Research Codebase**: [pegasi-ai/shie](https://github.com/pegasi-ai/shie)
+
 
 ### Replication vs. Original Paper: Design Adaptations
 
