@@ -52,3 +52,7 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+.opencode/
+
+# Notes / scratch
+fred_pipeline_examples.md

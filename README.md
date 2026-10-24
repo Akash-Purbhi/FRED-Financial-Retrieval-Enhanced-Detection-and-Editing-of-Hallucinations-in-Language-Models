@@ -129,8 +129,6 @@ FRED/
 │   └── 03_kaggle_unsloth_finetune.ipynb # Kaggle QLoRA fine-tuning notebook
 │
 ├── scripts/
-│   ├── 02_generate_dataset.py         # Synthetic generation script
-│   ├── 03_generate_dataset_gemini.py  # Gemini generator
 │   ├── 04_transform_chatml.py         # ChatML pipeline (v1)
 │   ├── 05_generate_cot_dataset.py     # Bulk generator
 │   ├── 06_transform_cot_chatml.py     # ChatML pipeline (CoT)
