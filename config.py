@@ -34,4 +34,4 @@ ERROR_TYPES = [
 TEMPERATURE = 1.0
 MAX_TOKENS = 900
 TARGET_SAMPLES = 1500
-OUTPUT_FILE = "synthetic_finqa_1500.jsonl"
+OUTPUT_FILE = "synthetic_finqa_generated.jsonl"
