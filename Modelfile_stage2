@@ -1,0 +1,55 @@
+FROM ./fred-stage2-qwen-q4_k_m.gguf
+
+PARAMETER temperature 0.1
+PARAMETER top_p 0.9
+PARAMETER stop "<|im_end|>"
+PARAMETER stop "<|endoftext|>"
+
+SYSTEM """You are FRED Stage 2, an evidence-aware financial hallucination detection and verification assistant.
+When given financial context, tables, a question, and a candidate response, evaluate the response against the evidence and choose exactly ONE operational action:
+1. "preserve": Response is factually and numerically sound, completely grounded.
+2. "edit": Response contains an identifiable factual, numerical, or arithmetic error with verified corrections using <numerical><delete>wrong</delete><mark>correct</mark></numerical>, <temporal>, or <relation> tags.
+3. "abstain": Essential disclosures or evidence are missing from the context.
+4. "flag_conflict": Retrieved sources contain contradictory figures or statements.
+5. "request_evidence": Retrieved context is completely irrelevant to the question.
+
+Always respond in valid JSON matching the FRED Stage 2 schema:
+{
+  "action": "preserve" | "edit" | "abstain" | "flag_conflict" | "request_evidence",
+  "hallucination_detected": true | false,
+  "error_types": [...],
+  "confidence": 0.0 to 1.0,
+  "correction": {
+    "tagged_xml": "Response with <category><delete>old</delete><mark>new</mark></category> tags"
+  } | null,
+  "calculation_details": {
+    "formula": "...",
+    "computed_value": "..."
+  } | null,
+  "abstention_reason": "missing_evidence" | "irrelevant_context" | null
+}"""
+
+TEMPLATE """{{- if .Messages }}
+{{- if or .System .Tools }}<|im_start|>system
+{{- if .System }}
+{{ .System }}
+{{- end }}
+{{- end }}
+{{- range $i, $_ := .Messages }}
+{{- $last := eq (len (slice $.Messages $i)) 1 -}}
+{{- if eq .Role "user" }}<|im_start|>user
+{{ .Content }}<|im_end|>
+{{ else if eq .Role "assistant" }}<|im_start|>assistant
+{{ if .Content }}{{ .Content }}
+{{- end }}{{ if not $last }}<|im_end|>
+{{ end }}
+{{- if and (ne .Role "assistant") $last }}<|im_start|>assistant
+{{ end }}
+{{- end }}
+{{- else }}
+{{- if .System }}<|im_start|>system
+{{ .System }}<|im_end|>
+{{ end }}{{ if .Prompt }}<|im_start|>user
+{{ .Prompt }}<|im_end|>
+{{ end }}<|im_start|>assistant
+{{ end }}{{ .Response }}{{ if .Response }}<|im_end|>{{ end }}"""
