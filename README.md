@@ -11,6 +11,9 @@
 
 > **Repository status (updated 2026-11-04):** Source code, notebooks, reports, and configuration files are tracked here. Generated Stage 2 datasets are intentionally ignored by Git, and model weights/checkpoints are intentionally excluded from this repository. Fine-tuned Stage 2 models are available from the [Akash-Purbhi Hugging Face profile](https://huggingface.co/Akash-Purbhi).
 
+For a faculty-ready explanation of the Stage 2 dataset, training format, and
+evaluation methodology, see [`docs/stage2-training-and-evaluation.md`](./docs/stage2-training-and-evaluation.md).
+
 > **FRED** (**F**inancial **R**etrieval-**E**nhanced **D**etection and **E**diting) is an enterprise-grade framework designed to detect, reason over, verify, and surgically correct numerical and factual hallucinations in financial question-answering systems.
 >
 > Operating over complex financial tables and narrative disclosures (such as corporate 10-Ks, earnings statements, and SEC filings from **FinQA** and **TAT-QA**), FRED combines **deterministic arithmetic verification** with **LLM selective editing**:
