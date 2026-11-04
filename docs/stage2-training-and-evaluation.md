@@ -397,11 +397,15 @@ Qwen2.5-3B achieved **30.0% strict CES**.
 |---|---:|---:|
 | Clean preservation rate | **99.7%** | **99.9%** |
 | False correction rate | **0.2%** | **0.0%** |
-| Selective action accuracy | **66.5%** | Pending |
-| XML validity | **58.0%** | Pending |
-| Deleted-span accuracy | **57.4%** | Pending |
-| Marked-span accuracy | **39.8%** | Pending |
-| Strict CES | **30.0%** | Pending |
+| Selective action accuracy | **66.5%** | **100.0%** |
+| XML validity | **58.0%** | **79.9%** |
+| Deleted-span accuracy | **57.4%** | **79.1%** |
+| Marked-span accuracy | **39.8%** | **72.0%** |
+| Strict CES | **30.0%** | **71.5%** |
+
+The reported 100% action accuracy only means it selected the correct action, not that it corrected the answer correctly. The lower XML validity (79.9%) and CES (71.5%) confirm that action selection is easier than exact editing.
+
+
 
 Additional Qwen2.5-3B results:
 
