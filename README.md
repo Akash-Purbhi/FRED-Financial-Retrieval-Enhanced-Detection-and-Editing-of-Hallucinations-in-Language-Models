@@ -9,6 +9,8 @@
 [![Action Engine](https://img.shields.io/badge/Actions-5--Way%20Selective%20Verification-blueviolet.svg)](#-stage-2-architecture--decision-engine)
 [![Evaluation](https://img.shields.io/badge/Evaluation-8--Metric%20Strict%20Suite-lightgrey.svg)](#-stage-2-strict-evaluation-methodology)
 
+> **Repository status (updated 2026-11-04):** Source code, notebooks, reports, and configuration files are tracked here. Generated Stage 2 datasets are intentionally ignored by Git, and model weights/checkpoints are intentionally excluded from this repository. Fine-tuned Stage 2 models are available from the [Akash-Purbhi Hugging Face profile](https://huggingface.co/Akash-Purbhi).
+
 > **FRED** (**F**inancial **R**etrieval-**E**nhanced **D**etection and **E**diting) is an enterprise-grade framework designed to detect, reason over, verify, and surgically correct numerical and factual hallucinations in financial question-answering systems.
 >
 > Operating over complex financial tables and narrative disclosures (such as corporate 10-Ks, earnings statements, and SEC filings from **FinQA** and **TAT-QA**), FRED combines **deterministic arithmetic verification** with **LLM selective editing**:
@@ -48,7 +50,7 @@ This project began as a faithful academic replication of:
 - **Title**: *FRED: Financial Retrieval-Enhanced Detection and Editing of Hallucinations in Language Models*
 - **Authors**: Likun Tan\*, Kuan-Wei Huang\*, Kevin Wu (University of Michigan / Pegasi AI)
 - **Publication**: ICML 2025 Workshop on Assessing World Models ([arXiv:2507.20930](https://arxiv.org/abs/2507.20930), July 2025)
-- **Local PDF Reference**: [`LLM FRED.pdf`](file:///c:/Users/Akash/Desktop/Project/FRED/LLM%20FRED.pdf)
+- **Local PDF Reference**: [`LLM FRED.pdf`](./LLM%20FRED.pdf)
 
 ### Replication vs. Original Paper: Design Adaptations
 
@@ -82,34 +84,34 @@ Stage 2 introduces a 5-way decision policy:
 2. `edit`: An explicit factual or mathematical discrepancy is detected. The model produces an in-place semantic tag correction: `<category><delete>erroneous_span</delete><mark>verified_span</mark></category>`.
 3. `abstain`: The context does not contain sufficient facts to answer the question, or the claim is fundamentally unanswerable without fabricating assumptions.
 4. `flag_conflict`: Conflicting data points exist between different sections of the retrieved context (e.g. 10-K footnote says \$450M while the primary balance sheet reports \$485M).
-5. `request_evidence`: Context contains general narrative discussion but lacks specific numerical metrics or required denominators necessary to compute the requested figure.
+5. `request_evidence`: The retrieved context is irrelevant to the question; request better or more targeted evidence.
 
 ### 3. 11 Fine-Grained Financial Error Types
-Stage 2 expands from 2 to 11 granular financial error types (`scripts/stage2_schema.py`):
+Stage 2 expands from the original numerical/temporal scope to 11 schema categories defined in [`scripts/stage2_schema.py`](./scripts/stage2_schema.py):
 
 | Error Type | Financial Example | Correct Action |
 |---|---|:---:|
-| `arithmetic_calculation_error` | Net income \$2,707M / revenue \$40,782M calculated as 8.2% instead of 6.6% | `edit` |
-| `magnitude_scale_error` | R&D expense reported as \$1.5 million when table reads \$1.5 billion | `edit` |
-| `row_column_lookup_error` | Operating expenses confused with Total Operating Income from adjacent column | `edit` |
-| `reporting_period_temporal_error` | Attributing FY2022 diluted EPS to FY2023 | `edit` |
-| `formula_inversion_error` | Debt-to-Equity computed as Equity / Debt | `edit` |
-| `percentage_basis_point_confusion` | A 0.25% margin increase reported as 25 basis points confused with 25% | `edit` |
-| `currency_unit_mismatch` | Reporting EUR figures as USD without currency exchange conversion | `edit` |
-| `entity_substitution_error` | Attributing subsidiary revenue to the parent corporation | `edit` |
-| `sign_direction_flip_error` | Reporting a cash outflow / net loss as a positive inflow / gain | `edit` |
-| `fabricated_unsupported_claim` | Inventing forward guidance figures not disclosed anywhere in the 10-K | `abstain` |
-| `cross_table_contradiction` | Footnote disclosure contradicts consolidated balance sheet figures | `flag_conflict` |
+| `numerical_substitution` | A reported value is replaced with an incorrect value | `edit` |
+| `temporal_swap` | A value is attributed to the wrong reporting period | `edit` |
+| `arithmetic_miscalculation` | A derived percentage, ratio, or total is calculated incorrectly | `edit` |
+| `wrong_unit` | Millions, billions, percentages, or other units are confused | `edit` |
+| `entity_swap` | A value is attributed to the wrong company or entity | `edit` |
+| `relation_inversion` | A financial relationship or formula is inverted | `edit` |
+| `unsupported_claim` | The response asserts information not supported by the evidence | `abstain` |
+| `missing_evidence` | Required evidence is not present in the retrieved context | `abstain` |
+| `irrelevant_retrieval` | Retrieved context does not answer the question | `request_evidence` |
+| `contradictory_context` | Retrieved sources contain conflicting figures or statements | `flag_conflict` |
+| `none` | No error; the response is grounded and should be preserved | `preserve` |
 
 ### 4. 17,000-Sample Balanced Dataset
-To permanently eliminate over-editing, the Stage 2 dataset (`data/stage2/`) maintains a strict **50:50 ratio of clean to corrupted records**:
+To reduce over-editing, the Stage 2 generator creates a strict **50:50 ratio of clean to corrupted records**. The generated files are intentionally excluded by `.gitignore` because they are large and reproducible:
 - **Train Split**: 17,000 records (8,500 clean + 8,500 corrupted; 64.9 MB) $\rightarrow$ `data/stage2/train.jsonl` and `train_chatml.jsonl`
 - **Validation Split**: 1,000 records (500 clean + 500 corrupted; 3.8 MB) $\rightarrow$ `data/stage2/validation.jsonl` and `validation_chatml.jsonl`
 - **Clean Official Test**: 1,200 untouched official FinQA/TAT-QA records $\rightarrow$ `data/stage2/test_clean.jsonl`
 - **Corrupted Test Benchmark**: 1,200 controlled hallucination variants $\rightarrow$ `data/stage2/test_corrupted.jsonl`
 
 ### 5. Deterministic Verifier & Decision Engine
-Rather than relying purely on LLM token probabilities, FRED Stage 2 implements an **evidence-aware decision engine** ([`scripts/stage2_decision_engine.py`](file:///c:/Users/Akash/Desktop/Project/FRED/scripts/stage2_decision_engine.py)) coupled with deterministic Python math validation ([`scripts/stage2_verifier.py`](file:///c:/Users/Akash/Desktop/Project/FRED/scripts/stage2_verifier.py)):
+Rather than relying purely on LLM token probabilities, FRED Stage 2 implements an **evidence-aware decision engine** ([`scripts/stage2_decision_engine.py`](./scripts/stage2_decision_engine.py)) coupled with deterministic Python math validation ([`scripts/stage2_verifier.py`](./scripts/stage2_verifier.py)):
 - `verify_margin(net_income, revenue)`: Verifies margin calculations within a strict 0.5% tolerance.
 - `verify_growth_rate(prior, current)`: Validates period-over-period percentage growth.
 - `verify_ratio(numerator, denominator)`: Validates liquidity, leverage, and valuation ratios.
@@ -117,7 +119,7 @@ Rather than relying purely on LLM token probabilities, FRED Stage 2 implements a
 - **Candidate Number Extraction**: Actively parses all numerical entities in candidate answers, cross-references them against 2D tabular grids and narrative sentences, detects mismatches, and prevents erroneous fall-through to `preserve`.
 
 ### 6. Strict 8-Metric Evaluation Suite
-Stage 2 replaces naive substring checks with comprehensive evaluation criteria ([`scripts/stage2_evaluation_suite.py`](file:///c:/Users/Akash/Desktop/Project/FRED/scripts/stage2_evaluation_suite.py)):
+Stage 2 replaces naive substring checks with comprehensive evaluation criteria ([`scripts/stage2_evaluation_suite.py`](./scripts/stage2_evaluation_suite.py)):
 1. **Hallucination Detection Precision, Recall, and F1**: Binary discriminative capability.
 2. **Strict Complete Edit Success (CES)**:
    - Must output valid XML syntax (`<category><delete>...</delete><mark>...</mark></category>`).
@@ -180,10 +182,9 @@ FRED/
 ├── requirements.txt                   # Environment dependencies
 ├── config.py                          # Global configuration parameters
 ├── LLM FRED.pdf                       # Reference paper (Tan et al., 2025)
-├── PHASE2_DESIGN_AND_PLAN.md          # Stage 2 comprehensive architecture & roadmap
 ├── Modelfile                          # Stage 1 Ollama model configuration
 ├── Modelfile_stage2                   # Stage 2 Evidence-Aware Ollama model configuration
-├── Qwen2.5-7B-Instruct.Q4_K_M-001.gguf # Quantized Stage 1 fine-tuned model
+│                                      # (requires a local GGUF referenced by the file)
 │
 ├── notebooks/
 │   ├── 01_inspect_datasets.ipynb      # Stage 1 data exploration
@@ -217,15 +218,7 @@ FRED/
 │   └── 15_score_llm_judge.py          # [Stage 1] Table 5 FActScoreLite scorer
 │
 ├── data/
-│   ├── stage2/                        # Stage 2 Clean, Corrupted & Train/Val/Test
-│   │   ├── clean_finqa_5000.jsonl     # 5,000 clean FinQA records
-│   │   ├── clean_tatqa_4000.jsonl     # 4,000 clean TAT-QA records
-│   │   ├── corrupted_variants_9000.jsonl # 11-error variants with audit metadata
-│   │   ├── train.jsonl & train_chatml.jsonl # 17,000 50:50 balanced training split
-│   │   ├── validation.jsonl & validation_chatml.jsonl # 1,000 balanced validation split
-│   │   ├── test_clean.jsonl           # 1,200 untouched official clean test records
-│   │   └── test_corrupted.jsonl       # 1,200 controlled corrupted benchmark records
-│   ├── final/                         # [Stage 1] 5,997 Train/Val/Test records
+│   ├── final/                         # [Stage 1] tracked 5,997-row dataset
 │   └── eval/                          # [Stage 1] Evaluation predictions and judge scores
 │
 └── reports/
@@ -235,6 +228,11 @@ FRED/
     ├── project_log.md                 # Engineering development timeline
     └── high_confidence_canonical_report.md # Stage 1 audit methodology
 ```
+
+`data/stage2/` is generated locally by `scripts/16_build_stage2_dataset.py` and is
+ignored by Git. GGUF files, adapters, and checkpoints are also ignored; download
+the desired fine-tuned model from Hugging Face or provide a local Ollama-compatible
+GGUF before using the Modelfiles.
 
 ---
 
@@ -254,6 +252,9 @@ Run the automated ingestion, perturbation generation, and dataset split builder:
 ```bash
 python scripts/16_build_stage2_dataset.py
 ```
+The generated `data/stage2/` files are local build artifacts and are not committed.
+The builder also expects the required FinQA/RagBench source data to be available
+locally; do not commit external benchmark caches.
 This produces:
 - `data/stage2/train_chatml.jsonl` (17,000 records, 50% clean : 50% corrupted)
 - `data/stage2/validation_chatml.jsonl` (1,000 records)
@@ -261,7 +262,7 @@ This produces:
 - `data/stage2/test_corrupted.jsonl` (1,200 corrupted benchmark records)
 
 #### 3. Cloud GPU Fine-Tuning (Kaggle or Google Colab)
-Open [`notebooks/04_stage2_qwen_finetune.ipynb`](file:///c:/Users/Akash/Desktop/Project/FRED/notebooks/04_stage2_qwen_finetune.ipynb) on Kaggle or Colab (free T4 GPU).
+Open [`notebooks/04_stage2_qwen_finetune.ipynb`](./notebooks/04_stage2_qwen_finetune.ipynb) on Kaggle or Colab (free T4 GPU).
 Sequentially trains, evaluates, and exports each model directly to the Hugging Face Hub:
 1. **Qwen2.5-3B-Instruct** (16-bit LoRA, 0 quantization precision loss) $\rightarrow$ [`Akash-Purbhi/fredphase2-qwen2.5-3b`](https://huggingface.co/Akash-Purbhi/fredphase2-qwen2.5-3b)
 2. **Qwen3-4B** (Paper's core 4B benchmark replication, 16-bit LoRA) $\rightarrow$ [`Akash-Purbhi/fredphase2-qwen3-4b`](https://huggingface.co/Akash-Purbhi/fredphase2-qwen3-4b)
@@ -270,10 +271,14 @@ Sequentially trains, evaluates, and exports each model directly to the Hugging F
 Each stage automatically exports GGUF weights (`q4_k_m`) and publishes the model card.
 
 #### 4. Cloud Model Testing Bench
-Run [`notebooks/05_stage2_model_testing.ipynb`](file:///c:/Users/Akash/Desktop/Project/FRED/notebooks/05_stage2_model_testing.ipynb) to test the fine-tuned checkpoint against Base Qwen and commercial LLMs using our strict 8-metric evaluator with span-level exact matching.
+Run [`notebooks/05_stage2_model_testing.ipynb`](./notebooks/05_stage2_model_testing.ipynb) to test the fine-tuned checkpoint against Base Qwen and commercial LLMs using our strict 8-metric evaluator with span-level exact matching.
 
 #### 5. Local Offline Inference with Ollama
 For confidential financial data that cannot leave your local machine:
+Download or export a compatible GGUF model first, then update the `FROM` path in
+`Modelfile_stage2` if your filename differs. The GGUF weights are intentionally
+not stored in this repository.
+
 ```bash
 # Register Stage 2 model with Ollama
 ollama create fred_stage2 -f Modelfile_stage2
@@ -312,22 +317,21 @@ python scripts/15_score_llm_judge.py
 
 | # | Milestone | Scope | Status | Artifact / Link |
 |---|---|:---:|:---:|---|
-| 1 | Load & inspect FinQA + TAT-QA | Stage 1 | ✅ Done | [`notebooks/01_inspect_datasets.ipynb`](file:///c:/Users/Akash/Desktop/Project/FRED/notebooks/01_inspect_datasets.ipynb) |
-| 2 | Prototype error insertion & tagging | Stage 1 | ✅ Done | [`notebooks/02_error_insertion_finqa.ipynb`](file:///c:/Users/Akash/Desktop/Project/FRED/notebooks/02_error_insertion_finqa.ipynb) |
-| 3 | Build 5,997-row hybrid dataset | Stage 1 | ✅ Done | [`data/final/`](file:///c:/Users/Akash/Desktop/Project/FRED/data/final) |
-| 4 | Quality audit & canonical validation | Stage 1 | ✅ Done | [`scripts/09_audit_high_confidence_canonical.py`](file:///c:/Users/Akash/Desktop/Project/FRED/scripts/09_audit_high_confidence_canonical.py) |
-| 5 | QLoRA fine-tuning (Qwen2.5-7B, 3 epochs) | Stage 1 | ✅ Done | [`notebooks/03_kaggle_unsloth_finetune.ipynb`](file:///c:/Users/Akash/Desktop/Project/FRED/notebooks/03_kaggle_unsloth_finetune.ipynb) |
-| 6 | GGUF quantization & Ollama deployment | Stage 1 | ✅ Done | [`Modelfile`](file:///c:/Users/Akash/Desktop/Project/FRED/Modelfile) |
-| 7 | Evaluation: fred vs base Qwen2.5-7B | Stage 1 | ✅ Done | [`reports/evaluation_report.md`](file:///c:/Users/Akash/Desktop/Project/FRED/reports/evaluation_report.md) |
-| 8 | LLM-as-a-Judge Evaluation (Table 5) | Stage 1 | ✅ Done | [`data/eval/judge_scores.json`](file:///c:/Users/Akash/Desktop/Project/FRED/data/eval/judge_scores.json) |
-| 9 | Stage 2 Design & Architecture Plan | Stage 2 | ✅ Done | [`PHASE2_DESIGN_AND_PLAN.md`](file:///c:/Users/Akash/Desktop/Project/FRED/PHASE2_DESIGN_AND_PLAN.md) |
-| 10 | Unified 12-field schema & ChatML engine | Stage 2 | ✅ Done | [`scripts/stage2_schema.py`](file:///c:/Users/Akash/Desktop/Project/FRED/scripts/stage2_schema.py) |
-| 11 | Deterministic arithmetic verifiers | Stage 2 | ✅ Done | [`scripts/stage2_verifier.py`](file:///c:/Users/Akash/Desktop/Project/FRED/scripts/stage2_verifier.py) |
-| 12 | 11-error perturbation generator | Stage 2 | ✅ Done | [`scripts/stage2_perturbation_generator.py`](file:///c:/Users/Akash/Desktop/Project/FRED/scripts/stage2_perturbation_generator.py) |
-| 13 | Build 17,000 balanced 50:50 dataset | Stage 2 | ✅ Done | [`scripts/16_build_stage2_dataset.py`](file:///c:/Users/Akash/Desktop/Project/FRED/scripts/16_build_stage2_dataset.py) |
-| 14 | Evidence-aware decision engine | Stage 2 | ✅ Done | [`scripts/stage2_decision_engine.py`](file:///c:/Users/Akash/Desktop/Project/FRED/scripts/stage2_decision_engine.py) |
-| 15 | Strict 8-metric evaluation suite | Stage 2 | ✅ Done | [`scripts/stage2_evaluation_suite.py`](file:///c:/Users/Akash/Desktop/Project/FRED/scripts/stage2_evaluation_suite.py) |
-| 16 | Qwen 3B/7B fine-tuning & test notebooks | Stage 2 | ✅ Done | [`notebooks/04_stage2_qwen_finetune.ipynb`](file:///c:/Users/Akash/Desktop/Project/FRED/notebooks/04_stage2_qwen_finetune.ipynb), [`05`](file:///c:/Users/Akash/Desktop/Project/FRED/notebooks/05_stage2_model_testing.ipynb), [`06`](file:///c:/Users/Akash/Desktop/Project/FRED/notebooks/06_stage2_local_ollama_testing.ipynb) |
+| 1 | Load & inspect FinQA + TAT-QA | Stage 1 | ✅ Done | [`notebooks/01_inspect_datasets.ipynb`](./notebooks/01_inspect_datasets.ipynb) |
+| 2 | Prototype error insertion & tagging | Stage 1 | ✅ Done | [`notebooks/02_error_insertion_finqa.ipynb`](./notebooks/02_error_insertion_finqa.ipynb) |
+| 3 | Build 5,997-row hybrid dataset | Stage 1 | ✅ Done | [`data/final/`](./data/final/) |
+| 4 | Quality audit & canonical validation | Stage 1 | ✅ Done | [`scripts/09_audit_high_confidence_canonical.py`](./scripts/09_audit_high_confidence_canonical.py) |
+| 5 | QLoRA fine-tuning (Qwen2.5-7B, 3 epochs) | Stage 1 | ✅ Done | [`notebooks/03_kaggle_unsloth_finetune.ipynb`](./notebooks/03_kaggle_unsloth_finetune.ipynb) |
+| 6 | GGUF quantization & Ollama deployment | Stage 1 | ✅ Done | [`Modelfile`](./Modelfile) |
+| 7 | Evaluation: fred vs base Qwen2.5-7B | Stage 1 | ✅ Done | [`reports/evaluation_report.md`](./reports/evaluation_report.md) |
+| 8 | LLM-as-a-Judge Evaluation (Table 5) | Stage 1 | ✅ Done | [`data/eval/judge_scores.json`](./data/eval/judge_scores.json) |
+| 9 | Unified 12-field schema & ChatML engine | Stage 2 | ✅ Done | [`scripts/stage2_schema.py`](./scripts/stage2_schema.py) |
+| 10 | Deterministic arithmetic verifiers | Stage 2 | ✅ Done | [`scripts/stage2_verifier.py`](./scripts/stage2_verifier.py) |
+| 11 | 11-category perturbation generator | Stage 2 | ✅ Done | [`scripts/stage2_perturbation_generator.py`](./scripts/stage2_perturbation_generator.py) |
+| 12 | Build 17,000 balanced 50:50 dataset | Stage 2 | ✅ Done | [`scripts/16_build_stage2_dataset.py`](./scripts/16_build_stage2_dataset.py) |
+| 13 | Evidence-aware decision engine | Stage 2 | ✅ Done | [`scripts/stage2_decision_engine.py`](./scripts/stage2_decision_engine.py) |
+| 14 | Strict 8-metric evaluation suite | Stage 2 | ✅ Done | [`scripts/stage2_evaluation_suite.py`](./scripts/stage2_evaluation_suite.py) |
+| 15 | Qwen 3B/7B fine-tuning & test notebooks | Stage 2 | ✅ Done | [`notebooks/04_stage2_qwen_finetune.ipynb`](./notebooks/04_stage2_qwen_finetune.ipynb), [`05`](./notebooks/05_stage2_model_testing.ipynb), [`06`](./notebooks/06_stage2_local_ollama_testing.ipynb) |
 
 ---
 
@@ -427,4 +431,5 @@ We thank the open-source creators of [RagBench](https://github.com/rungalileo/ra
 ---
 
 ## 📜 License
-This project is open-source under the Apache 2.0 / MIT License.
+No `LICENSE` file is currently included in this repository. Add the intended
+license text before distributing the project as open-source software.
