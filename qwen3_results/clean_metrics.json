@@ -1,0 +1,10 @@
+{
+    "model": "Akash-Purbhi/fredphase2-qwen3-4b",
+    "dataset": "test_clean.jsonl",
+    "total_samples": 1200,
+    "clean_preservation_rate": 99.91666666666667,
+    "false_correction_rate": 0.0,
+    "abstentions": 1,
+    "preserved": 1199,
+    "falsely_edited": 0
+}

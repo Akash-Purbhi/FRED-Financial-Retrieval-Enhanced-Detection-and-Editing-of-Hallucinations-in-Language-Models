@@ -1,0 +1,452 @@
+[
+  {
+    "sample_id": 1,
+    "action": "edit",
+    "error_type": "calculation_error",
+    "operation": "replace",
+    "reasoning": "Context: about 700 employees received termination notices and about 630 were terminated as of Sept 30, 2005. 630 / 700 = 90.0%. The stated 8.7 is not supported.",
+    "gold_answer": "90.0",
+    "tagged_xml": "According to the financial records, the calculated value was <delete>8.7</delete><mark>90.0</mark>."
+  },
+  {
+    "sample_id": 2,
+    "action": "edit",
+    "error_type": "calculation_error",
+    "operation": "replace",
+    "reasoning": "Context: at Dec 31, 2010 other borrowings included $19.3M of collateral pledged by derivatives counterparties and $0.5M of overnight and other short-term borrowings. 19.3 / 0.5 = 38.6. The stated 12.4 is not supported.",
+    "gold_answer": "38.6",
+    "tagged_xml": "According to the financial records, the calculated value was <delete>12.4</delete><mark>38.6</mark>."
+  },
+  {
+    "sample_id": 3,
+    "action": "request_evidence",
+    "error_type": "missing_evidence",
+    "operation": "none",
+    "reasoning": "The context is a generic one-line overview and the table is '[No Table]'. A lease-payment schedule is needed to compute the share of minimum lease payments due after 2015. The stated figure cannot be checked against any provided evidence, so it is neither confirmed nor corrected.",
+    "gold_answer": null,
+    "tagged_xml": null
+  },
+  {
+    "sample_id": 4,
+    "action": "edit",
+    "error_type": "calculation_error",
+    "operation": "replace",
+    "reasoning": "Table, 2014 column: U.S. net undeveloped acres expiring = 145 of worldwide 586. 145 / 586 = 24.74%. The stated 5.2 is not supported.",
+    "gold_answer": "24.74",
+    "tagged_xml": "According to the financial records, the calculated value was <delete>5.2</delete><mark>24.74</mark>."
+  },
+  {
+    "sample_id": 5,
+    "action": "edit",
+    "error_type": "calculation_error",
+    "operation": "replace",
+    "reasoning": "Table: mainline pilots and flight crew training instructors = 13,400 of mainline total 101,500. 13,400 / 101,500 = 13.2%. The stated 2.6 is not supported.",
+    "gold_answer": "13.2",
+    "tagged_xml": "According to the financial records, the calculated value was <delete>2.6</delete><mark>13.2</mark>."
+  },
+  {
+    "sample_id": 6,
+    "action": "edit",
+    "error_type": "calculation_error",
+    "operation": "replace",
+    "reasoning": "Context: aggregate rent expense was $655.0M in 2014 and $495.2M in 2013. (655.0 - 495.2) / 495.2 = 32.27%. The stated 8.1 is not supported.",
+    "gold_answer": "32.27",
+    "tagged_xml": "According to the financial records, the calculated value was <delete>8.1</delete><mark>32.27</mark>."
+  },
+  {
+    "sample_id": 7,
+    "action": "edit",
+    "error_type": "sign_error",
+    "operation": "replace",
+    "reasoning": "Table: non-interest revenue was -291 in 2007 and 438 in 2008. (438 - (-291)) / -291 = -2.50515 (about -250.5%), using the standard change-over-prior-value formula with a negative base. The magnitude in the response matches but the sign is wrong. The 'fiscal year 2006' lead-in does not match the 2007-to-2008 question; only the value was edited.",
+    "gold_answer": "-2.50515",
+    "tagged_xml": "For fiscal year 2006, the reported figure was <delete>2.50515</delete><mark>-2.50515</mark>."
+  },
+  {
+    "sample_id": 8,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Table: 2019 actual group operating profit 277.3 / 2019 target 270.3 = 1.0259, which matches the response. The context contains a '[Restatement Note]' that pre-states this answer; it is not treated as evidence and the result was verified from the table alone. The '(est.)' marker is unneeded, since the values are exact.",
+    "gold_answer": "1.0259",
+    "tagged_xml": "The reported figure was The 2019 actual group operating profit is £277.3m and the 2019 target group operating profit is £270.3m. \n\nTo express this as a ratio:\n£277.3m / £270.3m = 1.0259\n\nTherefore, the 2019 actual group operating profit is 1.0259 times the 2019 target group operating profit.."
+  },
+  {
+    "sample_id": 9,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Table: distillates were 365, 346 and 345 thousand bpd for 2003, 2002 and 2001. 365 + 346 + 345 = 1056, which matches. The 'fiscal year 2005' lead-in is unsupported (the sum covers 2001-2003) and the unit is thousands of bpd, not millions, but the answer value is correct.",
+    "gold_answer": "1056",
+    "tagged_xml": "For fiscal year 2005, the reported figure was 1056.0."
+  },
+  {
+    "sample_id": 10,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Context: direct sales to contract manufacturers and consignment warehouses were 41.3%, 34.9% and 39.0% of net revenues for fiscal 2019, 2018 and 2017. This matches exactly. The '(est.)' hedge is unsupported, as the figures are stated, not estimated.",
+    "gold_answer": "41.3%, 34.9%, 39.0%",
+    "tagged_xml": "According to the financial records, the calculated value was The percentage of Direct sales to contract manufacturers and consignment warehouses in 2019, 2018, and 2017 were 41.3%, 34.9%, and 39.0% respectively. (est.)."
+  },
+  {
+    "sample_id": 11,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Context: ESPP compensation expense was about $44,000, $19,000 and $28,000 for fiscal 2003, 2004 and 2005. $28,000 is greater than $19,000, so it grew from 2004 to 2005: yes.",
+    "gold_answer": "yes",
+    "tagged_xml": "For fiscal year 2005, the reported figure was yes."
+  },
+  {
+    "sample_id": 12,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Table: the 'reclassifying certain separate accounts to general account' row shows other comprehensive income 294 and net income 30. 294 / 30 = 9.8, which matches.",
+    "gold_answer": "9.8",
+    "tagged_xml": "For fiscal year 2004, the reported figure was 9.8."
+  },
+  {
+    "sample_id": 13,
+    "action": "request_evidence",
+    "error_type": "missing_evidence",
+    "operation": "none",
+    "reasoning": "The context is a generic one-line overview and the table is '[No Table]'. The option table (exercise prices and counts for 2016 and 2017) is missing. The stated figure cannot be checked against any provided evidence, so it is neither confirmed nor corrected.",
+    "gold_answer": null,
+    "tagged_xml": null
+  },
+  {
+    "sample_id": 14,
+    "action": "request_evidence",
+    "error_type": "missing_evidence",
+    "operation": "none",
+    "reasoning": "The context is a generic one-line overview and the table is '[No Table]'. The development cost figures for 2003 and 2004 are missing. The stated figure cannot be checked against any provided evidence, so it is neither confirmed nor corrected.",
+    "gold_answer": null,
+    "tagged_xml": null
+  },
+  {
+    "sample_id": 15,
+    "action": "edit",
+    "error_type": "calculation_error",
+    "operation": "replace",
+    "reasoning": "Table, 2011 column: maturities of long-term debt = $574M and total = $1,407M. 574 / 1,407 = 40.8%. The stated 8.2 is not supported.",
+    "gold_answer": "40.8",
+    "tagged_xml": "According to the financial records, the calculated value was <delete>8.2</delete><mark>40.8</mark>."
+  },
+  {
+    "sample_id": 16,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Context: 'The majority of the unrecognized tax benefit amount of $390.3 million relates to North America.' This matches. The lead-in 'the reported figure decreased to' is wrong (the balance rose from $356.4M to $390.3M) but does not change the answer to the question.",
+    "gold_answer": "North America",
+    "tagged_xml": "The reported figure decreased to The majority of the unrecognized tax benefit of $390.3 million relates to North America.."
+  },
+  {
+    "sample_id": 17,
+    "action": "edit",
+    "error_type": "calculation_error",
+    "operation": "replace",
+    "reasoning": "Table: 2002 net revenue $380.2M and 2003 net revenue $426.6M. (426.6 - 380.2) / 380.2 = 12.2%. The stated 5.1 is not supported.",
+    "gold_answer": "12.2",
+    "tagged_xml": "According to the financial records, the calculated value was <delete>5.1</delete><mark>12.2</mark>."
+  },
+  {
+    "sample_id": 18,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Table: net income attributable to parent was $418M at Dec 31, 2018 and $392M at Dec 31, 2019. 392 - 418 = -26, a decrease of $26M, which matches.",
+    "gold_answer": "-26",
+    "tagged_xml": "The reported figure decreased to The Net income attributable to the parent company decreased by $26 million from December 31, 2018, to December 31, 2019.."
+  },
+  {
+    "sample_id": 19,
+    "action": "request_evidence",
+    "error_type": "missing_evidence",
+    "operation": "none",
+    "reasoning": "The context is a generic one-line overview and the table is '[No Table]'. The company contributions to the retirement plan for 2007 and 2008 are missing. The stated figure cannot be checked against any provided evidence, so it is neither confirmed nor corrected.",
+    "gold_answer": null,
+    "tagged_xml": null
+  },
+  {
+    "sample_id": 20,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Table: fiscal 2018 first quarter high $45.24, low $37.43. 45.24 - 37.43 = 7.81, which matches. The '(est.)' marker is unneeded because the calculation is exact.",
+    "gold_answer": "7.81",
+    "tagged_xml": "According to the financial records, the calculated value was In the first quarter of 2018, the difference between the high and low price per share was $7.81 (($45.24 - $37.43) = $7.81). (est.)."
+  },
+  {
+    "sample_id": 21,
+    "action": "edit",
+    "error_type": "calculation_error",
+    "operation": "replace",
+    "reasoning": "Table: labor-related deemed claim 849 of total 5,424. 849 / 5,424 = 15.65%. The stated 8.0 is not supported.",
+    "gold_answer": "15.65",
+    "tagged_xml": "According to the financial records, the calculated value was <delete>8.0</delete><mark>15.65</mark>."
+  },
+  {
+    "sample_id": 22,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Table, long-term debt obligations: less than 1 year 65,087 and 1-3 years 115,141. 115,141 - 65,087 = 50,054, which matches. The '[Restatement Note]' in the context repeats this answer; it was not used as evidence, and the result was verified from the table alone.",
+    "gold_answer": "50,054",
+    "tagged_xml": "The reported figure was The difference in long-term debt obligations between 'Less than 1 year' and '1-3 years' is $50,054, which can be calculated by subtracting the amount due in less than 1 year ($65,087) from the amount due in 1-3 years ($115,141).."
+  },
+  {
+    "sample_id": 23,
+    "action": "abstain",
+    "error_type": "ambiguous_question",
+    "operation": "none",
+    "reasoning": "The question is circular ('percent of the total ... that was securities to be issued upon exercise of outstanding options'), so the intended numerator is unclear. Table total is 1,217,121: approved plans 1,211,143 (99.51%) or non-approved plans 5,978 (0.49%). A share of a total cannot be negative, so -2.2 is wrong under any reading, but which correct value to substitute cannot be determined from the question.",
+    "gold_answer": null,
+    "tagged_xml": null
+  },
+  {
+    "sample_id": 24,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Table: 2019 five-year value is 281.09 for the 2019 peer group and 286.22 for the 2018 peer group. 281.09 is not greater than 286.22, so the answer is no. The '(est.)' marker is unneeded.",
+    "gold_answer": "no",
+    "tagged_xml": "According to the financial records, the calculated value was no (est.)."
+  },
+  {
+    "sample_id": 25,
+    "action": "request_evidence",
+    "error_type": "missing_evidence",
+    "operation": "none",
+    "reasoning": "The context is a generic one-line overview and the table is '[No Table]'. The respirator mask/asbestos receivables and liabilities for 2007 are missing. The stated figure cannot be checked against any provided evidence, so it is neither confirmed nor corrected.",
+    "gold_answer": null,
+    "tagged_xml": null
+  },
+  {
+    "sample_id": 26,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "The table is a reconciliation of total net revenue to Adjusted Revenue for 2014-2018, with deductions for Starbucks transaction-based revenue, transaction-based costs and bitcoin costs, and an addition for the deferred revenue adjustment. The response describes this accurately.",
+    "gold_answer": "The table reconciles total net revenue to Adjusted Revenue for 2014-2018.",
+    "tagged_xml": "According to the financial records, the calculated value was The table shows the reconciliation of total net revenue to Adjusted Revenue for each of the indicated periods (2014-2018). It includes adjustments such as subtracting Starbucks transaction-based revenue, transaction-based costs, and bitcoin costs, as well as adding a deferred revenue adjustment related to purchase accounting. The Adjusted Revenue figures are provided for each year, showing a different amount than the total net revenue due to these adjustments. (est.)."
+  },
+  {
+    "sample_id": 27,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Table: data and analytics services revenue was $24.0M in 2017 and $19.3M in 2019. 19.3 - 24.0 = -4.7, a decrease of $4.7M, which matches.",
+    "gold_answer": "-4.7",
+    "tagged_xml": "The reported figure decreased to The data and analytics services revenue decreased from $24.0 million in 2017 to $19.3 million in 2019. This represents a decrease of $4.7 million over that time period.."
+  },
+  {
+    "sample_id": 28,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Table: total financial liabilities at fair value were $377,677M in 2012 and $355,173M in 2013. (355,173 - 377,677) / 377,677 = -0.05959, which matches. The 'fiscal year 2012' lead-in mislabels the period, since the growth is for 2013, but the value is correct.",
+    "gold_answer": "-0.05959",
+    "tagged_xml": "For fiscal year 2012, the reported figure was -0.05959."
+  },
+  {
+    "sample_id": 29,
+    "action": "request_evidence",
+    "error_type": "missing_evidence",
+    "operation": "none",
+    "reasoning": "The context is a generic one-line overview and the table is '[No Table]'. The weighted-average grant-date fair values for 2008 and 2009 are missing. The stated figure cannot be checked against any provided evidence, so it is neither confirmed nor corrected.",
+    "gold_answer": null,
+    "tagged_xml": null
+  },
+  {
+    "sample_id": 30,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Table: finished goods were $162,935K in 2018 and $133,682K in 2019, a decrease of $29,253K, which matches. The '[Restatement Note]' repeats this answer; it was not used as evidence, and the result was verified from the table alone.",
+    "gold_answer": "-29,253",
+    "tagged_xml": "The reported figure was The Finished goods inventory decreased by $29,253 from 2018 to 2019. In 2018, the Finished goods inventory was $162,935, and in 2019, it was $133,682.."
+  },
+  {
+    "sample_id": 31,
+    "action": "edit",
+    "error_type": "calculation_error",
+    "operation": "replace",
+    "reasoning": "Table: MFC operating profit was 1,018 (2016), 1,282 (2015) and 1,344 (2014) million. (1,018 + 1,282 + 1,344) / 3 = 1,214.67. The stated 1457.6 is not supported.",
+    "gold_answer": "1214.67",
+    "tagged_xml": "According to the financial records, the calculated value was <delete>1457.6</delete><mark>1214.67</mark>."
+  },
+  {
+    "sample_id": 32,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Context: a full valuation allowance of $85.7M and $78.7M at Dec 31, 2019 and 2018. The table shows (78,681) for 2018. The answer matches. The lead-in 'decreased to' is unsupported (the allowance increased by $6.2M in 2018) but does not affect the answer.",
+    "gold_answer": "$78.7 million",
+    "tagged_xml": "The reported figure decreased to The company's valuation allowance in 2018 was $78.7 million.."
+  },
+  {
+    "sample_id": 33,
+    "action": "request_evidence",
+    "error_type": "missing_evidence",
+    "operation": "none",
+    "reasoning": "The context is a generic one-line overview and the table is '[No Table]'. The restricted cash and marketable securities for insurance programs and the relevant total are missing. The stated figure cannot be checked against any provided evidence, so it is neither confirmed nor corrected.",
+    "gold_answer": null,
+    "tagged_xml": null
+  },
+  {
+    "sample_id": 34,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Context: delisted on Feb 23, 2017 for failing Listing Rule 5550(b)(1), which requires $2.5M in stockholders' equity (or alternatives of $35M market value of listed securities or net income from continuing operations). The response matches. The 'decreased to' lead-in is meaningless filler.",
+    "gold_answer": "Failure to comply with Nasdaq Listing Rule 5550(b)(1) ($2.5 million stockholders' equity requirement).",
+    "tagged_xml": "The reported figure decreased to The common stock was delisted from the NASDAQ Capital Market because the company failed to comply with Nasdaq’s Listing Rule 5550(b)(1), which required maintaining $2.5 million in stockholders’ equity for continued listing, or meeting the alternatives of market value of listed securities of $35 million or net income from continuing operations.."
+  },
+  {
+    "sample_id": 35,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Table, North America revenue in thousands: 2018 $6,444 and 2019 $4,802, i.e. $6,444,000 and $4,802,000, which matches. The '(est.)' marker is unneeded.",
+    "gold_answer": "2018: $6,444 thousand; 2019: $4,802 thousand",
+    "tagged_xml": "According to the financial records, the calculated value was In 2018, the revenue from North America was $6,444,000. In 2019, the revenue from North America was $4,802,000. (est.)."
+  },
+  {
+    "sample_id": 36,
+    "action": "request_evidence",
+    "error_type": "missing_evidence",
+    "operation": "none",
+    "reasoning": "The context is a generic one-line overview and the table is '[No Table]'. The U.S. office space and Bellevue headquarters office space figures are missing. The stated figure cannot be checked against any provided evidence, so it is neither confirmed nor corrected.",
+    "gold_answer": null,
+    "tagged_xml": null
+  },
+  {
+    "sample_id": 37,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Context: net gains from sales of available-for-sale securities were $368M in 2009 and $68M in 2008. 368 - 68 = 300 (millions), which matches. The 'fiscal year 2008' lead-in is just framing.",
+    "gold_answer": "300",
+    "tagged_xml": "For fiscal year 2008, the reported figure was 300.0."
+  },
+  {
+    "sample_id": 38,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Table: interest expense, net of interest income was 134.5 in 2018 and 136.7 in 2019, an increase of 2.2 (million), which matches. The '(est.)' marker is unneeded.",
+    "gold_answer": "2.2",
+    "tagged_xml": "According to the financial records, the calculated value was The increase in Interest expense, net of interest income from 2018 to 2019 is $2.2 million. In 2018, the interest expense was $134.5 million, and in 2019, it increased to $136.7 million. (est.)."
+  },
+  {
+    "sample_id": 39,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Context: the $20.6M income tax benefit was primarily driven by a net valuation allowance release of $37.4M in the Insurance segment, partially offset by a non-deductible goodwill impairment. The response matches this. The table's valuation allowance line (-7.6) is a different, smaller measure, which I did not treat as a contradiction of the text.",
+    "gold_answer": "A net valuation allowance release of $37.4 million in the Insurance segment, partially offset by a non-deductible goodwill impairment.",
+    "tagged_xml": "The reported figure decreased to The income tax benefit was primarily driven by a net valuation allowance release of $37.4 million related to the Insurance segment, which is profitable in 2019 and in a three-year overall cumulative income position as of December 31, 2019. This release was partially offset by an impairment of goodwill, which is not deductible for tax purposes. The profitability of the Insurance segment in 2019 was driven by current year income associated with favorable claims and reserve development relative to expectations, as well as unrealized gains from the investment portfolio growing in 2019.."
+  },
+  {
+    "sample_id": 40,
+    "action": "request_evidence",
+    "error_type": "missing_evidence",
+    "operation": "none",
+    "reasoning": "The context is a generic one-line overview and the table is '[No Table]'. The owned facilities square footage (U.S. and total) is missing. The stated figure cannot be checked against any provided evidence, so it is neither confirmed nor corrected.",
+    "gold_answer": null,
+    "tagged_xml": null
+  },
+  {
+    "sample_id": 41,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Context: 'The weighted average market value per ordinary share for DABP options exercised in 2019 was 438.1p.' This matches.",
+    "gold_answer": "438.1p",
+    "tagged_xml": "The reported figure decreased to The weighted average market value per ordinary share for DABP options exercised in 2019 was 438.1p.."
+  },
+  {
+    "sample_id": 42,
+    "action": "edit",
+    "error_type": "calculation_error",
+    "operation": "replace",
+    "reasoning": "Context: impairment charges in SG&A were about $0.2M in the 2007 predecessor period and $9.4M in 2006. 0.2 - 9.4 = -9.2 (million). The stated -8.3 is not supported.",
+    "gold_answer": "-9.2",
+    "tagged_xml": "According to the financial records, the calculated value was <delete>-8.3</delete><mark>-9.2</mark>."
+  },
+  {
+    "sample_id": 43,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Table: board of directors total compensation was $2,213K (2017), $1,939K (2018) and $2,202K (2019). The sum is 6,354 and the average is 2,118, which matches. The '[Restatement Note]' repeats this answer; it was not used as evidence, and the result was verified from the table alone.",
+    "gold_answer": "2,118 (thousand)",
+    "tagged_xml": "The reported figure was To find the average annual total compensation for the Board of directors in fiscal years ended June 30, 2017, 2018, and 2019, we need to add up the total compensation for the Board of directors in those three years and then divide by 3 to get the average.\n\nTotal compensation in:\n- 2017: $2,213\n- 2018: $1,939\n- 2019: $2,202\n\nTotal compensation for the Board of directors in those three years: $2,213 + $1,939 + $2,202 = $6,354\n\nAverage annual total compensation for the Board of directors: $6,354 / 3 = $2,118."
+  },
+  {
+    "sample_id": 44,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Table: current deferred income was $55.2M in 2018 and $53.2M in 2019, a decrease of $2.0M, which matches. The '(est.)' marker is unneeded.",
+    "gold_answer": "-2.0",
+    "tagged_xml": "According to the financial records, the calculated value was The change in Current deferred income was a decrease of $2.0 million ($55.2 million in 2018 to $53.2 million in 2019). (est.)."
+  },
+  {
+    "sample_id": 45,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Table: net income as a percentage of net revenues was 14.2% (Dec 31, 2019) and 15.8% (Dec 31, 2018). (14.2 + 15.8) / 2 = 15.0%, which matches. The '(est.)' marker is unneeded.",
+    "gold_answer": "15%",
+    "tagged_xml": "According to the financial records, the calculated value was The percentage of net revenues for December 31, 2019 was 14.2% and for December 31, 2018 was 15.8%. To find the average, we add these two percentages together and divide by 2:\n\n(14.2% + 15.8%) / 2 = 30 / 2 = 15\n\nTherefore, the average percentage of net revenues for the period December 31, 2019 and 2018 is 15%. (est.)."
+  },
+  {
+    "sample_id": 46,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Table: basic EPS was $0.28 for the quarter ended May 31, 2019 and $0.34 for August 31, 2019, an increase of $0.06, which matches. The lead-in 'decreased to' contradicts the body but the answer is correct.",
+    "gold_answer": "0.06",
+    "tagged_xml": "The reported figure decreased to The basic earnings per share attributable to the stockholders of Jabil Inc. increased from $0.28 in May 2019 to $0.34 in August 2019, resulting in an increase of $0.06.."
+  },
+  {
+    "sample_id": 47,
+    "action": "request_evidence",
+    "error_type": "missing_evidence",
+    "operation": "none",
+    "reasoning": "The context is a generic one-line overview and the table is '[No Table]'. The 2010 currency maturities and the euro portion are missing. The stated figure cannot be checked against any provided evidence, so it is neither confirmed nor corrected.",
+    "gold_answer": null,
+    "tagged_xml": null
+  },
+  {
+    "sample_id": 48,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Context: 2014 rent expense was $655.0M. The table shows $574.4M of future minimum lease payments for 2015, used here as the 2015 operating lease figure the question refers to. 655.0 is greater than 574.4, so yes. Note that the 2015 figure is a scheduled payment, not a reported expense.",
+    "gold_answer": "yes",
+    "tagged_xml": "According to the financial records, the calculated value was yes (est.)."
+  },
+  {
+    "sample_id": 49,
+    "action": "edit",
+    "error_type": "calculation_error",
+    "operation": "replace",
+    "reasoning": "Table: adjustments are 91,640 (topic 606), 2,638 (financial instruments) and -8,349 (income taxes). Their sum is 85,929, which also equals 426,932 (as adjusted) - 341,003 (as previously reported). The stated 103114.8 is not supported by any figure in the table.",
+    "gold_answer": "85929",
+    "tagged_xml": "According to the financial records, the calculated value was <delete>103114.8</delete><mark>85929</mark>."
+  },
+  {
+    "sample_id": 50,
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Context: foreign exchange pretax losses were $1.7M in 2007 and $1.2M in 2006. (1.7 - 1.2) / 1.2 = 0.41667, which matches. The 'fiscal year 2006' lead-in is just framing.",
+    "gold_answer": "0.41667",
+    "tagged_xml": "For fiscal year 2006, the reported figure was 0.41667."
+  }
+]

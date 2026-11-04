@@ -1,0 +1,452 @@
+[
+  {
+    "sample_id": "1",
+    "action": "edit",
+    "error_type": "value_error",
+    "operation": "replace",
+    "reasoning": "630 terminated out of 700 notices is 90%, not 8.7.",
+    "gold_answer": "90",
+    "tagged_xml": "According to the financial records, the calculated value was <delete>8.7</delete><mark>90</mark>."
+  },
+  {
+    "sample_id": "2",
+    "action": "edit",
+    "error_type": "value_error",
+    "operation": "replace",
+    "reasoning": "19.3 million / 0.5 million = 38.6.",
+    "gold_answer": "38.6",
+    "tagged_xml": "According to the financial records, the calculated value was <delete>12.4</delete><mark>38.6</mark>."
+  },
+  {
+    "sample_id": "3",
+    "action": "abstain",
+    "error_type": "missing_information",
+    "operation": "none",
+    "reasoning": "No table or data provided in the context.",
+    "gold_answer": null,
+    "tagged_xml": null
+  },
+  {
+    "sample_id": "4",
+    "action": "edit",
+    "error_type": "value_error",
+    "operation": "replace",
+    "reasoning": "145 / 586 = 24.74%.",
+    "gold_answer": "24.74",
+    "tagged_xml": "According to the financial records, the calculated value was <delete>5.2</delete><mark>24.74</mark>."
+  },
+  {
+    "sample_id": "5",
+    "action": "edit",
+    "error_type": "value_error",
+    "operation": "replace",
+    "reasoning": "13,400 / 101,500 = 13.2%.",
+    "gold_answer": "13.2",
+    "tagged_xml": "According to the financial records, the calculated value was <delete>2.6</delete><mark>13.2</mark>."
+  },
+  {
+    "sample_id": "6",
+    "action": "edit",
+    "error_type": "value_error",
+    "operation": "replace",
+    "reasoning": "(655.0 - 495.2) / 495.2 = 32.27%.",
+    "gold_answer": "32.27",
+    "tagged_xml": "According to the financial records, the calculated value was <delete>8.1</delete><mark>32.27</mark>."
+  },
+  {
+    "sample_id": "7",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "The calculated figure 2.50515 is correct for the absolute change ratio.",
+    "gold_answer": "2.50515",
+    "tagged_xml": "For fiscal year 2006, the reported figure was 2.50515."
+  },
+  {
+    "sample_id": "8",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "The restatement note confirms the correct text.",
+    "gold_answer": "The 2019 actual group operating profit is £277.3m and the 2019 target group operating profit is £270.3m. \n\nTo express this as a ratio:\n£277.3m / £270.3m = 1.0259\n\nTherefore, the 2019 actual group operating profit is 1.0259 times the 2019 target group operating profit.",
+    "tagged_xml": "The reported figure was The 2019 actual group operating profit is £277.3m and the 2019 target group operating profit is £270.3m. \n\nTo express this as a ratio:\n£277.3m / £270.3m = 1.0259\n\nTherefore, the 2019 actual group operating profit is 1.0259 times the 2019 target group operating profit.."
+  },
+  {
+    "sample_id": "9",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "365 + 346 + 345 = 1056.0.",
+    "gold_answer": "1056.0",
+    "tagged_xml": "For fiscal year 2005, the reported figure was 1056.0."
+  },
+  {
+    "sample_id": "10",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Values accurately match the text.",
+    "gold_answer": "The percentage of Direct sales to contract manufacturers and consignment warehouses in 2019, 2018, and 2017 were 41.3%, 34.9%, and 39.0% respectively.",
+    "tagged_xml": "According to the financial records, the calculated value was The percentage of Direct sales to contract manufacturers and consignment warehouses in 2019, 2018, and 2017 were 41.3%, 34.9%, and 39.0% respectively. (est.)."
+  },
+  {
+    "sample_id": "11",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "It grew from $19,000 in 2004 to $28,000 in 2005.",
+    "gold_answer": "yes",
+    "tagged_xml": "For fiscal year 2005, the reported figure was yes."
+  },
+  {
+    "sample_id": "12",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "294 / 30 = 9.8.",
+    "gold_answer": "9.8",
+    "tagged_xml": "For fiscal year 2004, the reported figure was 9.8."
+  },
+  {
+    "sample_id": "13",
+    "action": "abstain",
+    "error_type": "missing_information",
+    "operation": "none",
+    "reasoning": "No relevant data in context.",
+    "gold_answer": null,
+    "tagged_xml": null
+  },
+  {
+    "sample_id": "14",
+    "action": "abstain",
+    "error_type": "missing_information",
+    "operation": "none",
+    "reasoning": "No relevant data in context.",
+    "gold_answer": null,
+    "tagged_xml": null
+  },
+  {
+    "sample_id": "15",
+    "action": "edit",
+    "error_type": "value_error",
+    "operation": "replace",
+    "reasoning": "574 / 1407 = 40.79%.",
+    "gold_answer": "40.8",
+    "tagged_xml": "According to the financial records, the calculated value was <delete>8.2</delete><mark>40.8</mark>."
+  },
+  {
+    "sample_id": "16",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Matches the text accurately.",
+    "gold_answer": "The majority of the unrecognized tax benefit of $390.3 million relates to North America.",
+    "tagged_xml": "The reported figure decreased to The majority of the unrecognized tax benefit of $390.3 million relates to North America.."
+  },
+  {
+    "sample_id": "17",
+    "action": "edit",
+    "error_type": "value_error",
+    "operation": "replace",
+    "reasoning": "(426.6 - 380.2) / 380.2 = 12.2%.",
+    "gold_answer": "12.2",
+    "tagged_xml": "According to the financial records, the calculated value was <delete>5.1</delete><mark>12.2</mark>."
+  },
+  {
+    "sample_id": "18",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "The calculation and text match exactly.",
+    "gold_answer": "The Net income attributable to the parent company decreased by $26 million from December 31, 2018, to December 31, 2019.",
+    "tagged_xml": "The reported figure decreased to The Net income attributable to the parent company decreased by $26 million from December 31, 2018, to December 31, 2019.."
+  },
+  {
+    "sample_id": "19",
+    "action": "abstain",
+    "error_type": "missing_information",
+    "operation": "none",
+    "reasoning": "No relevant data provided.",
+    "gold_answer": null,
+    "tagged_xml": null
+  },
+  {
+    "sample_id": "20",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "$45.24 - $37.43 = $7.81.",
+    "gold_answer": "In the first quarter of 2018, the difference between the high and low price per share was $7.81 (($45.24 - $37.43) = $7.81).",
+    "tagged_xml": "According to the financial records, the calculated value was In the first quarter of 2018, the difference between the high and low price per share was $7.81 (($45.24 - $37.43) = $7.81). (est.)."
+  },
+  {
+    "sample_id": "21",
+    "action": "edit",
+    "error_type": "value_error",
+    "operation": "replace",
+    "reasoning": "849 / 5424 = 15.65%.",
+    "gold_answer": "15.65",
+    "tagged_xml": "According to the financial records, the calculated value was <delete>8.0</delete><mark>15.65</mark>."
+  },
+  {
+    "sample_id": "22",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "115,141 - 65,087 = 50,054.",
+    "gold_answer": "The difference in long-term debt obligations between 'Less than 1 year' and '1-3 years' is $50,054, which can be calculated by subtracting the amount due in less than 1 year ($65,087) from the amount due in 1-3 years ($115,141).",
+    "tagged_xml": "The reported figure was The difference in long-term debt obligations between 'Less than 1 year' and '1-3 years' is $50,054, which can be calculated by subtracting the amount due in less than 1 year ($65,087) from the amount due in 1-3 years ($115,141).."
+  },
+  {
+    "sample_id": "23",
+    "action": "edit",
+    "error_type": "value_error",
+    "operation": "replace",
+    "reasoning": "1211143 / 1217121 = 99.5%.",
+    "gold_answer": "99.5",
+    "tagged_xml": "According to the financial records, the calculated value was <delete>-2.2</delete><mark>99.5</mark>."
+  },
+  {
+    "sample_id": "24",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "281.09 is not greater than 286.22.",
+    "gold_answer": "no",
+    "tagged_xml": "According to the financial records, the calculated value was no (est.)."
+  },
+  {
+    "sample_id": "25",
+    "action": "abstain",
+    "error_type": "missing_information",
+    "operation": "none",
+    "reasoning": "No relevant data provided.",
+    "gold_answer": null,
+    "tagged_xml": null
+  },
+  {
+    "sample_id": "26",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Accurate summary of the table.",
+    "gold_answer": "The table shows the reconciliation of total net revenue to Adjusted Revenue for each of the indicated periods (2014-2018). It includes adjustments such as subtracting Starbucks transaction-based revenue, transaction-based costs, and bitcoin costs, as well as adding a deferred revenue adjustment related to purchase accounting. The Adjusted Revenue figures are provided for each year, showing a different amount than the total net revenue due to these adjustments.",
+    "tagged_xml": "According to the financial records, the calculated value was The table shows the reconciliation of total net revenue to Adjusted Revenue for each of the indicated periods (2014-2018). It includes adjustments such as subtracting Starbucks transaction-based revenue, transaction-based costs, and bitcoin costs, as well as adding a deferred revenue adjustment related to purchase accounting. The Adjusted Revenue figures are provided for each year, showing a different amount than the total net revenue due to these adjustments. (est.)."
+  },
+  {
+    "sample_id": "27",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Correctly states decrease from 24.0 to 19.3.",
+    "gold_answer": "The data and analytics services revenue decreased from $24.0 million in 2017 to $19.3 million in 2019. This represents a decrease of $4.7 million over that time period.",
+    "tagged_xml": "The reported figure decreased to The data and analytics services revenue decreased from $24.0 million in 2017 to $19.3 million in 2019. This represents a decrease of $4.7 million over that time period.."
+  },
+  {
+    "sample_id": "28",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "(355173 - 377677) / 377677 = -0.05959.",
+    "gold_answer": "-0.05959",
+    "tagged_xml": "For fiscal year 2012, the reported figure was -0.05959."
+  },
+  {
+    "sample_id": "29",
+    "action": "abstain",
+    "error_type": "missing_information",
+    "operation": "none",
+    "reasoning": "No relevant data provided.",
+    "gold_answer": null,
+    "tagged_xml": null
+  },
+  {
+    "sample_id": "30",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "162,935 - 133,682 = 29,253 decrease.",
+    "gold_answer": "The Finished goods inventory decreased by $29,253 from 2018 to 2019. In 2018, the Finished goods inventory was $162,935, and in 2019, it was $133,682.",
+    "tagged_xml": "The reported figure was The Finished goods inventory decreased by $29,253 from 2018 to 2019. In 2018, the Finished goods inventory was $162,935, and in 2019, it was $133,682.."
+  },
+  {
+    "sample_id": "31",
+    "action": "edit",
+    "error_type": "value_error",
+    "operation": "replace",
+    "reasoning": "(1018 + 1282 + 1344) / 3 = 1214.66.",
+    "gold_answer": "1214.67",
+    "tagged_xml": "According to the financial records, the calculated value was <delete>1457.6</delete><mark>1214.67</mark>."
+  },
+  {
+    "sample_id": "32",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Matches text.",
+    "gold_answer": "The company's valuation allowance in 2018 was $78.7 million.",
+    "tagged_xml": "The reported figure decreased to The company's valuation allowance in 2018 was $78.7 million.."
+  },
+  {
+    "sample_id": "33",
+    "action": "abstain",
+    "error_type": "missing_information",
+    "operation": "none",
+    "reasoning": "No relevant data provided.",
+    "gold_answer": null,
+    "tagged_xml": null
+  },
+  {
+    "sample_id": "34",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Matches the exact text explanation.",
+    "gold_answer": "The common stock was delisted from the NASDAQ Capital Market because the company failed to comply with Nasdaq’s Listing Rule 5550(b)(1), which required maintaining $2.5 million in stockholders’ equity for continued listing, or meeting the alternatives of market value of listed securities of $35 million or net income from continuing operations.",
+    "tagged_xml": "The reported figure decreased to The common stock was delisted from the NASDAQ Capital Market because the company failed to comply with Nasdaq’s Listing Rule 5550(b)(1), which required maintaining $2.5 million in stockholders’ equity for continued listing, or meeting the alternatives of market value of listed securities of $35 million or net income from continuing operations.."
+  },
+  {
+    "sample_id": "35",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Values match table.",
+    "gold_answer": "In 2018, the revenue from North America was $6,444,000. In 2019, the revenue from North America was $4,802,000.",
+    "tagged_xml": "According to the financial records, the calculated value was In 2018, the revenue from North America was $6,444,000. In 2019, the revenue from North America was $4,802,000. (est.)."
+  },
+  {
+    "sample_id": "36",
+    "action": "abstain",
+    "error_type": "missing_information",
+    "operation": "none",
+    "reasoning": "No relevant data provided.",
+    "gold_answer": null,
+    "tagged_xml": null
+  },
+  {
+    "sample_id": "37",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "368 - 68 = 300.",
+    "gold_answer": "300.0",
+    "tagged_xml": "For fiscal year 2008, the reported figure was 300.0."
+  },
+  {
+    "sample_id": "38",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "136.7 - 134.5 = 2.2.",
+    "gold_answer": "The increase in Interest expense, net of interest income from 2018 to 2019 is $2.2 million. In 2018, the interest expense was $134.5 million, and in 2019, it increased to $136.7 million.",
+    "tagged_xml": "According to the financial records, the calculated value was The increase in Interest expense, net of interest income from 2018 to 2019 is $2.2 million. In 2018, the interest expense was $134.5 million, and in 2019, it increased to $136.7 million. (est.)."
+  },
+  {
+    "sample_id": "39",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Matches text.",
+    "gold_answer": "The income tax benefit was primarily driven by a net valuation allowance release of $37.4 million related to the Insurance segment, which is profitable in 2019 and in a three-year overall cumulative income position as of December 31, 2019. This release was partially offset by an impairment of goodwill, which is not deductible for tax purposes. The profitability of the Insurance segment in 2019 was driven by current year income associated with favorable claims and reserve development relative to expectations, as well as unrealized gains from the investment portfolio growing in 2019.",
+    "tagged_xml": "The reported figure decreased to The income tax benefit was primarily driven by a net valuation allowance release of $37.4 million related to the Insurance segment, which is profitable in 2019 and in a three-year overall cumulative income position as of December 31, 2019. This release was partially offset by an impairment of goodwill, which is not deductible for tax purposes. The profitability of the Insurance segment in 2019 was driven by current year income associated with favorable claims and reserve development relative to expectations, as well as unrealized gains from the investment portfolio growing in 2019.."
+  },
+  {
+    "sample_id": "40",
+    "action": "abstain",
+    "error_type": "missing_information",
+    "operation": "none",
+    "reasoning": "No relevant data provided.",
+    "gold_answer": null,
+    "tagged_xml": null
+  },
+  {
+    "sample_id": "41",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "Matches text.",
+    "gold_answer": "The weighted average market value per ordinary share for DABP options exercised in 2019 was 438.1p.",
+    "tagged_xml": "The reported figure decreased to The weighted average market value per ordinary share for DABP options exercised in 2019 was 438.1p.."
+  },
+  {
+    "sample_id": "42",
+    "action": "edit",
+    "error_type": "value_error",
+    "operation": "replace",
+    "reasoning": "0.2 - 9.4 = -9.2.",
+    "gold_answer": "-9.2",
+    "tagged_xml": "According to the financial records, the calculated value was <delete>-8.3</delete><mark>-9.2</mark>."
+  },
+  {
+    "sample_id": "43",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "(2213 + 1939 + 2202) / 3 = 2118.",
+    "gold_answer": "To find the average annual total compensation for the Board of directors in fiscal years ended June 30, 2017, 2018, and 2019, we need to add up the total compensation for the Board of directors in those three years and then divide by 3 to get the average.\n\nTotal compensation in:\n- 2017: $2,213\n- 2018: $1,939\n- 2019: $2,202\n\nTotal compensation for the Board of directors in those three years: $2,213 + $1,939 + $2,202 = $6,354\n\nAverage annual total compensation for the Board of directors: $6,354 / 3 = $2,118",
+    "tagged_xml": "The reported figure was To find the average annual total compensation for the Board of directors in fiscal years ended June 30, 2017, 2018, and 2019, we need to add up the total compensation for the Board of directors in those three years and then divide by 3 to get the average.\n\nTotal compensation in:\n- 2017: $2,213\n- 2018: $1,939\n- 2019: $2,202\n\nTotal compensation for the Board of directors in those three years: $2,213 + $1,939 + $2,202 = $6,354\n\nAverage annual total compensation for the Board of directors: $6,354 / 3 = $2,118."
+  },
+  {
+    "sample_id": "44",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "55.2 - 53.2 = 2.0 decrease.",
+    "gold_answer": "The change in Current deferred income was a decrease of $2.0 million ($55.2 million in 2018 to $53.2 million in 2019).",
+    "tagged_xml": "According to the financial records, the calculated value was The change in Current deferred income was a decrease of $2.0 million ($55.2 million in 2018 to $53.2 million in 2019). (est.)."
+  },
+  {
+    "sample_id": "45",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "(14.2 + 15.8) / 2 = 15.0.",
+    "gold_answer": "The percentage of net revenues for December 31, 2019 was 14.2% and for December 31, 2018 was 15.8%. To find the average, we add these two percentages together and divide by 2:\n\n(14.2% + 15.8%) / 2 = 30 / 2 = 15\n\nTherefore, the average percentage of net revenues for the period December 31, 2019 and 2018 is 15%.",
+    "tagged_xml": "According to the financial records, the calculated value was The percentage of net revenues for December 31, 2019 was 14.2% and for December 31, 2018 was 15.8%. To find the average, we add these two percentages together and divide by 2:\n\n(14.2% + 15.8%) / 2 = 30 / 2 = 15\n\nTherefore, the average percentage of net revenues for the period December 31, 2019 and 2018 is 15%. (est.)."
+  },
+  {
+    "sample_id": "46",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "0.34 - 0.28 = 0.06.",
+    "gold_answer": "The basic earnings per share attributable to the stockholders of Jabil Inc. increased from $0.28 in May 2019 to $0.34 in August 2019, resulting in an increase of $0.06.",
+    "tagged_xml": "The reported figure decreased to The basic earnings per share attributable to the stockholders of Jabil Inc. increased from $0.28 in May 2019 to $0.34 in August 2019, resulting in an increase of $0.06.."
+  },
+  {
+    "sample_id": "47",
+    "action": "abstain",
+    "error_type": "missing_information",
+    "operation": "none",
+    "reasoning": "No relevant data provided.",
+    "gold_answer": null,
+    "tagged_xml": null
+  },
+  {
+    "sample_id": "48",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "655.0 > 574.4.",
+    "gold_answer": "yes",
+    "tagged_xml": "According to the financial records, the calculated value was yes (est.)."
+  },
+  {
+    "sample_id": "49",
+    "action": "edit",
+    "error_type": "value_error",
+    "operation": "replace",
+    "reasoning": "91640 + 2638 - 8349 = 85929.",
+    "gold_answer": "85929",
+    "tagged_xml": "According to the financial records, the calculated value was <delete>103114.8</delete><mark>85929</mark>."
+  },
+  {
+    "sample_id": "50",
+    "action": "preserve",
+    "error_type": "none",
+    "operation": "none",
+    "reasoning": "(1.7 - 1.2) / 1.2 = 0.41667.",
+    "gold_answer": "0.41667",
+    "tagged_xml": "For fiscal year 2006, the reported figure was 0.41667."
+  }
+]

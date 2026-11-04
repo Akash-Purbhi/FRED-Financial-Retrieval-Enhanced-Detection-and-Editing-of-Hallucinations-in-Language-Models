@@ -1,0 +1,11 @@
+{
+    "model": "Akash-Purbhi/fredphase2-qwen3-4b",
+    "dataset": "test_corrupted.jsonl",
+    "total_samples": 1200,
+    "edit_attempts": 814,
+    "selective_action_accuracy": 100.0,
+    "xml_validity_rate": 79.85257985257985,
+    "deleted_span_accuracy": 79.11547911547912,
+    "marked_span_accuracy": 71.99017199017199,
+    "strict_ces": 71.49877149877149
+}
