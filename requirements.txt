@@ -1,7 +1,6 @@
 # Data generation and synthetic corruption pipeline
 datasets>=2.19.0
 google-generativeai>=0.8.0
-groq>=0.9.0
 python-dotenv>=1.0.0
 
 # Local inference, evaluation runners, and LLM judge

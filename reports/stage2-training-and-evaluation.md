@@ -176,7 +176,7 @@ The profit margin was 25%.
 Assistant:
 {
   "action": "edit",
-  "error_type": "arithmetic_miscalculation",
+  "error_type": "numerical_substitution",
   "operation": "divide(100, 500)",
   "reasoning": "The correct margin is 20%, not 25%.",
   "gold_answer": "20%",
@@ -413,4 +413,3 @@ Additional Qwen2.5-3B results:
 - Clean abstentions: **1**
 - Clean test size: **1,200**
 - Corrupted test size: **1,200**
-

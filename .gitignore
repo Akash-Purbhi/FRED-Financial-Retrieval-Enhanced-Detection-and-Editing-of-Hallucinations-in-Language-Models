@@ -61,3 +61,10 @@ PHASE2_DESIGN_AND_PLAN.md
 
 # Stage 2 local data
 data/stage2/
+
+# Commercial LLM results
+commerical_llm_results/
+
+# Comparison results
+comparison_results.md
+comparison_results_all.csv

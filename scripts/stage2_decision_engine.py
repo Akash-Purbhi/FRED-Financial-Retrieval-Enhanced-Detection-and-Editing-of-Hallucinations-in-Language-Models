@@ -347,7 +347,7 @@ class FinancialDecisionEngine:
                 return Stage2OutputPayload(
                     action="abstain",
                     hallucination_detected=True,
-                    error_types=["unsupported_claim"],
+                    error_types=["missing_evidence"],
                     claims=[
                         {
                             "claim_id": "c1",

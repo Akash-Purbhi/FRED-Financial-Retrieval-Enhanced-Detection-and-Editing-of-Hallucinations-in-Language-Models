@@ -11,14 +11,14 @@
 
 > **Repository status (updated 2026-11-04):** Source code, notebooks, reports, and configuration files are tracked here. Generated Stage 2 datasets are intentionally ignored by Git, and model weights/checkpoints are intentionally excluded from this repository. Fine-tuned Stage 2 models are available from the [Akash-Purbhi Hugging Face profile](https://huggingface.co/Akash-Purbhi).
 
-Explanation of the Stage 2 dataset, training format, and
-evaluation methodology, see [`docs/stage2-training-and-evaluation.md`](./docs/stage2-training-and-evaluation.md).
+For a faculty-ready explanation of the Stage 2 dataset, training format, and
+evaluation methodology, see [`reports/stage2-training-and-evaluation.md`](./reports/stage2-training-and-evaluation.md).
 
 > **FRED** (**F**inancial **R**etrieval-**E**nhanced **D**etection and **E**diting) is an enterprise-grade framework designed to detect, reason over, verify, and surgically correct numerical and factual hallucinations in financial question-answering systems.
 >
 > Operating over complex financial tables and narrative disclosures (such as corporate 10-Ks, earnings statements, and SEC filings from **FinQA** and **TAT-QA**), FRED combines **deterministic arithmetic verification** with **LLM selective editing**:
 > 1. **Stage 1 (Paper Replication)**: Replicated Tan et al. (*ICML 2025 Workshop / arXiv:2507.20930*) using in-place XML tags (`<numerical><delete>...</delete><mark>...</mark></numerical>`) across 5,997 hybrid samples on Qwen2.5-7B, establishing 46.9% CES and 84.5 Numerical F1.
-> 2. **Stage 2 (Evidence-Aware Selective Verification Engine)**: Solved the Stage 1 false-correction deficit (40.5% CPR) by engineering an **evidence-aware 5-action decision engine** (`preserve`, `edit`, `abstain`, `flag_conflict`, `request_evidence`), expanding to **17,000 strictly 50:50 balanced training samples** across **11 financial error types**, integrating **deterministic Python math verifiers**, and providing both **cloud GPU fine-tuning (Kaggle/Colab)** and **100% private offline local inference via Ollama**.
+> 2. **Stage 2 (Evidence-Aware Selective Verification Engine)**: Solved the Stage 1 false-correction deficit (40.5% CPR) by engineering an **evidence-aware 5-action decision engine** (`preserve`, `edit`, `abstain`, `flag_conflict`, `request_evidence`), expanding to **17,000 strictly 50:50 balanced training samples** across **six active financial error types**, integrating **deterministic Python math verifiers**, and providing both **cloud GPU fine-tuning (Kaggle/Colab)** and **100% private offline local inference via Ollama**.
 
 ---
 
@@ -28,7 +28,7 @@ evaluation methodology, see [`docs/stage2-training-and-evaluation.md`](./docs/st
 - [⚡ Stage 2: Evidence-Aware Selective Editing Engine](#-stage-2-evidence-aware-selective-editing-engine)
   - [1. Motivation: Solving Stage 1 Over-Editing](#1-motivation-solving-stage-1-over-editing)
   - [2. The 5-Action Decision Taxonomy](#2-the-5-action-decision-taxonomy)
-  - [3. 11 Fine-Grained Financial Error Types](#3-11-fine-grained-financial-error-types)
+  - [3. Six Active Financial Error Types](#3-six-active-financial-error-types)
   - [4. 17,000-Sample Balanced Dataset](#4-17000-sample-balanced-dataset)
   - [5. Deterministic Verifier & Decision Engine](#5-deterministic-verifier--decision-engine)
   - [6. Strict 8-Metric Evaluation Suite](#6-strict-8-metric-evaluation-suite)
@@ -89,18 +89,14 @@ Stage 2 introduces a 5-way decision policy:
 4. `flag_conflict`: Conflicting data points exist between different sections of the retrieved context (e.g. 10-K footnote says \$450M while the primary balance sheet reports \$485M).
 5. `request_evidence`: The retrieved context is irrelevant to the question; request better or more targeted evidence.
 
-### 3. 11 Fine-Grained Financial Error Types
-Stage 2 expands from the original numerical/temporal scope to 11 schema categories defined in [`scripts/stage2_schema.py`](./scripts/stage2_schema.py):
+### 3. Six Active Financial Error Types
+Stage 2 uses six active error categories defined in [`scripts/stage2_schema.py`](./scripts/stage2_schema.py):
 
 | Error Type | Financial Example | Correct Action |
 |---|---|:---:|
 | `numerical_substitution` | A reported value is replaced with an incorrect value | `edit` |
 | `temporal_swap` | A value is attributed to the wrong reporting period | `edit` |
-| `arithmetic_miscalculation` | A derived percentage, ratio, or total is calculated incorrectly | `edit` |
-| `wrong_unit` | Millions, billions, percentages, or other units are confused | `edit` |
-| `entity_swap` | A value is attributed to the wrong company or entity | `edit` |
 | `relation_inversion` | A financial relationship or formula is inverted | `edit` |
-| `unsupported_claim` | The response asserts information not supported by the evidence | `abstain` |
 | `missing_evidence` | Required evidence is not present in the retrieved context | `abstain` |
 | `irrelevant_retrieval` | Retrieved context does not answer the question | `request_evidence` |
 | `contradictory_context` | Retrieved sources contain conflicting figures or statements | `flag_conflict` |
@@ -145,7 +141,7 @@ flowchart TD
     subgraph Data Layer
         A1[FinQA 5,000 Clean Rows\ndata/stage2/clean_finqa_5000.jsonl]
         A2[TAT-QA 4,000 Clean Rows\ndata/stage2/clean_tatqa_4000.jsonl]
-        A1 & A2 --> B[11-Error Perturbation Engine\nscripts/stage2_perturbation_generator.py]
+        A1 & A2 --> B[Six-Error Perturbation Engine\nscripts/16_build_stage2_dataset.py]
         B --> C[17,000 50:50 Balanced Dataset\ndata/stage2/train.jsonl & validation.jsonl]
     end
 
@@ -185,9 +181,9 @@ FRED/
 ├── requirements.txt                   # Environment dependencies
 ├── config.py                          # Global configuration parameters
 ├── LLM FRED.pdf                       # Reference paper (Tan et al., 2025)
-├── Modelfile                          # Stage 1 Ollama model configuration
-├── Modelfile_stage2                   # Stage 2 Evidence-Aware Ollama model configuration
-│                                      # (requires a local GGUF referenced by the file)
+├── Modelfile                          # Local-only Stage 1 Ollama configuration (not tracked)
+├── Modelfile_stage2                   # Local-only Stage 2 Ollama configuration (not tracked)
+│                                      # (create locally with the GGUF filename below)
 │
 ├── notebooks/
 │   ├── 01_inspect_datasets.ipynb      # Stage 1 data exploration
@@ -201,7 +197,6 @@ FRED/
 │   ├── stage2_schema.py               # 12-field unified schema & ChatML formatting
 │   ├── stage2_verifier.py             # Deterministic financial math calculations
 │   ├── stage2_converter.py            # Deduplicated FinQA & TAT-QA ingestion
-│   ├── stage2_perturbation_generator.py # 11-error perturbation generator
 │   ├── 16_build_stage2_dataset.py     # 17,000 balanced dataset builder
 │   ├── stage2_decision_engine.py      # Evidence-aware 5-action decision controller
 │   ├── stage2_evaluation_suite.py     # Strict 8-metric benchmark evaluator
@@ -233,9 +228,9 @@ FRED/
 ```
 
 `data/stage2/` is generated locally by `scripts/16_build_stage2_dataset.py` and is
-ignored by Git. GGUF files, adapters, and checkpoints are also ignored; download
-the desired fine-tuned model from Hugging Face or provide a local Ollama-compatible
-GGUF before using the Modelfiles.
+ignored by Git. GGUF files, adapters, and checkpoints are also ignored. The
+Hugging Face Stage 1 repository contains the LoRA adapter, not an Ollama-ready
+GGUF; it must be merged/exported before local Ollama inference.
 
 ---
 
@@ -278,11 +273,58 @@ Run [`notebooks/05_stage2_model_testing.ipynb`](./notebooks/05_stage2_model_test
 
 #### 5. Local Offline Inference with Ollama
 For confidential financial data that cannot leave your local machine:
-Download or export a compatible GGUF model first, then update the `FROM` path in
-`Modelfile_stage2` if your filename differs. The GGUF weights are intentionally
-not stored in this repository.
+download or export a compatible GGUF model first. The GGUF weights are
+intentionally not stored in this repository.
+
+The Stage 1 fine-tuned adapter is published at
+[`Akash-Purbhi/fred-qwen2.5-7b-lora`](https://huggingface.co/Akash-Purbhi/fred-qwen2.5-7b-lora).
+This repository contains `adapter_model.safetensors`, so it cannot be loaded
+directly by Ollama. Merge the adapter with the base
+`Qwen2.5-7B-Instruct` model and export a GGUF file named
+`Qwen2.5-7B-Instruct.Q4_K_M-001.gguf` (or update the `FROM` path below).
+
+Create a local, untracked `Modelfile` in the repository root:
+
+```text
+FROM ./Qwen2.5-7B-Instruct.Q4_K_M-001.gguf
+
+PARAMETER temperature 0.1
+PARAMETER top_p 0.9
+PARAMETER stop "<|im_end|>"
+PARAMETER stop "<|endoftext|>"
+
+SYSTEM """You are a financial hallucination detection assistant. Reproduce the response exactly, wrapping numerical or temporal errors in <numerical><delete>wrong</delete><mark>correct</mark></numerical> or <temporal><delete>wrong</delete><mark>correct</mark></temporal> tags."""
+```
+
+Register and test the Stage 1 model:
 
 ```bash
+# Register Stage 1 model with Ollama
+ollama create fred -f Modelfile
+
+# Run the Stage 1 evaluation
+python scripts/12_run_evaluation.py
+python scripts/13_score_evaluation.py
+```
+
+For Stage 2, the training notebook publishes these Hugging Face repositories.
+The 3B and 4B repositories include both the LoRA adapter and an
+Ollama-compatible GGUF file:
+
+1. [`Akash-Purbhi/fredphase2-qwen2.5-3b`](https://huggingface.co/Akash-Purbhi/fredphase2-qwen2.5-3b)
+   - GGUF: `fred-stage2-qwen-3b-q4_k_m.gguf`
+2. [`Akash-Purbhi/fredphase2-qwen3-4b`](https://huggingface.co/Akash-Purbhi/fredphase2-qwen3-4b)
+   - GGUF: `fred-stage2-qwen3-4b-q4_k_m.gguf`
+3. [`Akash-Purbhi/fredphase2-qwen2.5-7b-lora`](https://huggingface.co/Akash-Purbhi/fredphase2-qwen2.5-7b-lora)
+   - LoRA adapter only; export a GGUF after merging with the base model.
+
+Download one of the published GGUF files, create a local `Modelfile_stage2`
+whose `FROM` line points to that file, then run:
+
+```bash
+# Example: download the Stage 2 3B GGUF
+curl -L -o fred-stage2-qwen-3b-q4_k_m.gguf https://huggingface.co/Akash-Purbhi/fredphase2-qwen2.5-3b/resolve/main/fred-stage2-qwen-3b-q4_k_m.gguf
+
 # Register Stage 2 model with Ollama
 ollama create fred_stage2 -f Modelfile_stage2
 
@@ -300,6 +342,10 @@ python scripts/17_run_local_ollama.py --model fred_stage2:latest --samples 100
 To reproduce our historical Stage 1 baseline experiments:
 
 ```bash
+# The Stage 1 Ollama model is the local `fred` model created above.
+# The Hugging Face adapter source is:
+# https://huggingface.co/Akash-Purbhi/fred-qwen2.5-7b-lora
+
 # 1. Build Stage 1 5,997 hybrid dataset
 python scripts/10_build_hybrid_dataset.py
 
@@ -325,12 +371,11 @@ python scripts/15_score_llm_judge.py
 | 3 | Build 5,997-row hybrid dataset | Stage 1 | ✅ Done | [`data/final/`](./data/final/) |
 | 4 | Quality audit & canonical validation | Stage 1 | ✅ Done | [`scripts/09_audit_high_confidence_canonical.py`](./scripts/09_audit_high_confidence_canonical.py) |
 | 5 | QLoRA fine-tuning (Qwen2.5-7B, 3 epochs) | Stage 1 | ✅ Done | [`notebooks/03_kaggle_unsloth_finetune.ipynb`](./notebooks/03_kaggle_unsloth_finetune.ipynb) |
-| 6 | GGUF quantization & Ollama deployment | Stage 1 | ✅ Done | [`Modelfile`](./Modelfile) |
+| 6 | GGUF quantization & Ollama deployment | Stage 1 | ✅ Done | Local-only `Modelfile` instructions above |
 | 7 | Evaluation: fred vs base Qwen2.5-7B | Stage 1 | ✅ Done | [`reports/evaluation_report.md`](./reports/evaluation_report.md) |
 | 8 | LLM-as-a-Judge Evaluation (Table 5) | Stage 1 | ✅ Done | [`data/eval/judge_scores.json`](./data/eval/judge_scores.json) |
 | 9 | Unified 12-field schema & ChatML engine | Stage 2 | ✅ Done | [`scripts/stage2_schema.py`](./scripts/stage2_schema.py) |
 | 10 | Deterministic arithmetic verifiers | Stage 2 | ✅ Done | [`scripts/stage2_verifier.py`](./scripts/stage2_verifier.py) |
-| 11 | 11-category perturbation generator | Stage 2 | ✅ Done | [`scripts/stage2_perturbation_generator.py`](./scripts/stage2_perturbation_generator.py) |
 | 12 | Build 17,000 balanced 50:50 dataset | Stage 2 | ✅ Done | [`scripts/16_build_stage2_dataset.py`](./scripts/16_build_stage2_dataset.py) |
 | 13 | Evidence-aware decision engine | Stage 2 | ✅ Done | [`scripts/stage2_decision_engine.py`](./scripts/stage2_decision_engine.py) |
 | 14 | Strict 8-metric evaluation suite | Stage 2 | ✅ Done | [`scripts/stage2_evaluation_suite.py`](./scripts/stage2_evaluation_suite.py) |

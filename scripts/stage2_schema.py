@@ -4,7 +4,7 @@ scripts/stage2_schema.py
 Stage 2 Unified Dataset Design & Schema Validator.
 
 Defines the formal data contracts, type validations, and serialization helpers
-for the FRED Stage 2 dataset (FinQA 10k + TAT-QA 8k = 18k train target).
+for the FRED Stage 2 dataset (17,000 training records).
 
 Required 12 Fields:
 1.  id: Unique record identifier
@@ -40,11 +40,7 @@ VALID_ERROR_TYPES = {
     "none",
     "numerical_substitution",
     "temporal_swap",
-    "arithmetic_miscalculation",
-    "wrong_unit",
-    "entity_swap",
     "relation_inversion",
-    "unsupported_claim",
     "missing_evidence",
     "irrelevant_retrieval",
     "contradictory_context",
@@ -223,7 +219,7 @@ SAMPLE_EDIT = Stage2Record(
     reasoning="((120 - 100) / 100) * 100 = 20.0%. Response claimed 15.0%.",
     operation="divide(subtract(120, 100), 100)",
     answer_type="percentage",
-    error_type="arithmetic_miscalculation",
+    error_type="numerical_substitution",
     action="edit",
     unverified_response="Operating profit grew by 15.0% between 2021 and 2022.",
     tagged_xml_response="Operating profit grew by <numerical><delete>15.0%</delete><mark>20.0%</mark></numerical> between 2021 and 2022.",
